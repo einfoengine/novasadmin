@@ -4,6 +4,7 @@
 
 // SCSS Variables
 $primary-color: #0070f3;
+$primary-dark: #0061d5;
 $secondary-color: #7928ca;
 $background-light: #ffffff;
 $background-dark: #0a0a0a;
@@ -34,6 +35,7 @@ $text-dark: #ededed;
   --background: #{$background-light};
   --foreground: #{$text-light};
   --primary: #{$primary-color};
+  --primary-dark: #{$primary-dark};
   --secondary: #{$secondary-color};
 }
 
@@ -54,6 +56,22 @@ body {
   -moz-osx-font-smoothing: grayscale;
 }
 
+// Form Styles
+input[type="email"],
+input[type="password"],
+input[type="text"] {
+  @apply appearance-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-md focus:outline-none focus:ring-primary focus:border-primary focus:z-10 sm:text-sm;
+}
+
+input[type="checkbox"] {
+  @apply h-4 w-4 text-primary focus:ring-primary border-gray-300 rounded;
+}
+
+// Button Styles
+.btn-primary {
+  @apply relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-primary hover:bg-primary-dark focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary;
+}
+
 // Custom Classes
 .custom-container {
   @include flex-center;
@@ -65,14 +83,7 @@ body {
 }
 
 .primary-button {
-  @apply px-4 py-2 rounded-lg font-semibold;
-  background-color: var(--primary);
-  color: white;
-  
-  &:hover {
-    @apply shadow-lg;
-    background-color: darken($primary-color, 10%);
-  }
+  @apply px-4 py-2 rounded-lg font-semibold text-white bg-primary hover:bg-primary-dark;
 }
 
 // Nested SCSS
@@ -81,8 +92,7 @@ body {
   background-color: var(--background);
   
   &-title {
-    @apply text-xl font-bold mb-4;
-    color: var(--primary);
+    @apply text-xl font-bold mb-4 text-primary;
   }
   
   &-content {
