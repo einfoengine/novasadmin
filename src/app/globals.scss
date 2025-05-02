@@ -1,0 +1,91 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+// SCSS Variables
+$primary-color: #0070f3;
+$secondary-color: #7928ca;
+$background-light: #ffffff;
+$background-dark: #0a0a0a;
+$text-light: #171717;
+$text-dark: #ededed;
+
+// SCSS Mixins
+@mixin flex-center {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+@mixin responsive($breakpoint) {
+  @if $breakpoint == mobile {
+    @media (max-width: 640px) { @content; }
+  }
+  @if $breakpoint == tablet {
+    @media (max-width: 768px) { @content; }
+  }
+  @if $breakpoint == desktop {
+    @media (max-width: 1024px) { @content; }
+  }
+}
+
+// Root Variables
+:root {
+  --background: #{$background-light};
+  --foreground: #{$text-light};
+  --primary: #{$primary-color};
+  --secondary: #{$secondary-color};
+}
+
+// Dark Mode
+@media (prefers-color-scheme: dark) {
+  :root {
+    --background: #{$background-dark};
+    --foreground: #{$text-dark};
+  }
+}
+
+// Base Styles
+body {
+  background: var(--background);
+  color: var(--foreground);
+  font-family: var(--font-geist-sans, system-ui, -apple-system, sans-serif);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+// Custom Classes
+.custom-container {
+  @include flex-center;
+  padding: 2rem;
+  
+  @include responsive(mobile) {
+    padding: 1rem;
+  }
+}
+
+.primary-button {
+  @apply px-4 py-2 rounded-lg font-semibold;
+  background-color: var(--primary);
+  color: white;
+  
+  &:hover {
+    @apply shadow-lg;
+    background-color: darken($primary-color, 10%);
+  }
+}
+
+// Nested SCSS
+.card {
+  @apply p-6 rounded-xl shadow-md;
+  background-color: var(--background);
+  
+  &-title {
+    @apply text-xl font-bold mb-4;
+    color: var(--primary);
+  }
+  
+  &-content {
+    @apply text-base;
+  }
+}
