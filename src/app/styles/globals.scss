@@ -2,6 +2,9 @@
 @tailwind components;
 @tailwind utilities;
 
+@import './variables';
+@import './custom.scss';
+
 // SCSS Variables
 $primary-color: #0070f3;
 $primary-dark: #0061d5;
