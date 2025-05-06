@@ -169,19 +169,19 @@ export default function Dashboard() {
             <div className="nt-inner-top mb-6">
               <ul className="flex flex-wrap gap-2">
                 {[
-                  "Campaign",
-                  "Product",
-                  "Country",
-                  "Store",
-                  "Template",
+                  { name: "Campaign", href: "/admin/add-campaign" },
+                  { name: "Product", href: "#" },
+                  { name: "Country", href: "#" },
+                  { name: "Store", href: "#" },
+                  { name: "Template", href: "#" },
                 ].map((item) => (
-                  <li key={item}>
+                  <li key={item.name}>
                     <Link
-                      href="#"
+                      href={item.href}
                       className="flex items-center gap-1 text-white bg-black px-3 py-1 rounded hover:bg-gray-800"
                     >
                       <PlusIcon className="w-4 h-4" />
-                      {item}
+                      {item.name}
                     </Link>
                   </li>
                 ))}
