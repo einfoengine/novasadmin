@@ -62,6 +62,21 @@ export default function AddCampaign() {
               </div>
               <form onSubmit={handleSubmit} className="p-6">
                 <div className="grid grid-cols-1 gap-6 sm:grid-cols-2">
+                  {/* Campaign Name */}
+                  <div>
+                    <label htmlFor="campaignname" className="block text-sm font-medium text-gray-700 mb-1">
+                      Campaign Name
+                    </label>
+                    <input
+                      type="text"
+                      name="campaignname"
+                      id="campaignname"
+                      required
+                      value={"Campaign Name"}
+                      onChange={handleChange}
+                      className="block w-full px-3 py-2 bg-white border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-black focus:border-black sm:text-sm"
+                    />
+                  </div>
                   {/* Country */}
                   <div>
                     <label htmlFor="country" className="block text-sm font-medium text-gray-700 mb-1">
@@ -93,41 +108,6 @@ export default function AddCampaign() {
                       id="assigned"
                       required
                       value={formData.assigned}
-                      onChange={handleChange}
-                      className="block w-full px-3 py-2 bg-white border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-black focus:border-black sm:text-sm"
-                    />
-                  </div>
-
-                  {/* User Type */}
-                  <div>
-                    <label htmlFor="typeofuser" className="block text-sm font-medium text-gray-700 mb-1">
-                      User Type
-                    </label>
-                    <select
-                      name="typeofuser"
-                      id="typeofuser"
-                      required
-                      value={formData.typeofuser}
-                      onChange={handleChange}
-                      className="block w-full px-3 py-2 bg-white border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-black focus:border-black sm:text-sm"
-                    >
-                      <option value="Admin">Admin</option>
-                      <option value="User">User</option>
-                      <option value="Manager">Manager</option>
-                    </select>
-                  </div>
-
-                  {/* Creating Date */}
-                  <div>
-                    <label htmlFor="creatingdate" className="block text-sm font-medium text-gray-700 mb-1">
-                      Creating Date
-                    </label>
-                    <input
-                      type="date"
-                      name="creatingdate"
-                      id="creatingdate"
-                      required
-                      value={formData.creatingdate}
                       onChange={handleChange}
                       className="block w-full px-3 py-2 bg-white border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-black focus:border-black sm:text-sm"
                     />
