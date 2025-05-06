@@ -2,13 +2,16 @@
 
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
+import { HomeIcon, UserIcon, BriefcaseIcon, UsersIcon, BuildingStorefrontIcon, PresentationChartBarIcon, CogIcon } from '@heroicons/react/24/outline';
 
 const tabs = [
-  { name: 'Dadhboard', href: '/dashboard' },
-  { name: 'Users', href: '/users' },
-  { name: 'Admin', href: '/admin' },
-  { name: 'Clients', href: '/clients' },
-  { name: 'Production', href: '/production' },
+  { name: 'Dashboard', href: '/dashboard', icon: HomeIcon },
+  { name: 'Users', href: '/users', icon: UserIcon },
+  { name: 'Admin', href: '/admin', icon: UsersIcon },
+  { name: 'Clients', href: '/clients', icon: BriefcaseIcon },
+  { name: 'Production', href: '/production', icon: BuildingStorefrontIcon },
+  { name: 'Production House', href: '/production-house', icon: BuildingStorefrontIcon },
+  { name: 'Director', href: '/director', icon: PresentationChartBarIcon },
 ];
 
 export default function Sidebar() {
@@ -30,6 +33,7 @@ export default function Sidebar() {
                 : 'text-gray-700 hover:bg-gray-100'
             }`}
           >
+            <tab.icon className="w-5 h-5 mr-3" />
             {tab.name}
           </Link>
         ))}

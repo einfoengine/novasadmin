@@ -2,17 +2,8 @@
 @tailwind components;
 @tailwind utilities;
 
-@import './variables';
+@import './variables.scss';
 @import './custom.scss';
-
-// SCSS Variables
-$primary-color: #0070f3;
-$primary-dark: #0061d5;
-$secondary-color: #7928ca;
-$background-light: #ffffff;
-$background-dark: #0a0a0a;
-$text-light: #171717;
-$text-dark: #ededed;
 
 // SCSS Mixins
 @mixin flex-center {
@@ -57,6 +48,7 @@ body {
   font-family: var(--font-geist-sans, system-ui, -apple-system, sans-serif);
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  color: $text-color;
 }
 
 // Form Styles
