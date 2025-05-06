@@ -2,6 +2,7 @@
 
 import { useState } from 'react'
 import { useRouter } from 'next/navigation'
+import UserMenu from '@/app/components/UserMenu'
 
 const europeanCountries = [
   'Albania', 'Andorra', 'Austria', 'Belarus', 'Belgium', 'Bosnia and Herzegovina',
@@ -49,6 +50,7 @@ export default function AddCampaign() {
         <header className="bg-white shadow">
           <div className="flex items-center justify-between px-4 py-1 mx-auto max-w-7xl sm:px-6 lg:px-8 h-[63px]">
             <h4 className="text-gray-900 text-xl font-semibold">Add New Campaign</h4>
+            <UserMenu />
           </div>
         </header>
 

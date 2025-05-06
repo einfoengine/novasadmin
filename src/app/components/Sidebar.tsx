@@ -17,6 +17,13 @@ const tabs = [
 export default function Sidebar() {
   const pathname = usePathname();
 
+  const isActive = (href: string) => {
+    if (href === '/admin') {
+      return pathname.startsWith('/admin');
+    }
+    return pathname === href;
+  };
+
   return (
     <aside className="fixed inset-y-0 left-0 w-64 bg-white shadow-lg flex flex-col h-full">
       <div className="flex items-center justify-center h-16 border-b border-gray-200">
@@ -28,7 +35,7 @@ export default function Sidebar() {
             key={tab.name}
             href={tab.href}
             className={`flex items-center px-4 py-2 text-sm font-medium rounded-md transition-colors ${
-              pathname === tab.href
+              isActive(tab.href)
                 ? 'bg-gray-900 text-white'
                 : 'text-gray-700 hover:bg-gray-100'
             }`}
