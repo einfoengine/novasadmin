@@ -3,6 +3,7 @@
 import { useState, useEffect } from 'react'
 import Image from 'next/image'
 import { ChevronDownIcon } from '@heroicons/react/24/outline'
+import Breadcrumb from './Breadcrumb'
 
 export default function Header() {
   const [open, setOpen] = useState(false)
@@ -16,7 +17,9 @@ export default function Header() {
     return (
       <header className="bg-white border-b border-gray-200">
         <div className="flex items-center justify-between px-6 py-3 h-[63px]">
-          <h4 className="text-gray-900 text-xl font-semibold">Campaign</h4>
+          <div className="flex items-center">
+            <Breadcrumb />
+          </div>
           <div className="relative inline-block text-left">
             <div className="flex items-center gap-2">
               <div className="relative">
@@ -44,7 +47,9 @@ export default function Header() {
   return (
     <header className="bg-white border-b border-gray-200">
       <div className="flex items-center justify-between px-6 py-3 h-[63px]">
-        <h4 className="text-gray-900 text-xl font-semibold">Campaign</h4>
+        <div className="flex items-center">
+          <Breadcrumb />
+        </div>
 
         {/* User Avatar & Dropdown */}
         <div className="relative inline-block text-left">
