@@ -2,7 +2,6 @@
 
 import { useState } from 'react'
 import { useRouter } from 'next/navigation'
-import UserMenu from '@/app/components/UserMenu'
 
 const europeanCountries = [
   'Albania', 'Andorra', 'Austria', 'Belarus', 'Belgium', 'Bosnia and Herzegovina',
@@ -46,14 +45,7 @@ export default function AddCampaign() {
 
   return (
     <div className="min-h-screen bg-gray-100">
-      <div className="ml-64">
-        <header className="bg-white shadow">
-          <div className="flex items-center justify-between px-4 py-1 mx-auto max-w-7xl sm:px-6 lg:px-8 h-[63px]">
-            <h4 className="text-gray-900 text-xl font-semibold">Add New Campaign</h4>
-            <UserMenu />
-          </div>
-        </header>
-
+      <div>
         <main className="px-4 py-6 mx-auto max-w-7xl sm:px-6 lg:px-8">
           <div className="mt-8">
             <div className="bg-white rounded-lg shadow">
@@ -63,7 +55,7 @@ export default function AddCampaign() {
               <form onSubmit={handleSubmit} className="p-6">
                 <div className="grid grid-cols-1 gap-6 sm:grid-cols-2">
                   {/* Campaign Name */}
-                  <div>
+                  <div className='nt-admin-add-campaign-form-input-field nt-campaign-name'>
                     <label htmlFor="campaignname" className="block text-sm font-medium text-gray-700 mb-1">
                       Campaign Name
                     </label>
@@ -73,6 +65,36 @@ export default function AddCampaign() {
                       id="campaignname"
                       required
                       value={"Campaign Name"}
+                      onChange={handleChange}
+                      className="block w-full px-3 py-2 bg-white border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-black focus:border-black sm:text-sm"
+                    />
+                  </div>
+                  {/* Campaign Type */}
+                  <div className='nt-admin-add-campaign-form-input-field nt-campaign-type'>
+                    <label htmlFor="campaignname" className="block text-sm font-medium text-gray-700 mb-1">
+                      Campaign Type
+                    </label>
+                    <input
+                      type="text"
+                      name="Campaign Type"
+                      id="Campaign Type"
+                      required
+                      value={"Campaign Type"}
+                      onChange={handleChange}
+                      className="block w-full px-3 py-2 bg-white border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-black focus:border-black sm:text-sm"
+                    />
+                  </div>
+                  {/* Store Code */}
+                  <div className='nt-admin-add-campaign-form-input-field nt-campaign-type'>
+                    <label htmlFor="campaignname" className="block text-sm font-medium text-gray-700 mb-1">
+                      Store Code
+                    </label>
+                    <input
+                      type="text"
+                      name="Store code"
+                      id="Store code"
+                      required
+                      value={"Store code"}
                       onChange={handleChange}
                       className="block w-full px-3 py-2 bg-white border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-black focus:border-black sm:text-sm"
                     />

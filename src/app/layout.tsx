@@ -20,11 +20,13 @@ export default function RootLayout({
         <FontProvider />
       </head>
       <body suppressHydrationWarning className="antialiased">
-        <div className="nt-admin-layout flex">
+        <div className="flex h-screen w-full overflow-hidden">
           <Sidebar />
-          <div className="nt-admin-main-body">
+          <div className="flex flex-col flex-1 overflow-hidden">
             <Header />
-            {children}
+            <main className="flex-1 overflow-y-auto">
+              {children}
+            </main>
           </div>
         </div>
       </body>

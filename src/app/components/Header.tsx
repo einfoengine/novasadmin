@@ -1,15 +1,49 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import Image from 'next/image'
 import { ChevronDownIcon } from '@heroicons/react/24/outline'
 
 export default function Header() {
   const [open, setOpen] = useState(false)
+  const [mounted, setMounted] = useState(false)
+
+  useEffect(() => {
+    setMounted(true)
+  }, [])
+
+  if (!mounted) {
+    return (
+      <header className="bg-white border-b border-gray-200">
+        <div className="flex items-center justify-between px-6 py-3 h-[63px]">
+          <h4 className="text-gray-900 text-xl font-semibold">Campaign</h4>
+          <div className="relative inline-block text-left">
+            <div className="flex items-center gap-2">
+              <div className="relative">
+                <Image
+                  src="/images/avatar-placeholder.png"
+                  alt="User Avatar"
+                  width={40}
+                  height={40}
+                  className="rounded-full border-2 border-gray-200"
+                />
+                <div className="absolute bottom-0 right-0 w-3 h-3 bg-green-500 border-2 border-white rounded-full"></div>
+              </div>
+              <div className="flex flex-col">
+                <span className="text-sm font-medium text-gray-900">John Doe</span>
+                <span className="text-xs text-gray-500">Administrator</span>
+              </div>
+              <ChevronDownIcon className="w-5 h-5 text-gray-600" />
+            </div>
+          </div>
+        </div>
+      </header>
+    )
+  }
 
   return (
-    <header className="bg-white shadow">
-      <div className="flex items-center justify-between px-4 py-1 mx-auto max-w-7xl sm:px-6 lg:px-8 h-[63px]">
+    <header className="bg-white border-b border-gray-200">
+      <div className="flex items-center justify-between px-6 py-3 h-[63px]">
         <h4 className="text-gray-900 text-xl font-semibold">Campaign</h4>
 
         {/* User Avatar & Dropdown */}

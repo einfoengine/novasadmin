@@ -1,10 +1,7 @@
-'use client'
 import Link from "next/link";
-import { useState } from "react";
-import { PrinterIcon, PlusIcon, ChevronDownIcon } from "@heroicons/react/24/outline";
-import Image from "next/image";
-export default function Dashboard() {
-  const [open, setOpen] = useState(false);
+import { PrinterIcon, PlusIcon} from "@heroicons/react/24/outline";
+export default function Campaigns() {
+  
 
   const data = [
     {
@@ -59,14 +56,14 @@ export default function Dashboard() {
 
   return (
     <div className="min-h-screen bg-gray-100">
-      <div className="ml-64">
+      <div>
         <main className="px-4 py-6 mx-auto max-w-7xl sm:px-6 lg:px-8">
           {/* Inner top nav */}
           <div className="mt-8 nt-top-nav">
             <div className="nt-inner-top mb-6">
               <ul className="flex flex-wrap gap-2">
                 {[
-                  { name: "Campaign", href: "/admin/add-campaign" },
+                  { name: "Campaign", href: "/campaigns/add-campaign" },
                   { name: "Product", href: "#" },
                   { name: "Country", href: "#" },
                   { name: "Store", href: "#" },

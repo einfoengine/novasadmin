@@ -1,13 +1,14 @@
 'use client';
 
+import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { HomeIcon, UserIcon, BriefcaseIcon, UsersIcon, BuildingStorefrontIcon, PresentationChartBarIcon, CogIcon } from '@heroicons/react/24/outline';
+import { HomeIcon, UserIcon, BriefcaseIcon, UsersIcon, BuildingStorefrontIcon, PresentationChartBarIcon } from '@heroicons/react/24/outline';
 
 const tabs = [
   { name: 'Dashboard', href: '/dashboard', icon: HomeIcon },
   { name: 'Users', href: '/users', icon: UserIcon },
-  { name: 'Admin', href: '/admin', icon: UsersIcon },
+  { name: 'Campaigns', href: '/campaigns', icon: UsersIcon },
   { name: 'Clients', href: '/clients', icon: BriefcaseIcon },
   { name: 'Production', href: '/production', icon: BuildingStorefrontIcon },
   { name: 'Currency', href: '/currency', icon: BuildingStorefrontIcon },
@@ -17,8 +18,14 @@ const tabs = [
 
 export default function Sidebar() {
   const pathname = usePathname();
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
 
   const isActive = (href: string) => {
+    if (!mounted) return false;
     if (href === '/admin') {
       return pathname.startsWith('/admin');
     }
@@ -26,11 +33,11 @@ export default function Sidebar() {
   };
 
   return (
-    <aside className="fixed inset-y-0 left-0 w-64 bg-white shadow-lg flex flex-col h-full">
+    <aside className="w-64 bg-white border-r border-gray-200 flex flex-col h-full">
       <div className="flex items-center justify-center h-16 border-b border-gray-200">
         <h1 className="text-xl font-bold text-gray-900">NovasAdmin</h1>
       </div>
-      <nav className="flex-1 px-4 py-4 space-y-1">
+      <nav className="flex-1 px-4 py-4 space-y-1 overflow-y-auto">
         {tabs.map(tab => (
           <Link
             key={tab.name}
