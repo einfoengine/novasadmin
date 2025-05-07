@@ -1,18 +1,8 @@
 export default function Dashboard() {
   return (
     <div className="min-h-screen bg-gray-100">
-      {/* Sidebar */}
-      
-
       {/* Main Content */}
-      <div className="ml-64">
-        {/* Header */}
-        <header className="bg-white shadow">
-          <div className="px-4 py-6 mx-auto max-w-7xl sm:px-6 lg:px-8">
-            <h1 className="text-3xl font-bold text-gray-900">Dashboard</h1>
-          </div>
-        </header>
-
+      <div className="nt-dashboard-main-content w-full">
         {/* Content */}
         <main className="px-4 py-6 mx-auto max-w-7xl sm:px-6 lg:px-8">
           {/* Stats Grid */}

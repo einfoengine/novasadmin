@@ -56,7 +56,7 @@ export default function AddCampaign() {
 
         <main className="px-4 py-6 mx-auto max-w-7xl sm:px-6 lg:px-8">
           <div className="mt-8">
-            <div className="bg-white shadow-md rounded-lg">
+            <div className="bg-white rounded-lg shadow">
               <div className="px-6 py-4 border-b border-gray-200">
                 <h3 className="text-lg font-medium text-gray-900">Campaign Information</h3>
               </div>

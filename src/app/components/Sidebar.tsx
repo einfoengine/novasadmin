@@ -10,6 +10,7 @@ const tabs = [
   { name: 'Admin', href: '/admin', icon: UsersIcon },
   { name: 'Clients', href: '/clients', icon: BriefcaseIcon },
   { name: 'Production', href: '/production', icon: BuildingStorefrontIcon },
+  { name: 'Currency', href: '/currency', icon: BuildingStorefrontIcon },
   { name: 'Production House', href: '/production-house', icon: BuildingStorefrontIcon },
   { name: 'Director', href: '/director', icon: PresentationChartBarIcon },
 ];
