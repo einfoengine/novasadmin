@@ -72,7 +72,7 @@ export default function AddCampaign() {
                   {/* Campaign Type */}
                   <div className='nt-admin-add-campaign-form-input-field nt-campaign-type'>
                     <label htmlFor="campaignname" className="block text-sm font-medium text-gray-700 mb-1">
-                      Campaign Type
+                      Campaign Type/Group
                     </label>
                     <input
                       type="text"
@@ -80,21 +80,6 @@ export default function AddCampaign() {
                       id="Campaign Type"
                       required
                       value={"Campaign Type"}
-                      onChange={handleChange}
-                      className="block w-full px-3 py-2 bg-white border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-black focus:border-black sm:text-sm"
-                    />
-                  </div>
-                  {/* Store Code */}
-                  <div className='nt-admin-add-campaign-form-input-field nt-campaign-type'>
-                    <label htmlFor="campaignname" className="block text-sm font-medium text-gray-700 mb-1">
-                      Store Code
-                    </label>
-                    <input
-                      type="text"
-                      name="Store code"
-                      id="Store code"
-                      required
-                      value={"Store code"}
                       onChange={handleChange}
                       className="block w-full px-3 py-2 bg-white border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-black focus:border-black sm:text-sm"
                     />
@@ -119,17 +104,17 @@ export default function AddCampaign() {
                     </select>
                   </div>
 
-                  {/* Assigned */}
-                  <div>
-                    <label htmlFor="assigned" className="block text-sm font-medium text-gray-700 mb-1">
-                      Assigned
+                  {/* Store Code */}
+                  <div className='nt-admin-add-campaign-form-input-field nt-campaign-type'>
+                    <label htmlFor="campaignname" className="block text-sm font-medium text-gray-700 mb-1">
+                      Store Code
                     </label>
                     <input
-                      type="number"
-                      name="assigned"
-                      id="assigned"
+                      type="text"
+                      name="Store code"
+                      id="Store code"
                       required
-                      value={formData.assigned}
+                      value={"Store code"}
                       onChange={handleChange}
                       className="block w-full px-3 py-2 bg-white border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-black focus:border-black sm:text-sm"
                     />
