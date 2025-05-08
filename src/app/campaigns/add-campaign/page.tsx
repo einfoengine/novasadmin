@@ -269,7 +269,7 @@ export default function AddCampaignPage() {
                             selectedCountries.filter((id: string) => id !== countryId)
                           );
                         }}
-                        className="text-red-500 hover:text-red-700"
+                        className="text-gray-600 hover:text-gray-900"
                       >
                         ×
                       </button>
@@ -323,7 +323,7 @@ export default function AddCampaignPage() {
                             watch("storeCodes")?.filter((id: string) => id !== storeId) || []
                           );
                         }}
-                        className="text-red-500 hover:text-red-700"
+                        className="text-gray-600 hover:text-gray-900"
                       >
                         ×
                       </button>
@@ -377,7 +377,7 @@ export default function AddCampaignPage() {
                         onClick={() => {
                           setSelectedProducts(selectedProducts.filter(p => p.productId !== item.productId));
                         }}
-                        className="text-red-500 hover:text-red-700"
+                        className="text-gray-600 hover:text-gray-900"
                       >
                         ×
                       </button>
@@ -407,7 +407,7 @@ export default function AddCampaignPage() {
           <div className="flex justify-end">
             <button
               type="submit"
-              className="px-4 py-2 bg-indigo-600 text-white rounded-md hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
+              className="px-4 py-2 bg-black text-white rounded-md hover:bg-gray-800 focus:outline-none focus:ring-2 focus:ring-gray-500 focus:ring-offset-2"
             >
               Create Campaign
             </button>
