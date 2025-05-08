@@ -116,10 +116,6 @@ export default function AddCampaignPage() {
   }, []);
 
   useEffect(() => {
-    setValue("storeCodes", []);
-  }, [selectedCountries, setValue]);
-
-  useEffect(() => {
     const calculateTotalCost = () => {
       const total = selectedProducts.reduce((sum, item) => {
         const product = products.find(p => p.productId === item.productId);
@@ -170,19 +166,19 @@ export default function AddCampaignPage() {
   };
 
   return (
-    <div className="container mx-auto py-10">
-      <div className="bg-white rounded-lg shadow-lg p-6">
-        <h1 className="text-2xl font-bold mb-6">Add New Campaign</h1>
-        <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
+    <div className="h-screen">
+      <div className="h-full bg-white">
+        <h1 className="text-2xl font-bold p-6 border-b">Add New Campaign</h1>
+        <form onSubmit={handleSubmit(onSubmit)} className="p-6 space-y-6">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-            <div className="space-y-2">
+            <div className="space-y-2 border p-4 rounded-lg">
               <label htmlFor="campaignName" className="block text-sm font-medium text-gray-700">
                 Campaign Name
               </label>
               <input
                 id="campaignName"
                 type="text"
-                className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500"
+                className="mt-1 block w-full rounded-md border border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500"
                 {...register("campaignName")}
                 placeholder="Enter campaign name"
               />
@@ -191,13 +187,13 @@ export default function AddCampaignPage() {
               )}
             </div>
 
-            <div className="space-y-2">
+            <div className="space-y-2 border p-4 rounded-lg">
               <label htmlFor="campaignDescription" className="block text-sm font-medium text-gray-700">
                 Campaign Description
               </label>
               <textarea
                 id="campaignDescription"
-                className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500"
+                className="mt-1 block w-full rounded-md border border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500"
                 {...register("campaignDescription")}
                 placeholder="Enter campaign description"
               />
@@ -206,14 +202,14 @@ export default function AddCampaignPage() {
               )}
             </div>
 
-            <div className="space-y-2">
+            <div className="space-y-2 border p-4 rounded-lg">
               <label htmlFor="startDate" className="block text-sm font-medium text-gray-700">
                 Start Date
               </label>
               <input
                 id="startDate"
                 type="date"
-                className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500"
+                className="mt-1 block w-full rounded-md border border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500"
                 {...register("startDate")}
               />
               {errors.startDate && (
@@ -221,14 +217,14 @@ export default function AddCampaignPage() {
               )}
             </div>
 
-            <div className="space-y-2">
+            <div className="space-y-2 border p-4 rounded-lg">
               <label htmlFor="endDate" className="block text-sm font-medium text-gray-700">
                 Delivery Date
               </label>
               <input
                 id="endDate"
                 type="date"
-                className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500"
+                className="mt-1 block w-full rounded-md border border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500"
                 {...register("endDate")}
               />
               {errors.endDate && (
@@ -236,13 +232,13 @@ export default function AddCampaignPage() {
               )}
             </div>
 
-            <div className="space-y-2">
+            <div className="space-y-2 border p-4 rounded-lg">
               <label htmlFor="countries" className="block text-sm font-medium text-gray-700">
                 Countries
               </label>
               <select
                 id="countries"
-                className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500"
+                className="mt-1 block w-full rounded-md border border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500"
                 onChange={(e) => {
                   const value = e.target.value;
                   const currentValues = watch("countries") || [];
@@ -264,7 +260,7 @@ export default function AddCampaignPage() {
                   return (
                     <div
                       key={countryId}
-                      className="bg-gray-100 px-2 py-1 rounded-md flex items-center gap-2"
+                      className="bg-gray-100 px-2 py-1 rounded-md flex items-center gap-2 border border-gray-300"
                     >
                       <span>{country?.countryName}</span>
                       <button
@@ -288,13 +284,13 @@ export default function AddCampaignPage() {
               )}
             </div>
 
-            <div className="space-y-2">
+            <div className="space-y-2 border p-4 rounded-lg">
               <label htmlFor="storeCodes" className="block text-sm font-medium text-gray-700">
                 Store Codes
               </label>
               <select
                 id="storeCodes"
-                className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500"
+                className="mt-1 block w-full rounded-md border border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500"
                 onChange={(e) => {
                   const value = e.target.value;
                   const currentValues = watch("storeCodes") || [];
@@ -318,7 +314,7 @@ export default function AddCampaignPage() {
                   return (
                     <div
                       key={storeId}
-                      className="bg-gray-100 px-2 py-1 rounded-md flex items-center gap-2"
+                      className="bg-gray-100 px-2 py-1 rounded-md flex items-center gap-2 border border-gray-300"
                     >
                       <span>{store?.storeName}</span>
                       <button
@@ -342,13 +338,13 @@ export default function AddCampaignPage() {
               )}
             </div>
 
-            <div className="space-y-2">
+            <div className="space-y-2 border p-4 rounded-lg">
               <label htmlFor="products" className="block text-sm font-medium text-gray-700">
                 Products
               </label>
               <select
                 id="products"
-                className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500"
+                className="mt-1 block w-full rounded-md border border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500"
                 onChange={(e) => {
                   const value = e.target.value;
                   const product = products.find(p => p.productId === value);
@@ -368,7 +364,7 @@ export default function AddCampaignPage() {
                 {selectedProducts.map((item) => {
                   const product = products.find(p => p.productId === item.productId);
                   return (
-                    <div key={item.productId} className="flex items-center gap-2">
+                    <div key={item.productId} className="flex items-center gap-2 border border-gray-300 p-2 rounded-md">
                       <span className="flex-1">{product?.productName}</span>
                       <input
                         type="number"
@@ -376,7 +372,7 @@ export default function AddCampaignPage() {
                         value={item.quantity}
                         onChange={(e: React.ChangeEvent<HTMLInputElement>) => 
                           handleProductChange(item.productId, parseInt(e.target.value))}
-                        className="w-20 rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500"
+                        className="w-20 rounded-md border border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500"
                       />
                       <button
                         type="button"
@@ -396,7 +392,7 @@ export default function AddCampaignPage() {
               )}
             </div>
 
-            <div className="space-y-2">
+            <div className="space-y-2 border p-4 rounded-lg">
               <label htmlFor="totalCost" className="block text-sm font-medium text-gray-700">
                 Total Cost
               </label>
@@ -405,7 +401,7 @@ export default function AddCampaignPage() {
                 type="number"
                 value={totalCost.toFixed(2)}
                 readOnly
-                className="mt-1 block w-full rounded-md border-gray-300 shadow-sm bg-gray-100"
+                className="mt-1 block w-full rounded-md border border-gray-300 shadow-sm bg-gray-100"
               />
             </div>
           </div>
