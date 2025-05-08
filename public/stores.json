@@ -1,26 +1,4 @@
 {
-  "countries": [
-    {
-      "countryId": "UK",
-      "countryName": "United Kingdom"
-    },
-    {
-      "countryId": "FR",
-      "countryName": "France"
-    },
-    {
-      "countryId": "DE",
-      "countryName": "Germany"
-    },
-    {
-      "countryId": "IT",
-      "countryName": "Italy"
-    },
-    {
-      "countryId": "ES",
-      "countryName": "Spain"
-    }
-  ],
   "stores": [
     {
       "storeId": "ST001",

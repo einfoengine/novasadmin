@@ -19,13 +19,17 @@ interface Store {
 }
 
 interface StoreData {
-  countries: Country[];
   stores: Store[];
+}
+
+interface CountryData {
+  countries: Country[];
 }
 
 export default function AddCampaign() {
   const router = useRouter()
-  const [storeData, setStoreData] = useState<StoreData>({ countries: [], stores: [] })
+  const [countries, setCountries] = useState<Country[]>([])
+  const [stores, setStores] = useState<Store[]>([])
   const [formData, setFormData] = useState({
     country: [] as string[],
     storeCode: ['all'],
@@ -40,10 +44,16 @@ export default function AddCampaign() {
   })
 
   useEffect(() => {
+    // Fetch countries data
+    fetch('/countries.json')
+      .then(response => response.json())
+      .then((data: CountryData) => setCountries(data.countries))
+      .catch(error => console.error('Error loading countries:', error))
+
     // Fetch stores data
     fetch('/stores.json')
       .then(response => response.json())
-      .then(data => setStoreData(data))
+      .then((data: StoreData) => setStores(data.stores))
       .catch(error => console.error('Error loading stores:', error))
   }, [])
 
@@ -79,7 +89,7 @@ export default function AddCampaign() {
     }))
   }
 
-  const filteredStores = storeData.stores.filter(store => 
+  const filteredStores = stores.filter(store => 
     formData.country.length === 0 || formData.country.includes(store.countryId)
   )
 
@@ -139,7 +149,7 @@ export default function AddCampaign() {
                       className="block w-full px-3 py-2 bg-white border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-black focus:border-black sm:text-sm"
                       size={5}
                     >
-                      {storeData.countries.map(country => (
+                      {countries.map(country => (
                         <option key={country.countryId} value={country.countryId}>
                           {country.countryName}
                         </option>
