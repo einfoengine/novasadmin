@@ -145,20 +145,18 @@ export default function AddCampaignPage() {
 
   const onSubmit = async (data: CampaignFormData) => {
     try {
-      const response = await fetch("/api/campaigns", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(data),
-      });
+      // Create a campaign object with all the necessary data
+      const campaignData = {
+        ...data,
+        id: `CAMP${Date.now()}`,
+        createdAt: new Date().toISOString()
+      };
 
-      if (!response.ok) {
-        throw new Error("Failed to create campaign");
-      }
+      // Store the campaign data in localStorage
+      localStorage.setItem('currentCampaign', JSON.stringify(campaignData));
 
-      toast.success("Campaign created successfully");
-      router.push("/campaigns");
+      // Navigate to the summary page
+      router.push(`/campaigns/${campaignData.id}`);
     } catch (error) {
       console.error("Error creating campaign:", error);
       toast.error("Failed to create campaign");
