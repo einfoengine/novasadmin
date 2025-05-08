@@ -3,7 +3,7 @@
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { HomeIcon, UserIcon, BriefcaseIcon, UsersIcon, BuildingStorefrontIcon, PresentationChartBarIcon, ShoppingBagIcon } from '@heroicons/react/24/outline';
+import { HomeIcon, UserIcon, BriefcaseIcon, UsersIcon, BuildingStorefrontIcon, PresentationChartBarIcon, ShoppingBagIcon, GlobeEuropeAfricaIcon, CurrencyBangladeshiIcon, CurrencyEuroIcon } from '@heroicons/react/24/outline';
 
 const tabs = [
   { name: 'Dashboard', href: '/dashboard', icon: HomeIcon },
@@ -13,7 +13,7 @@ const tabs = [
   { name: 'Campaigns', href: '/campaigns', icon: UsersIcon },
   { name: 'Products', href: '/products', icon: ShoppingBagIcon },
   { name: 'Production', href: '/production', icon: BuildingStorefrontIcon },
-  { name: 'Currency', href: '/currency', icon: BuildingStorefrontIcon },
+  { name: 'Currencies', href: '/currencies', icon: CurrencyEuroIcon },
   { name: 'Production House', href: '/production-house', icon: BuildingStorefrontIcon },
   { name: 'Director', href: '/director', icon: PresentationChartBarIcon },
 ];

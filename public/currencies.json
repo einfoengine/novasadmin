@@ -1,0 +1,126 @@
+{
+  "currencies": [
+    {
+      "currencyId": "EUR",
+      "currencyName": "Euro",
+      "rateAgainstEuro": 1.00,
+      "symbol": "€",
+      "exchangeableCountries": [
+        "Austria",
+        "Belgium",
+        "Cyprus",
+        "Estonia",
+        "Finland",
+        "France",
+        "Germany",
+        "Greece",
+        "Ireland",
+        "Italy",
+        "Latvia",
+        "Lithuania",
+        "Luxembourg",
+        "Malta",
+        "Netherlands",
+        "Portugal",
+        "Slovakia",
+        "Slovenia",
+        "Spain"
+      ]
+    },
+    {
+      "currencyId": "GBP",
+      "currencyName": "British Pound",
+      "rateAgainstEuro": 0.86,
+      "symbol": "£",
+      "exchangeableCountries": [
+        "United Kingdom",
+        "Gibraltar",
+        "Isle of Man",
+        "Jersey",
+        "Guernsey"
+      ]
+    },
+    {
+      "currencyId": "USD",
+      "currencyName": "US Dollar",
+      "rateAgainstEuro": 1.09,
+      "symbol": "$",
+      "exchangeableCountries": [
+        "United States",
+        "Puerto Rico",
+        "Guam",
+        "US Virgin Islands",
+        "American Samoa",
+        "Northern Mariana Islands"
+      ]
+    },
+    {
+      "currencyId": "CHF",
+      "currencyName": "Swiss Franc",
+      "rateAgainstEuro": 0.95,
+      "symbol": "Fr",
+      "exchangeableCountries": [
+        "Switzerland",
+        "Liechtenstein"
+      ]
+    },
+    {
+      "currencyId": "SEK",
+      "currencyName": "Swedish Krona",
+      "rateAgainstEuro": 11.45,
+      "symbol": "kr",
+      "exchangeableCountries": [
+        "Sweden"
+      ]
+    },
+    {
+      "currencyId": "NOK",
+      "currencyName": "Norwegian Krone",
+      "rateAgainstEuro": 11.65,
+      "symbol": "kr",
+      "exchangeableCountries": [
+        "Norway",
+        "Svalbard",
+        "Jan Mayen"
+      ]
+    },
+    {
+      "currencyId": "DKK",
+      "currencyName": "Danish Krone",
+      "rateAgainstEuro": 7.45,
+      "symbol": "kr",
+      "exchangeableCountries": [
+        "Denmark",
+        "Faroe Islands",
+        "Greenland"
+      ]
+    },
+    {
+      "currencyId": "PLN",
+      "currencyName": "Polish Złoty",
+      "rateAgainstEuro": 4.32,
+      "symbol": "zł",
+      "exchangeableCountries": [
+        "Poland"
+      ]
+    },
+    {
+      "currencyId": "CZK",
+      "currencyName": "Czech Koruna",
+      "rateAgainstEuro": 25.15,
+      "symbol": "Kč",
+      "exchangeableCountries": [
+        "Czech Republic"
+      ]
+    },
+    {
+      "currencyId": "HUF",
+      "currencyName": "Hungarian Forint",
+      "rateAgainstEuro": 395.45,
+      "symbol": "Ft",
+      "exchangeableCountries": [
+        "Hungary"
+      ]
+    }
+  ]
+} 
