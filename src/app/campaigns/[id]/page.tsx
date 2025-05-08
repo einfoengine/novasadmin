@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { useParams } from "next/navigation";
+
 
 interface Campaign {
   id: string;
@@ -20,7 +20,7 @@ interface Campaign {
 }
 
 export default function CampaignSummary() {
-  const params = useParams();
+  
   const [campaign, setCampaign] = useState<Campaign | null>(null);
   const [loading, setLoading] = useState(true);
 
