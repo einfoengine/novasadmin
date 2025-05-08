@@ -1,0 +1,60 @@
+{
+  "products": [
+    {
+      "productId": "P001",
+      "productName": "Premium Watch",
+      "productCost": 150.00,
+      "productPrice": 299.99,
+      "productStock": 50
+    },
+    {
+      "productId": "P002",
+      "productName": "Leather Wallet",
+      "productCost": 25.00,
+      "productPrice": 49.99,
+      "productStock": 100
+    },
+    {
+      "productId": "P003",
+      "productName": "Sunglasses",
+      "productCost": 35.00,
+      "productPrice": 79.99,
+      "productStock": 75
+    },
+    {
+      "productId": "P004",
+      "productName": "Smart Watch",
+      "productCost": 200.00,
+      "productPrice": 399.99,
+      "productStock": 30
+    },
+    {
+      "productId": "P005",
+      "productName": "Designer Belt",
+      "productCost": 40.00,
+      "productPrice": 89.99,
+      "productStock": 60
+    },
+    {
+      "productId": "P006",
+      "productName": "Luxury Pen",
+      "productCost": 45.00,
+      "productPrice": 99.99,
+      "productStock": 40
+    },
+    {
+      "productId": "P007",
+      "productName": "Leather Bag",
+      "productCost": 120.00,
+      "productPrice": 249.99,
+      "productStock": 25
+    },
+    {
+      "productId": "P008",
+      "productName": "Jewelry Set",
+      "productCost": 180.00,
+      "productPrice": 359.99,
+      "productStock": 20
+    }
+  ]
+} 

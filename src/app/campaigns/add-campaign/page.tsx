@@ -1,11 +1,16 @@
-'use client'
+"use client";
 
-import { useState, useEffect } from 'react'
-import { useRouter } from 'next/navigation'
+import { useState, useEffect } from "react";
+import { useRouter } from "next/navigation";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { z } from "zod";
+import { toast } from "sonner";
 
 interface Country {
   countryId: string;
   countryName: string;
+  countryManagerId: string;
 }
 
 interface Store {
@@ -18,6 +23,14 @@ interface Store {
   storeContact: string;
 }
 
+interface Product {
+  productId: string;
+  productName: string;
+  productCost: number;
+  productPrice: number;
+  productStock: number;
+}
+
 interface StoreData {
   stores: Store[];
 }
@@ -26,270 +39,387 @@ interface CountryData {
   countries: Country[];
 }
 
-export default function AddCampaign() {
-  const router = useRouter()
-  const [countries, setCountries] = useState<Country[]>([])
-  const [stores, setStores] = useState<Store[]>([])
-  const [formData, setFormData] = useState({
-    country: [] as string[],
-    storeCode: ['all'],
-    assigned: '',
-    typeofuser: 'Admin',
-    creatingdate: '',
-    startdate: '',
-    enddate: '',
-    status: 'Active',
-    totalcost: '',
-    invoicestatus: 'Pending'
-  })
+interface ProductData {
+  products: Product[];
+}
+
+interface SelectedProduct {
+  productId: string;
+  quantity: number;
+}
+
+const campaignSchema = z.object({
+  campaignName: z.string().min(1, "Campaign name is required"),
+  campaignDescription: z.string().min(1, "Campaign description is required"),
+  startDate: z.string().min(1, "Start date is required"),
+  endDate: z.string().min(1, "End date is required"),
+  countries: z.array(z.string()).min(1, "At least one country is required"),
+  storeCodes: z.array(z.string()).min(1, "At least one store is required"),
+  selectedProducts: z.array(z.object({
+    productId: z.string(),
+    quantity: z.number().min(1, "Quantity must be at least 1")
+  })).min(1, "At least one product is required"),
+  totalCost: z.number()
+});
+
+type CampaignFormData = z.infer<typeof campaignSchema>;
+
+export default function AddCampaignPage() {
+  const router = useRouter();
+  const [countries, setCountries] = useState<Country[]>([]);
+  const [stores, setStores] = useState<Store[]>([]);
+  const [products, setProducts] = useState<Product[]>([]);
+  const [selectedProducts, setSelectedProducts] = useState<SelectedProduct[]>([]);
+  const [totalCost, setTotalCost] = useState<number>(0);
+
+  const {
+    register,
+    handleSubmit,
+    setValue,
+    watch,
+    formState: { errors },
+  } = useForm<CampaignFormData>({
+    resolver: zodResolver(campaignSchema),
+    defaultValues: {
+      countries: [],
+      storeCodes: [],
+      selectedProducts: [],
+      totalCost: 0
+    },
+  });
+
+  const selectedCountries = watch("countries");
 
   useEffect(() => {
-    // Fetch countries data
-    fetch('/countries.json')
-      .then(response => response.json())
-      .then((data: CountryData) => setCountries(data.countries))
-      .catch(error => console.error('Error loading countries:', error))
+    const fetchData = async () => {
+      try {
+        const [countriesRes, storesRes, productsRes] = await Promise.all([
+          fetch("/countries.json"),
+          fetch("/stores.json"),
+          fetch("/products.json")
+        ]);
 
-    // Fetch stores data
-    fetch('/stores.json')
-      .then(response => response.json())
-      .then((data: StoreData) => setStores(data.stores))
-      .catch(error => console.error('Error loading stores:', error))
-  }, [])
+        const countriesData: CountryData = await countriesRes.json();
+        const storesData: StoreData = await storesRes.json();
+        const productsData: ProductData = await productsRes.json();
 
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault()
-    // TODO: Add API call to save campaign
-    console.log('Campaign Data:', formData)
-    router.push('/admin')
-  }
+        setCountries(countriesData.countries);
+        setStores(storesData.stores);
+        setProducts(productsData.products);
+      } catch (error) {
+        console.error("Error fetching data:", error);
+        toast.error("Failed to load data");
+      }
+    };
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
-    const { name, value } = e.target
-    setFormData(prev => ({
-      ...prev,
-      [name]: value
-    }))
-  }
+    fetchData();
+  }, []);
 
-  const handleCountryChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
-    const selectedOptions = Array.from(e.target.selectedOptions, option => option.value)
-    setFormData(prev => ({
-      ...prev,
-      country: selectedOptions,
-      storeCode: ['all'] // Reset store selection when country changes
-    }))
-  }
+  useEffect(() => {
+    setValue("storeCodes", []);
+  }, [selectedCountries, setValue]);
 
-  const handleStoreCodeChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
-    const selectedOptions = Array.from(e.target.selectedOptions, option => option.value)
-    setFormData(prev => ({
-      ...prev,
-      storeCode: selectedOptions
-    }))
-  }
+  useEffect(() => {
+    const calculateTotalCost = () => {
+      const total = selectedProducts.reduce((sum, item) => {
+        const product = products.find(p => p.productId === item.productId);
+        return sum + (product ? product.productCost * item.quantity : 0);
+      }, 0);
+      setTotalCost(total);
+      setValue("totalCost", total);
+    };
 
-  const filteredStores = stores.filter(store => 
-    formData.country.length === 0 || formData.country.includes(store.countryId)
-  )
+    calculateTotalCost();
+  }, [selectedProducts, products, setValue]);
+
+  const handleProductChange = (productId: string, quantity: number) => {
+    const existingProductIndex = selectedProducts.findIndex(
+      (p) => p.productId === productId
+    );
+
+    if (existingProductIndex >= 0) {
+      const updatedProducts = [...selectedProducts];
+      updatedProducts[existingProductIndex] = { productId, quantity };
+      setSelectedProducts(updatedProducts);
+    } else {
+      setSelectedProducts([...selectedProducts, { productId, quantity }]);
+    }
+    setValue("selectedProducts", selectedProducts);
+  };
+
+  const onSubmit = async (data: CampaignFormData) => {
+    try {
+      const response = await fetch("/api/campaigns", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(data),
+      });
+
+      if (!response.ok) {
+        throw new Error("Failed to create campaign");
+      }
+
+      toast.success("Campaign created successfully");
+      router.push("/campaigns");
+    } catch (error) {
+      console.error("Error creating campaign:", error);
+      toast.error("Failed to create campaign");
+    }
+  };
 
   return (
-    <div className="min-h-screen bg-gray-100">
-      <div>
-        <main className="px-4 py-6 mx-auto max-w-7xl sm:px-6 lg:px-8">
-          <div className="mt-8">
-            <div className="bg-white rounded-lg shadow">
-              <div className="px-6 py-4 border-b border-gray-200">
-                <h3 className="text-lg font-medium text-gray-900">Campaign Information</h3>
+    <div className="container mx-auto py-10">
+      <div className="bg-white rounded-lg shadow-lg p-6">
+        <h1 className="text-2xl font-bold mb-6">Add New Campaign</h1>
+        <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div className="space-y-2">
+              <label htmlFor="campaignName" className="block text-sm font-medium text-gray-700">
+                Campaign Name
+              </label>
+              <input
+                id="campaignName"
+                type="text"
+                className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500"
+                {...register("campaignName")}
+                placeholder="Enter campaign name"
+              />
+              {errors.campaignName && (
+                <p className="text-sm text-red-500">{errors.campaignName.message}</p>
+              )}
+            </div>
+
+            <div className="space-y-2">
+              <label htmlFor="campaignDescription" className="block text-sm font-medium text-gray-700">
+                Campaign Description
+              </label>
+              <textarea
+                id="campaignDescription"
+                className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500"
+                {...register("campaignDescription")}
+                placeholder="Enter campaign description"
+              />
+              {errors.campaignDescription && (
+                <p className="text-sm text-red-500">{errors.campaignDescription.message}</p>
+              )}
+            </div>
+
+            <div className="space-y-2">
+              <label htmlFor="startDate" className="block text-sm font-medium text-gray-700">
+                Start Date
+              </label>
+              <input
+                id="startDate"
+                type="date"
+                className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500"
+                {...register("startDate")}
+              />
+              {errors.startDate && (
+                <p className="text-sm text-red-500">{errors.startDate.message}</p>
+              )}
+            </div>
+
+            <div className="space-y-2">
+              <label htmlFor="endDate" className="block text-sm font-medium text-gray-700">
+                Delivery Date
+              </label>
+              <input
+                id="endDate"
+                type="date"
+                className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500"
+                {...register("endDate")}
+              />
+              {errors.endDate && (
+                <p className="text-sm text-red-500">{errors.endDate.message}</p>
+              )}
+            </div>
+
+            <div className="space-y-2">
+              <label htmlFor="countries" className="block text-sm font-medium text-gray-700">
+                Countries
+              </label>
+              <select
+                id="countries"
+                className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500"
+                onChange={(e) => {
+                  const value = e.target.value;
+                  const currentValues = watch("countries") || [];
+                  if (!currentValues.includes(value)) {
+                    setValue("countries", [...currentValues, value]);
+                  }
+                }}
+              >
+                <option value="">Select countries</option>
+                {countries.map((country) => (
+                  <option key={country.countryId} value={country.countryId}>
+                    {country.countryName}
+                  </option>
+                ))}
+              </select>
+              <div className="flex flex-wrap gap-2 mt-2">
+                {selectedCountries.map((countryId: string) => {
+                  const country = countries.find((c) => c.countryId === countryId);
+                  return (
+                    <div
+                      key={countryId}
+                      className="bg-gray-100 px-2 py-1 rounded-md flex items-center gap-2"
+                    >
+                      <span>{country?.countryName}</span>
+                      <button
+                        type="button"
+                        onClick={() => {
+                          setValue(
+                            "countries",
+                            selectedCountries.filter((id: string) => id !== countryId)
+                          );
+                        }}
+                        className="text-red-500 hover:text-red-700"
+                      >
+                        ×
+                      </button>
+                    </div>
+                  );
+                })}
               </div>
-              <form onSubmit={handleSubmit} className="p-6">
-                <div className="grid grid-cols-1 gap-6 sm:grid-cols-2">
-                  {/* Campaign Name */}
-                  <div className='nt-admin-add-campaign-form-input-field nt-campaign-name'>
-                    <label htmlFor="campaignname" className="block text-sm font-medium text-gray-700 mb-1">
-                      Campaign Name
-                    </label>
-                    <input
-                      type="text"
-                      name="campaignname"
-                      id="campaignname"
-                      required
-                      value={"Campaign Name"}
-                      onChange={handleChange}
-                      className="block w-full px-3 py-2 bg-white border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-black focus:border-black sm:text-sm"
-                    />
-                  </div>
-                  {/* Campaign Type */}
-                  <div className='nt-admin-add-campaign-form-input-field nt-campaign-type'>
-                    <label htmlFor="campaignname" className="block text-sm font-medium text-gray-700 mb-1">
-                      Campaign Type/Group
-                    </label>
-                    <input
-                      type="text"
-                      name="Campaign Type"
-                      id="Campaign Type"
-                      required
-                      value={"Campaign Type"}
-                      onChange={handleChange}
-                      className="block w-full px-3 py-2 bg-white border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-black focus:border-black sm:text-sm"
-                    />
-                  </div>
-                  {/* Country - Multiple Selection */}
-                  <div>
-                    <label htmlFor="country" className="block text-sm font-medium text-gray-700 mb-1">
-                      Country
-                    </label>
-                    <select
-                      name="country"
-                      id="country"
-                      required
-                      multiple
-                      value={formData.country}
-                      onChange={handleCountryChange}
-                      className="block w-full px-3 py-2 bg-white border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-black focus:border-black sm:text-sm"
-                      size={5}
+              {errors.countries && (
+                <p className="text-sm text-red-500">{errors.countries.message}</p>
+              )}
+            </div>
+
+            <div className="space-y-2">
+              <label htmlFor="storeCodes" className="block text-sm font-medium text-gray-700">
+                Store Codes
+              </label>
+              <select
+                id="storeCodes"
+                className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500"
+                onChange={(e) => {
+                  const value = e.target.value;
+                  const currentValues = watch("storeCodes") || [];
+                  if (!currentValues.includes(value)) {
+                    setValue("storeCodes", [...currentValues, value]);
+                  }
+                }}
+              >
+                <option value="">Select stores</option>
+                {stores
+                  .filter((store) => selectedCountries.includes(store.countryId))
+                  .map((store) => (
+                    <option key={store.storeId} value={store.storeId}>
+                      {store.storeName} ({store.storeId})
+                    </option>
+                  ))}
+              </select>
+              <div className="flex flex-wrap gap-2 mt-2">
+                {watch("storeCodes")?.map((storeId: string) => {
+                  const store = stores.find((s) => s.storeId === storeId);
+                  return (
+                    <div
+                      key={storeId}
+                      className="bg-gray-100 px-2 py-1 rounded-md flex items-center gap-2"
                     >
-                      {countries.map(country => (
-                        <option key={country.countryId} value={country.countryId}>
-                          {country.countryName}
-                        </option>
-                      ))}
-                    </select>
-                    <p className="mt-1 text-sm text-gray-500">Hold Ctrl/Cmd to select multiple countries</p>
-                  </div>
+                      <span>{store?.storeName}</span>
+                      <button
+                        type="button"
+                        onClick={() => {
+                          setValue(
+                            "storeCodes",
+                            watch("storeCodes")?.filter((id: string) => id !== storeId) || []
+                          );
+                        }}
+                        className="text-red-500 hover:text-red-700"
+                      >
+                        ×
+                      </button>
+                    </div>
+                  );
+                })}
+              </div>
+              {errors.storeCodes && (
+                <p className="text-sm text-red-500">{errors.storeCodes.message}</p>
+              )}
+            </div>
 
-                  {/* Store Code - Multiple Selection */}
-                  <div>
-                    <label htmlFor="storeCode" className="block text-sm font-medium text-gray-700 mb-1">
-                      Store Code
-                    </label>
-                    <select
-                      name="storeCode"
-                      id="storeCode"
-                      required
-                      multiple
-                      value={formData.storeCode}
-                      onChange={handleStoreCodeChange}
-                      className="block w-full px-3 py-2 bg-white border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-black focus:border-black sm:text-sm"
-                      size={5}
-                    >
-                      <option value="all">All Stores</option>
-                      {filteredStores.map(store => (
-                        <option key={store.storeId} value={store.storeId}>
-                          {store.storeId}/{store.storeName}
-                        </option>
-                      ))}
-                    </select>
-                    <p className="mt-1 text-sm text-gray-500">Hold Ctrl/Cmd to select multiple stores</p>
-                  </div>
+            <div className="space-y-2">
+              <label htmlFor="products" className="block text-sm font-medium text-gray-700">
+                Products
+              </label>
+              <select
+                id="products"
+                className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500"
+                onChange={(e) => {
+                  const value = e.target.value;
+                  const product = products.find(p => p.productId === value);
+                  if (product) {
+                    handleProductChange(product.productId, 1);
+                  }
+                }}
+              >
+                <option value="">Select products</option>
+                {products.map((product) => (
+                  <option key={product.productId} value={product.productId}>
+                    {product.productName} (${product.productPrice})
+                  </option>
+                ))}
+              </select>
+              <div className="space-y-2 mt-2">
+                {selectedProducts.map((item) => {
+                  const product = products.find(p => p.productId === item.productId);
+                  return (
+                    <div key={item.productId} className="flex items-center gap-2">
+                      <span className="flex-1">{product?.productName}</span>
+                      <input
+                        type="number"
+                        min="1"
+                        value={item.quantity}
+                        onChange={(e: React.ChangeEvent<HTMLInputElement>) => 
+                          handleProductChange(item.productId, parseInt(e.target.value))}
+                        className="w-20 rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500"
+                      />
+                      <button
+                        type="button"
+                        onClick={() => {
+                          setSelectedProducts(selectedProducts.filter(p => p.productId !== item.productId));
+                        }}
+                        className="text-red-500 hover:text-red-700"
+                      >
+                        ×
+                      </button>
+                    </div>
+                  );
+                })}
+              </div>
+              {errors.selectedProducts && (
+                <p className="text-sm text-red-500">{errors.selectedProducts.message}</p>
+              )}
+            </div>
 
-                  {/* Start Date */}
-                  <div>
-                    <label htmlFor="startdate" className="block text-sm font-medium text-gray-700 mb-1">
-                      Start Date
-                    </label>
-                    <input
-                      type="date"
-                      name="startdate"
-                      id="startdate"
-                      required
-                      value={formData.startdate}
-                      onChange={handleChange}
-                      className="block w-full px-3 py-2 bg-white border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-black focus:border-black sm:text-sm"
-                    />
-                  </div>
-
-                  {/* End Date */}
-                  <div>
-                    <label htmlFor="enddate" className="block text-sm font-medium text-gray-700 mb-1">
-                      End Date
-                    </label>
-                    <input
-                      type="date"
-                      name="enddate"
-                      id="enddate"
-                      required
-                      value={formData.enddate}
-                      onChange={handleChange}
-                      className="block w-full px-3 py-2 bg-white border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-black focus:border-black sm:text-sm"
-                    />
-                  </div>
-
-                  {/* Status */}
-                  <div>
-                    <label htmlFor="status" className="block text-sm font-medium text-gray-700 mb-1">
-                      Status
-                    </label>
-                    <select
-                      name="status"
-                      id="status"
-                      required
-                      value={formData.status}
-                      onChange={handleChange}
-                      className="block w-full px-3 py-2 bg-white border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-black focus:border-black sm:text-sm"
-                    >
-                      <option value="Active">Active</option>
-                      <option value="Inactive">Inactive</option>
-                      <option value="Pending">Pending</option>
-                    </select>
-                  </div>
-
-                  {/* Total Cost */}
-                  <div>
-                    <label htmlFor="totalcost" className="block text-sm font-medium text-gray-700 mb-1">
-                      Total Cost (৳)
-                    </label>
-                    <input
-                      type="number"
-                      name="totalcost"
-                      id="totalcost"
-                      required
-                      value={formData.totalcost}
-                      onChange={handleChange}
-                      className="block w-full px-3 py-2 bg-white border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-black focus:border-black sm:text-sm"
-                    />
-                  </div>
-
-                  {/* Invoice Status */}
-                  <div>
-                    <label htmlFor="invoicestatus" className="block text-sm font-medium text-gray-700 mb-1">
-                      Invoice Status
-                    </label>
-                    <select
-                      name="invoicestatus"
-                      id="invoicestatus"
-                      required
-                      value={formData.invoicestatus}
-                      onChange={handleChange}
-                      className="block w-full px-3 py-2 bg-white border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-black focus:border-black sm:text-sm"
-                    >
-                      <option value="Pending">Pending</option>
-                      <option value="Paid">Paid</option>
-                      <option value="Overdue">Overdue</option>
-                    </select>
-                  </div>
-                </div>
-
-                <div className="flex justify-end space-x-3 mt-6 pt-6 border-t border-gray-200">
-                  <button
-                    type="button"
-                    onClick={() => router.push('/admin')}
-                    className="px-4 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-md shadow-sm hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-black"
-                  >
-                    Cancel
-                  </button>
-                  <button
-                    type="submit"
-                    className="px-4 py-2 text-sm font-medium text-white bg-black border border-transparent rounded-md shadow-sm hover:bg-gray-800 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-black"
-                  >
-                    Create Campaign
-                  </button>
-                </div>
-              </form>
+            <div className="space-y-2">
+              <label htmlFor="totalCost" className="block text-sm font-medium text-gray-700">
+                Total Cost
+              </label>
+              <input
+                id="totalCost"
+                type="number"
+                value={totalCost.toFixed(2)}
+                readOnly
+                className="mt-1 block w-full rounded-md border-gray-300 shadow-sm bg-gray-100"
+              />
             </div>
           </div>
-        </main>
+
+          <div className="flex justify-end">
+            <button
+              type="submit"
+              className="px-4 py-2 bg-indigo-600 text-white rounded-md hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
+            >
+              Create Campaign
+            </button>
+          </div>
+        </form>
       </div>
     </div>
-  )
+  );
 } 
