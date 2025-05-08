@@ -1,23 +1,34 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { useRouter } from 'next/navigation'
 
-const europeanCountries = [
-  'Albania', 'Andorra', 'Austria', 'Belarus', 'Belgium', 'Bosnia and Herzegovina',
-  'Bulgaria', 'Croatia', 'Czech Republic', 'Denmark', 'Estonia', 'Finland',
-  'France', 'Germany', 'Greece', 'Hungary', 'Iceland', 'Ireland', 'Italy',
-  'Latvia', 'Liechtenstein', 'Lithuania', 'Luxembourg', 'Malta', 'Moldova',
-  'Monaco', 'Montenegro', 'Netherlands', 'North Macedonia', 'Norway', 'Poland',
-  'Portugal', 'Romania', 'Russia', 'San Marino', 'Serbia', 'Slovakia',
-  'Slovenia', 'Spain', 'Sweden', 'Switzerland', 'Ukraine', 'United Kingdom',
-  'Vatican City'
-]
+interface Country {
+  countryId: string;
+  countryName: string;
+}
+
+interface Store {
+  storeId: string;
+  storeName: string;
+  countryId: string;
+  countryName: string;
+  address: string;
+  storeManagerId: string;
+  storeContact: string;
+}
+
+interface StoreData {
+  countries: Country[];
+  stores: Store[];
+}
 
 export default function AddCampaign() {
   const router = useRouter()
+  const [storeData, setStoreData] = useState<StoreData>({ countries: [], stores: [] })
   const [formData, setFormData] = useState({
-    country: '',
+    country: [] as string[],
+    storeCode: ['all'],
     assigned: '',
     typeofuser: 'Admin',
     creatingdate: '',
@@ -27,6 +38,14 @@ export default function AddCampaign() {
     totalcost: '',
     invoicestatus: 'Pending'
   })
+
+  useEffect(() => {
+    // Fetch stores data
+    fetch('/stores.json')
+      .then(response => response.json())
+      .then(data => setStoreData(data))
+      .catch(error => console.error('Error loading stores:', error))
+  }, [])
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault()
@@ -42,6 +61,27 @@ export default function AddCampaign() {
       [name]: value
     }))
   }
+
+  const handleCountryChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    const selectedOptions = Array.from(e.target.selectedOptions, option => option.value)
+    setFormData(prev => ({
+      ...prev,
+      country: selectedOptions,
+      storeCode: ['all'] // Reset store selection when country changes
+    }))
+  }
+
+  const handleStoreCodeChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    const selectedOptions = Array.from(e.target.selectedOptions, option => option.value)
+    setFormData(prev => ({
+      ...prev,
+      storeCode: selectedOptions
+    }))
+  }
+
+  const filteredStores = storeData.stores.filter(store => 
+    formData.country.length === 0 || formData.country.includes(store.countryId)
+  )
 
   return (
     <div className="min-h-screen bg-gray-100">
@@ -84,7 +124,7 @@ export default function AddCampaign() {
                       className="block w-full px-3 py-2 bg-white border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-black focus:border-black sm:text-sm"
                     />
                   </div>
-                  {/* Country */}
+                  {/* Country - Multiple Selection */}
                   <div>
                     <label htmlFor="country" className="block text-sm font-medium text-gray-700 mb-1">
                       Country
@@ -93,31 +133,44 @@ export default function AddCampaign() {
                       name="country"
                       id="country"
                       required
+                      multiple
                       value={formData.country}
-                      onChange={handleChange}
+                      onChange={handleCountryChange}
                       className="block w-full px-3 py-2 bg-white border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-black focus:border-black sm:text-sm"
+                      size={5}
                     >
-                      <option value="">Select a country</option>
-                      {europeanCountries.map(country => (
-                        <option key={country} value={country}>{country}</option>
+                      {storeData.countries.map(country => (
+                        <option key={country.countryId} value={country.countryId}>
+                          {country.countryName}
+                        </option>
                       ))}
                     </select>
+                    <p className="mt-1 text-sm text-gray-500">Hold Ctrl/Cmd to select multiple countries</p>
                   </div>
 
-                  {/* Store Code */}
-                  <div className='nt-admin-add-campaign-form-input-field nt-campaign-type'>
-                    <label htmlFor="campaignname" className="block text-sm font-medium text-gray-700 mb-1">
+                  {/* Store Code - Multiple Selection */}
+                  <div>
+                    <label htmlFor="storeCode" className="block text-sm font-medium text-gray-700 mb-1">
                       Store Code
                     </label>
-                    <input
-                      type="text"
-                      name="Store code"
-                      id="Store code"
+                    <select
+                      name="storeCode"
+                      id="storeCode"
                       required
-                      value={"Store code"}
-                      onChange={handleChange}
+                      multiple
+                      value={formData.storeCode}
+                      onChange={handleStoreCodeChange}
                       className="block w-full px-3 py-2 bg-white border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-black focus:border-black sm:text-sm"
-                    />
+                      size={5}
+                    >
+                      <option value="all">All Stores</option>
+                      {filteredStores.map(store => (
+                        <option key={store.storeId} value={store.storeId}>
+                          {store.storeId}/{store.storeName}
+                        </option>
+                      ))}
+                    </select>
+                    <p className="mt-1 text-sm text-gray-500">Hold Ctrl/Cmd to select multiple stores</p>
                   </div>
 
                   {/* Start Date */}

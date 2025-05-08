@@ -1,0 +1,161 @@
+{
+  "countries": [
+    {
+      "countryId": "UK",
+      "countryName": "United Kingdom"
+    },
+    {
+      "countryId": "FR",
+      "countryName": "France"
+    },
+    {
+      "countryId": "DE",
+      "countryName": "Germany"
+    },
+    {
+      "countryId": "IT",
+      "countryName": "Italy"
+    },
+    {
+      "countryId": "ES",
+      "countryName": "Spain"
+    }
+  ],
+  "stores": [
+    {
+      "storeId": "ST001",
+      "storeName": "London Central",
+      "countryId": "UK",
+      "countryName": "United Kingdom",
+      "address": "123 Oxford Street, London",
+      "storeManagerId": "MGR001",
+      "storeContact": "+44 20 1234 5678"
+    },
+    {
+      "storeId": "ST002",
+      "storeName": "Manchester Square",
+      "countryId": "UK",
+      "countryName": "United Kingdom",
+      "address": "45 Market Street, Manchester",
+      "storeManagerId": "MGR002",
+      "storeContact": "+44 161 123 4567"
+    },
+    {
+      "storeId": "ST003",
+      "storeName": "Birmingham High",
+      "countryId": "UK",
+      "countryName": "United Kingdom",
+      "address": "78 New Street, Birmingham",
+      "storeManagerId": "MGR003",
+      "storeContact": "+44 121 123 4567"
+    },
+    {
+      "storeId": "ST004",
+      "storeName": "Paris Downtown",
+      "countryId": "FR",
+      "countryName": "France",
+      "address": "45 Champs-Élysées, Paris",
+      "storeManagerId": "MGR004",
+      "storeContact": "+33 1 23 45 67 89"
+    },
+    {
+      "storeId": "ST005",
+      "storeName": "Lyon Central",
+      "countryId": "FR",
+      "countryName": "France",
+      "address": "34 Rue de la République, Lyon",
+      "storeManagerId": "MGR005",
+      "storeContact": "+33 4 56 78 90 12"
+    },
+    {
+      "storeId": "ST006",
+      "storeName": "Marseille Port",
+      "countryId": "FR",
+      "countryName": "France",
+      "address": "56 La Canebière, Marseille",
+      "storeManagerId": "MGR006",
+      "storeContact": "+33 4 91 23 45 67"
+    },
+    {
+      "storeId": "ST007",
+      "storeName": "Berlin Mitte",
+      "countryId": "DE",
+      "countryName": "Germany",
+      "address": "78 Kurfürstendamm, Berlin",
+      "storeManagerId": "MGR007",
+      "storeContact": "+49 30 12345678"
+    },
+    {
+      "storeId": "ST008",
+      "storeName": "Munich Central",
+      "countryId": "DE",
+      "countryName": "Germany",
+      "address": "23 Marienplatz, Munich",
+      "storeManagerId": "MGR008",
+      "storeContact": "+49 89 12345678"
+    },
+    {
+      "storeId": "ST009",
+      "storeName": "Hamburg Port",
+      "countryId": "DE",
+      "countryName": "Germany",
+      "address": "45 Jungfernstieg, Hamburg",
+      "storeManagerId": "MGR009",
+      "storeContact": "+49 40 12345678"
+    },
+    {
+      "storeId": "ST010",
+      "storeName": "Rome Central",
+      "countryId": "IT",
+      "countryName": "Italy",
+      "address": "56 Via del Corso, Rome",
+      "storeManagerId": "MGR010",
+      "storeContact": "+39 06 1234567"
+    },
+    {
+      "storeId": "ST011",
+      "storeName": "Milan Fashion",
+      "countryId": "IT",
+      "countryName": "Italy",
+      "address": "78 Via Montenapoleone, Milan",
+      "storeManagerId": "MGR011",
+      "storeContact": "+39 02 1234567"
+    },
+    {
+      "storeId": "ST012",
+      "storeName": "Florence Art",
+      "countryId": "IT",
+      "countryName": "Italy",
+      "address": "34 Via de' Tornabuoni, Florence",
+      "storeManagerId": "MGR012",
+      "storeContact": "+39 055 1234567"
+    },
+    {
+      "storeId": "ST013",
+      "storeName": "Madrid Centro",
+      "countryId": "ES",
+      "countryName": "Spain",
+      "address": "90 Gran Via, Madrid",
+      "storeManagerId": "MGR013",
+      "storeContact": "+34 91 123 45 67"
+    },
+    {
+      "storeId": "ST014",
+      "storeName": "Barcelona Beach",
+      "countryId": "ES",
+      "countryName": "Spain",
+      "address": "45 Passeig de Gràcia, Barcelona",
+      "storeManagerId": "MGR014",
+      "storeContact": "+34 93 123 45 67"
+    },
+    {
+      "storeId": "ST015",
+      "storeName": "Valencia Port",
+      "countryId": "ES",
+      "countryName": "Spain",
+      "address": "67 Calle Colón, Valencia",
+      "storeManagerId": "MGR015",
+      "storeContact": "+34 96 123 45 67"
+    }
+  ]
+} 
