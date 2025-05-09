@@ -3,6 +3,8 @@
 import { useState, useEffect } from "react";
 import Image from "next/image";
 import Link from "next/link";
+import { toast } from "react-hot-toast";
+import { EyeIcon, PencilIcon, TrashIcon } from "@heroicons/react/24/outline";
 
 interface Product {
   productId: string;
@@ -32,6 +34,36 @@ export default function ProductsPage() {
 
     fetchProducts();
   }, []);
+
+  const handleAction = async (action: string, product: Product) => {
+    const confirmMessage = {
+      edit: "Are you sure you want to edit this product?",
+      delete: "Are you sure you want to delete this product?",
+      view: "Are you sure you want to view this product's details?"
+    };
+
+    const successMessage = {
+      edit: "Redirecting to edit page...",
+      delete: "Product deleted successfully",
+      view: "Redirecting to view page..."
+    };
+
+    if (window.confirm(confirmMessage[action as keyof typeof confirmMessage])) {
+      toast.success(successMessage[action as keyof typeof successMessage]);
+      
+      switch (action) {
+        case 'edit':
+          window.location.href = `/products/edit/${product.productId}`;
+          break;
+        case 'delete':
+          setProducts(products.filter(p => p.productId !== product.productId));
+          break;
+        case 'view':
+          window.location.href = `/products/${product.productId}`;
+          break;
+      }
+    }
+  };
 
   if (loading) {
     return (
@@ -65,9 +97,10 @@ export default function ProductsPage() {
             <div className="col-span-1 font-medium text-gray-900">Image</div>
             <div className="col-span-2 font-medium text-gray-900">Product ID</div>
             <div className="col-span-3 font-medium text-gray-900">Name</div>
-            <div className="col-span-2 font-medium text-gray-900">Cost</div>
-            <div className="col-span-2 font-medium text-gray-900">Price</div>
-            <div className="col-span-2 font-medium text-gray-900">Stock</div>
+            <div className="col-span-1 font-medium text-gray-900">Cost</div>
+            <div className="col-span-1 font-medium text-gray-900">Price</div>
+            <div className="col-span-1 font-medium text-gray-900">Stock</div>
+            <div className="col-span-3 font-medium text-gray-900">Actions</div>
           </div>
 
           <div className="divide-y divide-gray-200">
@@ -85,9 +118,34 @@ export default function ProductsPage() {
                 </div>
                 <div className="col-span-2 text-gray-900">{product.productId}</div>
                 <div className="col-span-3 text-gray-900">{product.productName}</div>
-                <div className="col-span-2 text-gray-900">${product.productCost.toFixed(2)}</div>
-                <div className="col-span-2 text-gray-900">${product.productPrice.toFixed(2)}</div>
-                <div className="col-span-2 text-gray-900">{product.productStock}</div>
+                <div className="col-span-1 text-gray-900">${product.productCost.toFixed(2)}</div>
+                <div className="col-span-1 text-gray-900">${product.productPrice.toFixed(2)}</div>
+                <div className="col-span-1 text-gray-900">{product.productStock}</div>
+                <div className="col-span-3">
+                  <div className="flex space-x-2">
+                    <button
+                      onClick={() => handleAction('view', product)}
+                      className="text-gray-600 hover:text-gray-900"
+                      title="View"
+                    >
+                      <EyeIcon className="h-5 w-5" />
+                    </button>
+                    <button
+                      onClick={() => handleAction('edit', product)}
+                      className="text-gray-600 hover:text-gray-900"
+                      title="Edit"
+                    >
+                      <PencilIcon className="h-5 w-5" />
+                    </button>
+                    <button
+                      onClick={() => handleAction('delete', product)}
+                      className="text-gray-600 hover:text-gray-900"
+                      title="Delete"
+                    >
+                      <TrashIcon className="h-5 w-5" />
+                    </button>
+                  </div>
+                </div>
               </div>
             ))}
           </div>
