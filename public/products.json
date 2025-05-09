@@ -1,6 +1,30 @@
 {
   "products": [
     {
+      "productId": "PROD001",
+      "productName": "Laptop Pro",
+      "productCost": 800.00,
+      "productPrice": 999.99,
+      "productStock": 50,
+      "imageUrl": "/images/products/laptop.jpg"
+    },
+    {
+      "productId": "PROD002",
+      "productName": "Smartphone X",
+      "productCost": 400.00,
+      "productPrice": 499.99,
+      "productStock": 100,
+      "imageUrl": "/images/products/smartphone.jpg"
+    },
+    {
+      "productId": "PROD003",
+      "productName": "Wireless Earbuds",
+      "productCost": 50.00,
+      "productPrice": 79.99,
+      "productStock": 200,
+      "imageUrl": "/images/products/earbuds.jpg"
+    },
+    {
       "productId": "P001",
       "productName": "Premium Watch",
       "productCost": 150.00,

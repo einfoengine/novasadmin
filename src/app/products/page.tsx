@@ -97,10 +97,10 @@ export default function ProductsPage() {
             <div className="col-span-1 font-medium text-gray-900">Image</div>
             <div className="col-span-2 font-medium text-gray-900">Product ID</div>
             <div className="col-span-3 font-medium text-gray-900">Name</div>
-            <div className="col-span-1 font-medium text-gray-900">Cost</div>
-            <div className="col-span-1 font-medium text-gray-900">Price</div>
+            <div className="col-span-2 font-medium text-gray-900">Cost</div>
+            <div className="col-span-2 font-medium text-gray-900">Price</div>
             <div className="col-span-1 font-medium text-gray-900">Stock</div>
-            <div className="col-span-3 font-medium text-gray-900">Actions</div>
+            <div className="col-span-1 font-medium text-gray-900">Actions</div>
           </div>
 
           <div className="divide-y divide-gray-200">
@@ -118,10 +118,10 @@ export default function ProductsPage() {
                 </div>
                 <div className="col-span-2 text-gray-900">{product.productId}</div>
                 <div className="col-span-3 text-gray-900">{product.productName}</div>
-                <div className="col-span-1 text-gray-900">${product.productCost.toFixed(2)}</div>
-                <div className="col-span-1 text-gray-900">${product.productPrice.toFixed(2)}</div>
+                <div className="col-span-2 text-gray-900">${product.productCost.toFixed(2)}</div>
+                <div className="col-span-2 text-gray-900">${product.productPrice.toFixed(2)}</div>
                 <div className="col-span-1 text-gray-900">{product.productStock}</div>
-                <div className="col-span-3">
+                <div className="col-span-1">
                   <div className="flex space-x-2">
                     <button
                       onClick={() => handleAction('view', product)}

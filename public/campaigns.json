@@ -1,0 +1,28 @@
+{
+  "campaigns": [
+    {
+      "campaignId": "CAMP001",
+      "campaignName": "Summer Sale 2024",
+      "startDate": "2024-06-01",
+      "endDate": "2024-08-31",
+      "status": "Active",
+      "totalCost": 15000.00
+    },
+    {
+      "campaignId": "CAMP002",
+      "campaignName": "Holiday Special",
+      "startDate": "2024-12-01",
+      "endDate": "2024-12-31",
+      "status": "Inactive",
+      "totalCost": 25000.00
+    },
+    {
+      "campaignId": "CAMP003",
+      "campaignName": "Spring Collection",
+      "startDate": "2024-03-01",
+      "endDate": "2024-05-31",
+      "status": "Active",
+      "totalCost": 18000.00
+    }
+  ]
+} 
