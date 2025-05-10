@@ -3,7 +3,7 @@
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { HomeIcon, UserIcon, BriefcaseIcon, UsersIcon, BuildingStorefrontIcon, PresentationChartBarIcon, ShoppingBagIcon, GlobeEuropeAfricaIcon, CurrencyBangladeshiIcon, CurrencyEuroIcon } from '@heroicons/react/24/outline';
+import { HomeIcon, UserIcon, BriefcaseIcon, UsersIcon, BuildingStorefrontIcon, PresentationChartBarIcon, ShoppingBagIcon, CurrencyEuroIcon } from '@heroicons/react/24/outline';
 
 const tabs = [
   { name: 'Dashboard', href: '/dashboard', icon: HomeIcon },
