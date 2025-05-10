@@ -15,9 +15,14 @@ interface Product {
   imageUrl: string;
 }
 
+const ITEMS_PER_PAGE = 10;
+
 export default function ProductsPage() {
   const [products, setProducts] = useState<Product[]>([]);
+  const [displayedProducts, setDisplayedProducts] = useState<Product[]>([]);
   const [loading, setLoading] = useState(true);
+  const [loadingMore, setLoadingMore] = useState(false);
+  const [hasMore, setHasMore] = useState(true);
 
   useEffect(() => {
     const fetchProducts = async () => {
@@ -25,8 +30,11 @@ export default function ProductsPage() {
         const response = await fetch('/products.json');
         const data = await response.json();
         setProducts(data.products);
+        setDisplayedProducts(data.products.slice(0, ITEMS_PER_PAGE));
+        setHasMore(data.products.length > ITEMS_PER_PAGE);
       } catch (error) {
         console.error('Error fetching products:', error);
+        toast.error('Failed to load products');
       } finally {
         setLoading(false);
       }
@@ -34,6 +42,18 @@ export default function ProductsPage() {
 
     fetchProducts();
   }, []);
+
+  const loadMore = () => {
+    setLoadingMore(true);
+    const currentLength = displayedProducts.length;
+    const nextProducts = products.slice(currentLength, currentLength + ITEMS_PER_PAGE);
+    
+    setTimeout(() => {
+      setDisplayedProducts([...displayedProducts, ...nextProducts]);
+      setHasMore(currentLength + ITEMS_PER_PAGE < products.length);
+      setLoadingMore(false);
+    }, 500); // Simulate network delay
+  };
 
   const handleAction = async (action: string, product: Product) => {
     const confirmMessage = {
@@ -57,6 +77,7 @@ export default function ProductsPage() {
           break;
         case 'delete':
           setProducts(products.filter(p => p.productId !== product.productId));
+          setDisplayedProducts(displayedProducts.filter(p => p.productId !== product.productId));
           break;
         case 'view':
           window.location.href = `/products/${product.productId}`;
@@ -104,7 +125,7 @@ export default function ProductsPage() {
           </div>
 
           <div className="divide-y divide-gray-200">
-            {products.map((product) => (
+            {displayedProducts.map((product) => (
               <div key={product.productId} className="grid grid-cols-12 gap-4 p-4 items-center hover:bg-gray-50">
                 <div className="col-span-1">
                   <div className="relative w-12 h-12">
@@ -149,6 +170,32 @@ export default function ProductsPage() {
               </div>
             ))}
           </div>
+
+          {hasMore && (
+            <div className="p-4 border-t border-gray-200">
+              <button
+                onClick={loadMore}
+                disabled={loadingMore}
+                className={`w-full py-2 px-4 rounded-md text-sm font-medium transition-colors ${
+                  loadingMore
+                    ? 'bg-gray-100 text-gray-400 cursor-not-allowed'
+                    : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
+                }`}
+              >
+                {loadingMore ? (
+                  <span className="flex items-center justify-center">
+                    <svg className="animate-spin -ml-1 mr-3 h-5 w-5 text-gray-400" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                      <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
+                      <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                    </svg>
+                    Loading...
+                  </span>
+                ) : (
+                  'Load More'
+                )}
+              </button>
+            </div>
+          )}
         </div>
       </div>
     </div>
