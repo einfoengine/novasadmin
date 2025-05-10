@@ -1,0 +1,139 @@
+{
+  "invoices": [
+    {
+      "id": "INV001",
+      "campaignId": "CAMP001",
+      "campaignName": "Summer Sale 2024",
+      "amount": 150000.00,
+      "status": "Paid",
+      "dueDate": "2024-03-15",
+      "issueDate": "2024-03-01",
+      "items": [
+        {
+          "number": 1,
+          "productName": "Social Media Campaign",
+          "productImage": "/images/products/social-media.jpg",
+          "description": "Complete social media campaign management including content creation, posting, and engagement",
+          "quantity": 1,
+          "rate": 25000.00,
+          "amount": 25000.00
+        },
+        {
+          "number": 2,
+          "productName": "Facebook Ads",
+          "productImage": "/images/products/facebook-ads.jpg",
+          "description": "Targeted Facebook advertising campaign with A/B testing",
+          "quantity": 2,
+          "rate": 15000.00,
+          "amount": 30000.00
+        },
+        {
+          "number": 3,
+          "productName": "Instagram Promotion",
+          "productImage": "/images/products/instagram.jpg",
+          "description": "Instagram story and post promotions with influencer collaboration",
+          "quantity": 1,
+          "rate": 20000.00,
+          "amount": 20000.00
+        },
+        {
+          "number": 4,
+          "productName": "Google Ads",
+          "productImage": "/images/products/google-ads.jpg",
+          "description": "Search engine marketing campaign with keyword optimization",
+          "quantity": 1,
+          "rate": 30000.00,
+          "amount": 30000.00
+        },
+        {
+          "number": 5,
+          "productName": "Content Creation",
+          "productImage": "/images/products/content.jpg",
+          "description": "Professional content creation for all platforms",
+          "quantity": 3,
+          "rate": 10000.00,
+          "amount": 30000.00
+        },
+        {
+          "number": 6,
+          "productName": "Video Production",
+          "productImage": "/images/products/video.jpg",
+          "description": "High-quality video production for social media",
+          "quantity": 2,
+          "rate": 15000.00,
+          "amount": 30000.00
+        },
+        {
+          "number": 7,
+          "productName": "Email Marketing",
+          "productImage": "/images/products/email.jpg",
+          "description": "Email campaign setup and management",
+          "quantity": 1,
+          "rate": 12000.00,
+          "amount": 12000.00
+        },
+        {
+          "number": 8,
+          "productName": "Analytics Report",
+          "productImage": "/images/products/analytics.jpg",
+          "description": "Detailed campaign performance analytics and reporting",
+          "quantity": 1,
+          "rate": 8000.00,
+          "amount": 8000.00
+        },
+        {
+          "number": 9,
+          "productName": "SEO Optimization",
+          "productImage": "/images/products/seo.jpg",
+          "description": "Search engine optimization for campaign landing pages",
+          "quantity": 1,
+          "rate": 15000.00,
+          "amount": 15000.00
+        },
+        {
+          "number": 10,
+          "productName": "Social Media Audit",
+          "productImage": "/images/products/audit.jpg",
+          "description": "Comprehensive social media account audit and strategy",
+          "quantity": 1,
+          "rate": 10000.00,
+          "amount": 10000.00
+        },
+        {
+          "number": 11,
+          "productName": "Influencer Marketing",
+          "productImage": "/images/products/influencer.jpg",
+          "description": "Influencer collaboration and campaign management",
+          "quantity": 2,
+          "rate": 20000.00,
+          "amount": 40000.00
+        },
+        {
+          "number": 12,
+          "productName": "Brand Strategy",
+          "productImage": "/images/products/brand.jpg",
+          "description": "Brand strategy development and implementation",
+          "quantity": 1,
+          "rate": 25000.00,
+          "amount": 25000.00
+        }
+      ],
+      "company": {
+        "name": "Your Company Name",
+        "address": "123 Business Street",
+        "city": "Business City",
+        "country": "Business Country",
+        "email": "contact@yourcompany.com",
+        "phone": "+1 234 567 890"
+      },
+      "client": {
+        "name": "Client Company Name",
+        "address": "456 Client Avenue",
+        "city": "Client City",
+        "country": "Client Country",
+        "email": "contact@clientcompany.com",
+        "phone": "+1 234 567 891"
+      }
+    }
+  ]
+} 
