@@ -1,0 +1,43 @@
+{
+  "campaigns": [
+    {
+      "campaignId": "CAMP001",
+      "campaignName": "Summer Sale 2024",
+      "country": "United States",
+      "assigned": "John Smith",
+      "userType": "Premium",
+      "creatingDate": "2024-03-01",
+      "startDate": "2024-06-01",
+      "endDate": "2024-08-31",
+      "status": "Active",
+      "totalCost": 15000.00,
+      "invoiceStatus": "Paid"
+    },
+    {
+      "campaignId": "CAMP002",
+      "campaignName": "Holiday Special",
+      "country": "United Kingdom",
+      "assigned": "Emma Wilson",
+      "userType": "Standard",
+      "creatingDate": "2024-03-05",
+      "startDate": "2024-12-01",
+      "endDate": "2024-12-31",
+      "status": "Inactive",
+      "totalCost": 25000.00,
+      "invoiceStatus": "Pending"
+    },
+    {
+      "campaignId": "CAMP003",
+      "campaignName": "Summer Sale 2024",
+      "country": "Germany",
+      "assigned": "Michael Brown",
+      "userType": "Premium",
+      "creatingDate": "2024-03-10",
+      "startDate": "2024-03-01",
+      "endDate": "2024-05-31",
+      "status": "Active",
+      "totalCost": 18000.00,
+      "invoiceStatus": "Overdue"
+    }
+  ]
+} 

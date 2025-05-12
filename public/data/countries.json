@@ -1,0 +1,224 @@
+{
+  "countries": [
+    {
+      "countryId": "AL",
+      "countryName": "Albania",
+      "countryManagerId": "CM001"
+    },
+    {
+      "countryId": "AD",
+      "countryName": "Andorra",
+      "countryManagerId": "CM002"
+    },
+    {
+      "countryId": "AT",
+      "countryName": "Austria",
+      "countryManagerId": "CM003"
+    },
+    {
+      "countryId": "BY",
+      "countryName": "Belarus",
+      "countryManagerId": "CM004"
+    },
+    {
+      "countryId": "BE",
+      "countryName": "Belgium",
+      "countryManagerId": "CM005"
+    },
+    {
+      "countryId": "BA",
+      "countryName": "Bosnia and Herzegovina",
+      "countryManagerId": "CM006"
+    },
+    {
+      "countryId": "BG",
+      "countryName": "Bulgaria",
+      "countryManagerId": "CM007"
+    },
+    {
+      "countryId": "HR",
+      "countryName": "Croatia",
+      "countryManagerId": "CM008"
+    },
+    {
+      "countryId": "CZ",
+      "countryName": "Czech Republic",
+      "countryManagerId": "CM009"
+    },
+    {
+      "countryId": "DK",
+      "countryName": "Denmark",
+      "countryManagerId": "CM010"
+    },
+    {
+      "countryId": "EE",
+      "countryName": "Estonia",
+      "countryManagerId": "CM011"
+    },
+    {
+      "countryId": "FI",
+      "countryName": "Finland",
+      "countryManagerId": "CM012"
+    },
+    {
+      "countryId": "FR",
+      "countryName": "France",
+      "countryManagerId": "CM013"
+    },
+    {
+      "countryId": "DE",
+      "countryName": "Germany",
+      "countryManagerId": "CM014"
+    },
+    {
+      "countryId": "GR",
+      "countryName": "Greece",
+      "countryManagerId": "CM015"
+    },
+    {
+      "countryId": "HU",
+      "countryName": "Hungary",
+      "countryManagerId": "CM016"
+    },
+    {
+      "countryId": "IS",
+      "countryName": "Iceland",
+      "countryManagerId": "CM017"
+    },
+    {
+      "countryId": "IE",
+      "countryName": "Ireland",
+      "countryManagerId": "CM018"
+    },
+    {
+      "countryId": "IT",
+      "countryName": "Italy",
+      "countryManagerId": "CM019"
+    },
+    {
+      "countryId": "LV",
+      "countryName": "Latvia",
+      "countryManagerId": "CM020"
+    },
+    {
+      "countryId": "LI",
+      "countryName": "Liechtenstein",
+      "countryManagerId": "CM021"
+    },
+    {
+      "countryId": "LT",
+      "countryName": "Lithuania",
+      "countryManagerId": "CM022"
+    },
+    {
+      "countryId": "LU",
+      "countryName": "Luxembourg",
+      "countryManagerId": "CM023"
+    },
+    {
+      "countryId": "MT",
+      "countryName": "Malta",
+      "countryManagerId": "CM024"
+    },
+    {
+      "countryId": "MD",
+      "countryName": "Moldova",
+      "countryManagerId": "CM025"
+    },
+    {
+      "countryId": "MC",
+      "countryName": "Monaco",
+      "countryManagerId": "CM026"
+    },
+    {
+      "countryId": "ME",
+      "countryName": "Montenegro",
+      "countryManagerId": "CM027"
+    },
+    {
+      "countryId": "NL",
+      "countryName": "Netherlands",
+      "countryManagerId": "CM028"
+    },
+    {
+      "countryId": "MK",
+      "countryName": "North Macedonia",
+      "countryManagerId": "CM029"
+    },
+    {
+      "countryId": "NO",
+      "countryName": "Norway",
+      "countryManagerId": "CM030"
+    },
+    {
+      "countryId": "PL",
+      "countryName": "Poland",
+      "countryManagerId": "CM031"
+    },
+    {
+      "countryId": "PT",
+      "countryName": "Portugal",
+      "countryManagerId": "CM032"
+    },
+    {
+      "countryId": "RO",
+      "countryName": "Romania",
+      "countryManagerId": "CM033"
+    },
+    {
+      "countryId": "RU",
+      "countryName": "Russia",
+      "countryManagerId": "CM034"
+    },
+    {
+      "countryId": "SM",
+      "countryName": "San Marino",
+      "countryManagerId": "CM035"
+    },
+    {
+      "countryId": "RS",
+      "countryName": "Serbia",
+      "countryManagerId": "CM036"
+    },
+    {
+      "countryId": "SK",
+      "countryName": "Slovakia",
+      "countryManagerId": "CM037"
+    },
+    {
+      "countryId": "SI",
+      "countryName": "Slovenia",
+      "countryManagerId": "CM038"
+    },
+    {
+      "countryId": "ES",
+      "countryName": "Spain",
+      "countryManagerId": "CM039"
+    },
+    {
+      "countryId": "SE",
+      "countryName": "Sweden",
+      "countryManagerId": "CM040"
+    },
+    {
+      "countryId": "CH",
+      "countryName": "Switzerland",
+      "countryManagerId": "CM041"
+    },
+    {
+      "countryId": "UA",
+      "countryName": "Ukraine",
+      "countryManagerId": "CM042"
+    },
+    {
+      "countryId": "GB",
+      "countryName": "United Kingdom",
+      "countryManagerId": "CM043"
+    },
+    {
+      "countryId": "VA",
+      "countryName": "Vatican City",
+      "countryManagerId": "CM044"
+    }
+  ]
+} 

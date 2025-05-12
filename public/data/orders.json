@@ -1,0 +1,25 @@
+{
+  "orders": [
+    {
+      "orderId": "ORD001",
+      "customerName": "John Doe",
+      "orderDate": "2024-03-15",
+      "status": "Completed",
+      "totalAmount": 299.99
+    },
+    {
+      "orderId": "ORD002",
+      "customerName": "Jane Smith",
+      "orderDate": "2024-03-16",
+      "status": "Processing",
+      "totalAmount": 149.50
+    },
+    {
+      "orderId": "ORD003",
+      "customerName": "Bob Johnson",
+      "orderDate": "2024-03-17",
+      "status": "Pending",
+      "totalAmount": 499.99
+    }
+  ]
+} 

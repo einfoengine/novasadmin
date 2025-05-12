@@ -1,0 +1,92 @@
+{
+  "products": [
+    {
+      "productId": "PROD001",
+      "productName": "Laptop Pro",
+      "productCost": 800.00,
+      "productPrice": 999.99,
+      "productStock": 50,
+      "imageUrl": "/images/products/laptop.jpg"
+    },
+    {
+      "productId": "PROD002",
+      "productName": "Smartphone X",
+      "productCost": 400.00,
+      "productPrice": 499.99,
+      "productStock": 100,
+      "imageUrl": "/images/products/smartphone.jpg"
+    },
+    {
+      "productId": "PROD003",
+      "productName": "Wireless Earbuds",
+      "productCost": 50.00,
+      "productPrice": 79.99,
+      "productStock": 200,
+      "imageUrl": "/images/products/earbuds.jpg"
+    },
+    {
+      "productId": "P001",
+      "productName": "Premium Watch",
+      "productCost": 150.00,
+      "productPrice": 299.99,
+      "productStock": 50,
+      "imageUrl": "/images/products/watch.jpg"
+    },
+    {
+      "productId": "P002",
+      "productName": "Leather Wallet",
+      "productCost": 25.00,
+      "productPrice": 49.99,
+      "productStock": 100,
+      "imageUrl": "/images/products/wallet.jpg"
+    },
+    {
+      "productId": "P003",
+      "productName": "Sunglasses",
+      "productCost": 35.00,
+      "productPrice": 79.99,
+      "productStock": 75,
+      "imageUrl": "/images/products/sunglasses.jpg"
+    },
+    {
+      "productId": "P004",
+      "productName": "Smart Watch",
+      "productCost": 200.00,
+      "productPrice": 399.99,
+      "productStock": 30,
+      "imageUrl": "/images/products/smartwatch.jpg"
+    },
+    {
+      "productId": "P005",
+      "productName": "Designer Belt",
+      "productCost": 40.00,
+      "productPrice": 89.99,
+      "productStock": 60,
+      "imageUrl": "/images/products/belt.jpg"
+    },
+    {
+      "productId": "P006",
+      "productName": "Luxury Pen",
+      "productCost": 45.00,
+      "productPrice": 99.99,
+      "productStock": 40,
+      "imageUrl": "/images/products/pen.jpg"
+    },
+    {
+      "productId": "P007",
+      "productName": "Leather Bag",
+      "productCost": 120.00,
+      "productPrice": 249.99,
+      "productStock": 25,
+      "imageUrl": "/images/products/bag.jpg"
+    },
+    {
+      "productId": "P008",
+      "productName": "Jewelry Set",
+      "productCost": 180.00,
+      "productPrice": 359.99,
+      "productStock": 20,
+      "imageUrl": "/images/products/jewelry.jpg"
+    }
+  ]
+} 
