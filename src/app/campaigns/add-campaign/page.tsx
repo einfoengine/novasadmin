@@ -151,18 +151,23 @@ export default function AddCampaignPage() {
   }, [selectedProducts, products, setValue]);
 
   const handleProductChange = (productId: string, quantity: number) => {
+    // Ensure quantity is a valid number
+    const validQuantity = isNaN(quantity) ? 1 : Math.max(1, Math.min(quantity, 999));
+    
     const existingProductIndex = selectedProducts.findIndex(
       (p) => p.productId === productId
     );
 
     if (existingProductIndex >= 0) {
       const updatedProducts = [...selectedProducts];
-      updatedProducts[existingProductIndex] = { productId, quantity };
+      updatedProducts[existingProductIndex] = { productId, quantity: validQuantity };
       setSelectedProducts(updatedProducts);
+      setValue("selectedProducts", updatedProducts);
     } else {
-      setSelectedProducts([...selectedProducts, { productId, quantity }]);
+      const newProducts = [...selectedProducts, { productId, quantity: validQuantity }];
+      setSelectedProducts(newProducts);
+      setValue("selectedProducts", newProducts);
     }
-    setValue("selectedProducts", selectedProducts);
   };
 
   const onSubmit = async (data: CampaignFormData) => {
@@ -409,8 +414,11 @@ export default function AddCampaignPage() {
                             type="number"
                             min="1"
                             max={product.productStock}
-                            value={item.quantity}
-                            onChange={(e) => handleProductChange(item.productId, parseInt(e.target.value))}
+                            value={item.quantity || 1}
+                            onChange={(e) => {
+                              const value = e.target.value === '' ? 1 : parseInt(e.target.value);
+                              handleProductChange(item.productId, value);
+                            }}
                             className="w-20 rounded-md border border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500"
                           />
                         </div>
