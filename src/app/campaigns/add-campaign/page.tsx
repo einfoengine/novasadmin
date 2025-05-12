@@ -68,6 +68,7 @@ export default function AddCampaignPage() {
   const router = useRouter();
   const [countries, setCountries] = useState<Country[]>([]);
   const [stores, setStores] = useState<Store[]>([]);
+  const [filteredStores, setFilteredStores] = useState<Store[]>([]);
   const [products, setProducts] = useState<Product[]>([]);
   const [selectedProducts, setSelectedProducts] = useState<SelectedProduct[]>([]);
   const [totalCost, setTotalCost] = useState<number>(0);
@@ -105,6 +106,7 @@ export default function AddCampaignPage() {
 
         setCountries(countriesData.countries);
         setStores(storesData.stores);
+        setFilteredStores(storesData.stores);
         setProducts(productsData.products);
       } catch (error) {
         console.error("Error fetching data:", error);
@@ -114,6 +116,25 @@ export default function AddCampaignPage() {
 
     fetchData();
   }, []);
+
+  useEffect(() => {
+    if (selectedCountries && selectedCountries.length > 0) {
+      const filtered = stores.filter(store => 
+        selectedCountries.includes(store.countryId)
+      );
+      setFilteredStores(filtered);
+      
+      const currentStoreCodes = watch("storeCodes") || [];
+      const validStoreCodes = currentStoreCodes.filter(code => 
+        filtered.some(store => store.storeId === code)
+      );
+      if (validStoreCodes.length !== currentStoreCodes.length) {
+        setValue("storeCodes", validStoreCodes);
+      }
+    } else {
+      setFilteredStores(stores);
+    }
+  }, [selectedCountries, stores, setValue, watch]);
 
   useEffect(() => {
     const calculateTotalCost = () => {
@@ -298,13 +319,11 @@ export default function AddCampaignPage() {
                 }}
               >
                 <option value="">Select stores</option>
-                {stores
-                  .filter((store) => selectedCountries.includes(store.countryId))
-                  .map((store) => (
-                    <option key={store.storeId} value={store.storeId}>
-                      {store.storeName} ({store.storeId})
-                    </option>
-                  ))}
+                {filteredStores.map((store) => (
+                  <option key={store.storeId} value={store.storeId}>
+                    {store.storeName} ({store.countryName})
+                  </option>
+                ))}
               </select>
               <div className="flex flex-wrap gap-2 mt-2">
                 {watch("storeCodes")?.map((storeId: string) => {

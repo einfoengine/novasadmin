@@ -2,24 +2,183 @@
   "stores": [
     {
       "storeId": "STORE001",
-      "storeName": "Downtown Branch",
-      "address": "123 Main St, City Center",
-      "manager": "Alice Brown",
-      "contact": "+1 234-567-8901"
+      "storeName": "Paris Central",
+      "countryId": "FR",
+      "countryName": "France",
+      "address": "123 Champs-Élysées, Paris",
+      "storeManagerId": "SM001",
+      "storeContact": "+33 1 23 45 67 89"
     },
     {
       "storeId": "STORE002",
-      "storeName": "Mall Location",
-      "address": "456 Shopping Ave, Mall",
-      "manager": "Charlie Davis",
-      "contact": "+1 234-567-8902"
+      "storeName": "Lyon Branch",
+      "countryId": "FR",
+      "countryName": "France",
+      "address": "45 Rue de la République, Lyon",
+      "storeManagerId": "SM002",
+      "storeContact": "+33 4 56 78 90 12"
     },
     {
       "storeId": "STORE003",
-      "storeName": "Westside Store",
-      "address": "789 West Rd, Suburb",
-      "manager": "Eve Wilson",
-      "contact": "+1 234-567-8903"
+      "storeName": "Berlin Mitte",
+      "countryId": "DE",
+      "countryName": "Germany",
+      "address": "78 Friedrichstraße, Berlin",
+      "storeManagerId": "SM003",
+      "storeContact": "+49 30 123 456 789"
+    },
+    {
+      "storeId": "STORE004",
+      "storeName": "Munich Center",
+      "countryId": "DE",
+      "countryName": "Germany",
+      "address": "12 Marienplatz, Munich",
+      "storeManagerId": "SM004",
+      "storeContact": "+49 89 987 654 321"
+    },
+    {
+      "storeId": "STORE005",
+      "storeName": "Hamburg Harbor",
+      "countryId": "DE",
+      "countryName": "Germany",
+      "address": "34 Hafenstraße, Hamburg",
+      "storeManagerId": "SM005",
+      "storeContact": "+49 40 456 789 012"
+    },
+    {
+      "storeId": "STORE006",
+      "storeName": "Rome Colosseum",
+      "countryId": "IT",
+      "countryName": "Italy",
+      "address": "56 Via dei Fori Imperiali, Rome",
+      "storeManagerId": "SM006",
+      "storeContact": "+39 06 123 456 789"
+    },
+    {
+      "storeId": "STORE007",
+      "storeName": "Milan Fashion",
+      "countryId": "IT",
+      "countryName": "Italy",
+      "address": "89 Via Montenapoleone, Milan",
+      "storeManagerId": "SM007",
+      "storeContact": "+39 02 987 654 321"
+    },
+    {
+      "storeId": "STORE008",
+      "storeName": "Madrid Plaza",
+      "countryId": "ES",
+      "countryName": "Spain",
+      "address": "23 Plaza Mayor, Madrid",
+      "storeManagerId": "SM008",
+      "storeContact": "+34 91 123 456 789"
+    },
+    {
+      "storeId": "STORE009",
+      "storeName": "Barcelona Beach",
+      "countryId": "ES",
+      "countryName": "Spain",
+      "address": "67 Passeig Marítim, Barcelona",
+      "storeManagerId": "SM009",
+      "storeContact": "+34 93 987 654 321"
+    },
+    {
+      "storeId": "STORE010",
+      "storeName": "London Oxford",
+      "countryId": "GB",
+      "countryName": "United Kingdom",
+      "address": "34 Oxford Street, London",
+      "storeManagerId": "SM010",
+      "storeContact": "+44 20 1234 5678"
+    },
+    {
+      "storeId": "STORE011",
+      "storeName": "Manchester City",
+      "countryId": "GB",
+      "countryName": "United Kingdom",
+      "address": "78 Market Street, Manchester",
+      "storeManagerId": "SM011",
+      "storeContact": "+44 161 123 4567"
+    },
+    {
+      "storeId": "STORE012",
+      "storeName": "Amsterdam Central",
+      "countryId": "NL",
+      "countryName": "Netherlands",
+      "address": "45 Damrak, Amsterdam",
+      "storeManagerId": "SM012",
+      "storeContact": "+31 20 123 4567"
+    },
+    {
+      "storeId": "STORE013",
+      "storeName": "Rotterdam Port",
+      "countryId": "NL",
+      "countryName": "Netherlands",
+      "address": "89 Coolsingel, Rotterdam",
+      "storeManagerId": "SM013",
+      "storeContact": "+31 10 987 6543"
+    },
+    {
+      "storeId": "STORE014",
+      "storeName": "Brussels Grand",
+      "countryId": "BE",
+      "countryName": "Belgium",
+      "address": "12 Grand Place, Brussels",
+      "storeManagerId": "SM014",
+      "storeContact": "+32 2 123 4567"
+    },
+    {
+      "storeId": "STORE015",
+      "storeName": "Antwerp Diamond",
+      "countryId": "BE",
+      "countryName": "Belgium",
+      "address": "34 Meir, Antwerp",
+      "storeManagerId": "SM015",
+      "storeContact": "+32 3 987 6543"
+    },
+    {
+      "storeId": "STORE016",
+      "storeName": "Vienna Opera",
+      "countryId": "AT",
+      "countryName": "Austria",
+      "address": "56 Kärntner Straße, Vienna",
+      "storeManagerId": "SM016",
+      "storeContact": "+43 1 123 4567"
+    },
+    {
+      "storeId": "STORE017",
+      "storeName": "Salzburg Old Town",
+      "countryId": "AT",
+      "countryName": "Austria",
+      "address": "78 Getreidegasse, Salzburg",
+      "storeManagerId": "SM017",
+      "storeContact": "+43 662 987 6543"
+    },
+    {
+      "storeId": "STORE018",
+      "storeName": "Stockholm Royal",
+      "countryId": "SE",
+      "countryName": "Sweden",
+      "address": "90 Drottninggatan, Stockholm",
+      "storeManagerId": "SM018",
+      "storeContact": "+46 8 123 4567"
+    },
+    {
+      "storeId": "STORE019",
+      "storeName": "Gothenburg Harbor",
+      "countryId": "SE",
+      "countryName": "Sweden",
+      "address": "23 Avenyn, Gothenburg",
+      "storeManagerId": "SM019",
+      "storeContact": "+46 31 987 6543"
+    },
+    {
+      "storeId": "STORE020",
+      "storeName": "Copenhagen Tivoli",
+      "countryId": "DK",
+      "countryName": "Denmark",
+      "address": "45 Strøget, Copenhagen",
+      "storeManagerId": "SM020",
+      "storeContact": "+45 12 34 56 78"
     }
   ]
 } 
