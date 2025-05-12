@@ -29,6 +29,7 @@ interface Product {
   productCost: number;
   productPrice: number;
   productStock: number;
+  imageUrl: string;
 }
 
 interface StoreData {
@@ -377,29 +378,54 @@ export default function AddCampaignPage() {
                   </option>
                 ))}
               </select>
-              <div className="space-y-2 mt-2">
+              <div className="space-y-4 mt-4">
                 {selectedProducts.map((item) => {
                   const product = products.find(p => p.productId === item.productId);
+                  if (!product) return null;
+                  
                   return (
-                    <div key={item.productId} className="flex items-center gap-2 border border-gray-300 p-2 rounded-md">
-                      <span className="flex-1">{product?.productName}</span>
-                      <input
-                        type="number"
-                        min="1"
-                        value={item.quantity}
-                        onChange={(e: React.ChangeEvent<HTMLInputElement>) => 
-                          handleProductChange(item.productId, parseInt(e.target.value))}
-                        className="w-20 rounded-md border border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500"
-                      />
-                      <button
-                        type="button"
-                        onClick={() => {
-                          setSelectedProducts(selectedProducts.filter(p => p.productId !== item.productId));
-                        }}
-                        className="text-gray-600 hover:text-gray-900"
-                      >
-                        ×
-                      </button>
+                    <div key={item.productId} className="flex items-center gap-4 border border-gray-200 rounded-lg p-4 bg-white shadow-sm">
+                      <div className="relative w-24 h-24 flex-shrink-0">
+                        <img
+                          src={product.imageUrl}
+                          alt={product.productName}
+                          className="w-full h-full object-cover rounded-md"
+                        />
+                      </div>
+                      <div className="flex-grow">
+                        <h3 className="text-lg font-medium text-gray-900">{product.productName}</h3>
+                        <div className="mt-1 flex items-center gap-4">
+                          <span className="text-sm text-gray-500">Price: ${product.productPrice}</span>
+                          <span className="text-sm text-gray-500">Stock: {product.productStock}</span>
+                        </div>
+                      </div>
+                      <div className="flex items-center gap-4">
+                        <div className="flex items-center gap-2">
+                          <label htmlFor={`quantity-${item.productId}`} className="text-sm text-gray-600">
+                            Quantity:
+                          </label>
+                          <input
+                            id={`quantity-${item.productId}`}
+                            type="number"
+                            min="1"
+                            max={product.productStock}
+                            value={item.quantity}
+                            onChange={(e) => handleProductChange(item.productId, parseInt(e.target.value))}
+                            className="w-20 rounded-md border border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500"
+                          />
+                        </div>
+                        <button
+                          type="button"
+                          onClick={() => {
+                            setSelectedProducts(selectedProducts.filter(p => p.productId !== item.productId));
+                          }}
+                          className="text-gray-400 hover:text-red-500 transition-colors"
+                        >
+                          <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                            <path fillRule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clipRule="evenodd" />
+                          </svg>
+                        </button>
+                      </div>
                     </div>
                   );
                 })}
