@@ -1,158 +1,125 @@
 'use client';
 
-import { useState, useEffect } from 'react';
-import { useSearchParams } from 'next/navigation';
-import { ArrowLeftIcon } from '@heroicons/react/24/outline';
-import Link from 'next/link';
+import { useEffect } from 'react';
+import { useRouter } from 'next/navigation';
+import { useSelector } from 'react-redux';
+import { RootState } from '@/app/store/store';
+import Image from 'next/image';
 
-interface Campaign {
-  campaignId: string;
-  campaignName: string;
-  country: string;
-  assigned: string;
-  userType: string;
-  creatingDate: string;
-  startDate: string;
-  endDate: string;
-  status: string;
-  totalCost: number;
-  invoiceStatus: string;
+interface SelectedProduct {
+  productId: string;
+  quantity: number;
 }
 
-export default function CampaignSummary() {
-  const [campaign, setCampaign] = useState<Campaign | null>(null);
-  const [loading, setLoading] = useState(true);
-  const searchParams = useSearchParams();
-  const campaignId = searchParams.get('id');
+interface Campaign {
+  id: string;
+  campaignName: string;
+  campaignDescription: string;
+  startDate: string;
+  endDate: string;
+  countries: string[];
+  storeCodes: string[];
+  selectedProducts: SelectedProduct[];
+  totalCost: number;
+  createdAt: string;
+}
+
+export default function CampaignSummaryPage() {
+  const router = useRouter();
+  const campaign = useSelector((state: RootState) => state.campaign.currentCampaign);
 
   useEffect(() => {
-    const fetchCampaign = async () => {
-      try {
-        const response = await fetch('/campaigns.json');
-        const data = await response.json();
-        const campaign = data.campaigns.find((c: Campaign) => c.campaignId === campaignId);
-        setCampaign(campaign || null);
-      } catch (error) {
-        console.error('Error fetching campaign:', error);
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    if (campaignId) {
-      fetchCampaign();
+    if (!campaign) {
+      router.push('/campaigns/add-campaign');
     }
-  }, [campaignId]);
-
-  if (loading) {
-    return (
-      <div className="min-h-screen bg-gray-50 flex items-center justify-center">
-        <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-gray-900"></div>
-      </div>
-    );
-  }
+  }, [campaign, router]);
 
   if (!campaign) {
-    return (
-      <div className="min-h-screen bg-gray-50 p-6">
-        <div className="max-w-7xl mx-auto">
-          <div className="text-center">
-            <h1 className="text-2xl font-bold text-gray-900">Campaign not found</h1>
-            <Link href="/admin" className="mt-4 inline-flex items-center text-gray-600 hover:text-gray-900">
-              <ArrowLeftIcon className="h-5 w-5 mr-2" />
-              Back to Dashboard
-            </Link>
-          </div>
-        </div>
-      </div>
-    );
+    return null;
   }
 
   return (
-    <div className="min-h-screen bg-gray-50 p-6">
-      <div className="max-w-7xl mx-auto">
-        <div className="mb-6">
-          <Link href="/admin" className="inline-flex items-center text-gray-600 hover:text-gray-900">
-            <ArrowLeftIcon className="h-5 w-5 mr-2" />
-            Back to Dashboard
-          </Link>
-        </div>
-
-        <div className="bg-white rounded-lg shadow">
-          <div className="p-6 border-b border-gray-200">
-            <h1 className="text-2xl font-bold text-gray-900">{campaign.campaignName}</h1>
-            <p className="text-sm text-gray-500">Campaign ID: {campaign.campaignId}</p>
-          </div>
-
-          <div className="p-6">
+    <div className="min-h-screen bg-gray-50 py-8">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="bg-white shadow rounded-lg">
+          <div className="px-4 py-5 sm:p-6">
+            <h1 className="text-2xl font-bold text-gray-900 mb-6">Campaign Summary</h1>
+            
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-              <div>
-                <h2 className="text-lg font-semibold text-gray-900 mb-4">Campaign Details</h2>
-                <dl className="space-y-4">
-                  <div>
-                    <dt className="text-sm font-medium text-gray-500">Country</dt>
-                    <dd className="mt-1 text-sm text-gray-900">{campaign.country}</dd>
-                  </div>
-                  <div>
-                    <dt className="text-sm font-medium text-gray-500">Assigned To</dt>
-                    <dd className="mt-1 text-sm text-gray-900">{campaign.assigned}</dd>
-                  </div>
-                  <div>
-                    <dt className="text-sm font-medium text-gray-500">User Type</dt>
-                    <dd className="mt-1 text-sm text-gray-900">{campaign.userType}</dd>
-                  </div>
-                </dl>
+              <div className="space-y-4">
+                <div>
+                  <h2 className="text-lg font-medium text-gray-900">Campaign Details</h2>
+                  <dl className="mt-2 space-y-2">
+                    <div>
+                      <dt className="text-sm font-medium text-gray-500">Campaign Name</dt>
+                      <dd className="mt-1 text-sm text-gray-900">{campaign.campaignName}</dd>
+                    </div>
+                    <div>
+                      <dt className="text-sm font-medium text-gray-500">Description</dt>
+                      <dd className="mt-1 text-sm text-gray-900">{campaign.campaignDescription}</dd>
+                    </div>
+                    <div>
+                      <dt className="text-sm font-medium text-gray-500">Start Date</dt>
+                      <dd className="mt-1 text-sm text-gray-900">{new Date(campaign.startDate).toLocaleDateString()}</dd>
+                    </div>
+                    <div>
+                      <dt className="text-sm font-medium text-gray-500">End Date</dt>
+                      <dd className="mt-1 text-sm text-gray-900">{new Date(campaign.endDate).toLocaleDateString()}</dd>
+                    </div>
+                  </dl>
+                </div>
+
+                <div>
+                  <h2 className="text-lg font-medium text-gray-900">Selected Countries</h2>
+                  <ul className="mt-2 space-y-2">
+                    {campaign.countries.map((countryId: string) => (
+                      <li key={countryId} className="text-sm text-gray-900">
+                        {countryId}
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+
+                <div>
+                  <h2 className="text-lg font-medium text-gray-900">Selected Stores</h2>
+                  <ul className="mt-2 space-y-2">
+                    {campaign.storeCodes.map((storeId: string) => (
+                      <li key={storeId} className="text-sm text-gray-900">
+                        {storeId}
+                      </li>
+                    ))}
+                  </ul>
+                </div>
               </div>
 
-              <div>
-                <h2 className="text-lg font-semibold text-gray-900 mb-4">Timeline</h2>
-                <dl className="space-y-4">
-                  <div>
-                    <dt className="text-sm font-medium text-gray-500">Creating Date</dt>
-                    <dd className="mt-1 text-sm text-gray-900">{campaign.creatingDate}</dd>
+              <div className="space-y-4">
+                <div>
+                  <h2 className="text-lg font-medium text-gray-900">Selected Products</h2>
+                  <div className="mt-2 space-y-4">
+                    {campaign.selectedProducts.map((item: SelectedProduct) => (
+                      <div key={item.productId} className="flex items-center space-x-4 p-4 bg-gray-50 rounded-lg">
+                        <div className="flex-shrink-0 w-16 h-16 relative">
+                          <Image
+                            src="/images/products/placeholder.jpg"
+                            alt="Product"
+                            fill
+                            className="object-cover rounded-md"
+                          />
+                        </div>
+                        <div className="flex-1">
+                          <h3 className="text-sm font-medium text-gray-900">Product ID: {item.productId}</h3>
+                          <p className="text-sm text-gray-500">Quantity: {item.quantity}</p>
+                        </div>
+                      </div>
+                    ))}
                   </div>
-                  <div>
-                    <dt className="text-sm font-medium text-gray-500">Start Date</dt>
-                    <dd className="mt-1 text-sm text-gray-900">{campaign.startDate}</dd>
-                  </div>
-                  <div>
-                    <dt className="text-sm font-medium text-gray-500">End Date</dt>
-                    <dd className="mt-1 text-sm text-gray-900">{campaign.endDate}</dd>
-                  </div>
-                </dl>
-              </div>
-            </div>
+                </div>
 
-            <div className="mt-8">
-              <h2 className="text-lg font-semibold text-gray-900 mb-4">Status Information</h2>
-              <dl className="grid grid-cols-1 md:grid-cols-3 gap-6">
-                <div>
-                  <dt className="text-sm font-medium text-gray-500">Campaign Status</dt>
-                  <dd className="mt-1">
-                    <span className={`px-2 inline-flex text-xs leading-5 font-semibold rounded-full ${
-                      campaign.status === 'Active' ? 'bg-green-100 text-green-800' : 'bg-gray-100 text-gray-800'
-                    }`}>
-                      {campaign.status}
-                    </span>
-                  </dd>
+                <div className="border-t border-gray-200 pt-4">
+                  <h2 className="text-lg font-medium text-gray-900">Total Cost</h2>
+                  <p className="mt-2 text-2xl font-bold text-gray-900">${campaign.totalCost.toFixed(2)}</p>
                 </div>
-                <div>
-                  <dt className="text-sm font-medium text-gray-500">Total Cost</dt>
-                  <dd className="mt-1 text-sm text-gray-900">${campaign.totalCost.toLocaleString()}</dd>
-                </div>
-                <div>
-                  <dt className="text-sm font-medium text-gray-500">Invoice Status</dt>
-                  <dd className="mt-1">
-                    <span className={`px-2 inline-flex text-xs leading-5 font-semibold rounded-full ${
-                      campaign.invoiceStatus === 'Paid' ? 'bg-green-100 text-green-800' : 
-                      campaign.invoiceStatus === 'Pending' ? 'bg-yellow-100 text-yellow-800' : 
-                      'bg-red-100 text-red-800'
-                    }`}>
-                      {campaign.invoiceStatus}
-                    </span>
-                  </dd>
-                </div>
-              </dl>
+              </div>
             </div>
           </div>
         </div>

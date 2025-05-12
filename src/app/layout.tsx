@@ -1,8 +1,9 @@
 import type { Metadata } from "next";
 import "./styles/globals.scss";
-import FontProvider from "./components/FontProvider";
-import Sidebar from "./components/Sidebar";
-import Header from "./components/Header";
+import FontProvider from "@/app/components/FontProvider";
+import Sidebar from "@/app/components/Sidebar";
+import Header from "@/app/components/Header";
+import { Providers } from '@/app/providers';
 
 export const metadata: Metadata = {
   title: "Create Next App",
@@ -20,15 +21,17 @@ export default function RootLayout({
         <FontProvider />
       </head>
       <body suppressHydrationWarning className="antialiased">
-        <div className="flex h-screen w-full overflow-hidden">
-          <Sidebar />
-          <div className="flex flex-col flex-1 overflow-hidden">
-            <Header />
-            <main className="flex-1 overflow-y-auto">
-              {children}
-            </main>
+        <Providers>
+          <div className="flex h-screen w-full overflow-hidden">
+            <Sidebar />
+            <div className="flex flex-col flex-1 overflow-hidden">
+              <Header />
+              <main className="flex-1 overflow-y-auto">
+                {children}
+              </main>
+            </div>
           </div>
-        </div>
+        </Providers>
       </body>
     </html>
   );

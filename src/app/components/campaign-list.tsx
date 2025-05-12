@@ -1,6 +1,6 @@
 import { useState } from 'react';
-import CampaignTable from './campaign-table';
-import CampaignModal from './campaign-modal';
+import CampaignTable from '@/app/components/campaign-table';
+import CampaignModal from '@/app/components/campaign-modal';
 
 interface Campaign {
   campaignId: string;

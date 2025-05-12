@@ -6,6 +6,8 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 import { toast } from "sonner";
+import { useDispatch } from 'react-redux';
+import { setCurrentCampaign } from '@/app/store/features/campaignSlice';
 
 interface Country {
   countryId: string;
@@ -67,6 +69,7 @@ type CampaignFormData = z.infer<typeof campaignSchema>;
 
 export default function AddCampaignPage() {
   const router = useRouter();
+  const dispatch = useDispatch();
   const [countries, setCountries] = useState<Country[]>([]);
   const [stores, setStores] = useState<Store[]>([]);
   const [filteredStores, setFilteredStores] = useState<Store[]>([]);
@@ -179,8 +182,8 @@ export default function AddCampaignPage() {
         createdAt: new Date().toISOString()
       };
 
-      // Store the campaign data in localStorage
-      localStorage.setItem('currentCampaign', JSON.stringify(campaignData));
+      // Dispatch the campaign data to Redux store
+      dispatch(setCurrentCampaign(campaignData));
 
       // Navigate to the summary page
       router.push(`/campaigns/${campaignData.id}`);
