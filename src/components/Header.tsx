@@ -3,7 +3,7 @@
 import { useState, useEffect } from 'react'
 import Image from 'next/image'
 import { ChevronDownIcon, UserIcon, Cog6ToothIcon, ArrowRightOnRectangleIcon } from '@heroicons/react/24/outline'
-import Breadcrumb from './Breadcrumb'
+import Breadcrumb from '@/components/Breadcrumb'
 
 export default function Header() {
   const [open, setOpen] = useState(false)

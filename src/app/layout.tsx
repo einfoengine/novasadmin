@@ -1,8 +1,8 @@
 import type { Metadata } from "next";
 import "./styles/globals.scss";
-import FontProvider from "@/app/components/FontProvider";
-import Sidebar from "@/app/components/Sidebar";
-import Header from "@/app/components/Header";
+import FontProvider from "@/components/FontProvider";
+import Sidebar from "@/components/Sidebar";
+import Header from "@/components/Header";
 import { Providers } from '@/app/providers';
 
 export const metadata: Metadata = {
