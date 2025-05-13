@@ -21,13 +21,24 @@ export default function InvoiceDetail({ params }: { params: { id: string } }) {
         </div>
 
         <div className="bg-white shadow-md rounded-lg p-6">
-          {/* Header */}
+          {/* Header with Logo */}
           <div className="flex justify-between items-start mb-8">
-            <div>
-              <h1 className="text-2xl font-bold text-gray-900">Invoice #{invoice.id}</h1>
-              <p className="text-gray-600">Campaign: {invoice.campaignName}</p>
+            <div className="flex items-start space-x-4">
+              <div className="relative w-24 h-24">
+                <Image
+                  src="/images/company-logo.png"
+                  alt="Company Logo"
+                  fill
+                  className="object-contain"
+                  priority
+                />
+              </div>
             </div>
             <div className="text-right">
+              <div>
+                <h1 className="text-2xl font-bold text-gray-900">Invoice #{invoice.id}</h1>
+                <p className="text-gray-600">Campaign: {invoice.campaignName}</p>
+              </div>
               <span className={`inline-block px-4 py-2 rounded-full text-sm font-semibold ${
                 invoice.status === 'Paid' ? 'bg-green-100 text-green-800' :
                 invoice.status === 'Pending' ? 'bg-yellow-100 text-yellow-800' :
