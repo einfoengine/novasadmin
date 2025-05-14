@@ -1,4 +1,5 @@
 "use client";
+import StatsCard from "@/components/stats-card";
 
 import { UsersIcon, ChartBarIcon, ClipboardDocumentIcon, ArrowUpIcon, ArrowDownIcon } from "@heroicons/react/24/outline";
 
@@ -11,77 +12,29 @@ export default function Dashboard() {
         <main className="px-4 py-6 mx-auto max-w-7xl sm:px-6 lg:px-8">
           {/* Stats Grid */}
           <div className="grid grid-cols-1 gap-5 mt-5 sm:grid-cols-2 lg:grid-cols-3">
-            {/* Stat Card 1 */}
-            <div className="overflow-hidden bg-white rounded-lg shadow">
-              <div className="p-5">
-                <div className="flex items-center">
-                  <div className="flex-shrink-0">
-                    <UsersIcon className="w-6 h-6 text-gray-900" />
-                  </div>
-                  <div className="flex-1 w-0 ml-5">
-                    <dl>
-                      <dt className="text-sm font-medium text-gray-500 truncate">Total Users</dt>
-                      <dd className="flex items-baseline">
-                        <div className="text-2xl font-semibold text-gray-900">71,897</div>
-                        <div className="ml-2 flex items-baseline text-sm font-semibold text-gray-600">
-                          <ArrowUpIcon className="self-center flex-shrink-0 h-5 w-5 text-gray-500" />
-                          <span className="sr-only">Increased by</span>
-                          12%
-                        </div>
-                      </dd>
-                    </dl>
-                  </div>
-                </div>
-              </div>
-            </div>
+            <StatsCard title="Campaigns" value="71,897" icon={<ChartBarIcon className="w-6 h-6 text-gray-900" />} iconColor="text-gray-500" iconBg="bg-gray-100" percentage="12%" percentageColor="text-green-500" trend="Increased by"/>
+            
+            <StatsCard
+              title="New Products"
+              value="71,897"
+              icon={<UsersIcon className="w-6 h-6 text-gray-900" />}
+              iconColor="text-gray-500"
+              iconBg="bg-gray-100"
+              percentage="12%"
+              percentageColor="text-green-500"
+              trend="Increased by"
+            />
 
-            {/* Stat Card 2 */}
-            <div className="overflow-hidden bg-white rounded-lg shadow">
-              <div className="p-5">
-                <div className="flex items-center">
-                  <div className="flex-shrink-0">
-                    <ChartBarIcon className="w-6 h-6 text-gray-900" />
-                  </div>
-                  <div className="flex-1 w-0 ml-5">
-                    <dl>
-                      <dt className="text-sm font-medium text-gray-500 truncate">Total Revenue</dt>
-                      <dd className="flex items-baseline">
-                        <div className="text-2xl font-semibold text-gray-900">$45,231</div>
-                        <div className="ml-2 flex items-baseline text-sm font-semibold text-gray-600">
-                          <ArrowUpIcon className="self-center flex-shrink-0 h-5 w-5 text-gray-500" />
-                          <span className="sr-only">Increased by</span>
-                          8%
-                        </div>
-                      </dd>
-                    </dl>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            {/* Stat Card 3 */}
-            <div className="overflow-hidden bg-white rounded-lg shadow">
-              <div className="p-5">
-                <div className="flex items-center">
-                  <div className="flex-shrink-0">
-                    <ClipboardDocumentIcon className="w-6 h-6 text-gray-900" />
-                  </div>
-                  <div className="flex-1 w-0 ml-5">
-                    <dl>
-                      <dt className="text-sm font-medium text-gray-500 truncate">Active Projects</dt>
-                      <dd className="flex items-baseline">
-                        <div className="text-2xl font-semibold text-gray-900">12</div>
-                        <div className="ml-2 flex items-baseline text-sm font-semibold text-gray-600">
-                          <ArrowDownIcon className="self-center flex-shrink-0 h-5 w-5 text-gray-500" />
-                          <span className="sr-only">Decreased by</span>
-                          3%
-                        </div>
-                      </dd>
-                    </dl>
-                  </div>
-                </div>
-              </div>
-            </div>
+            <StatsCard
+              title="Total Users"
+              value="71,897"
+              icon={<UsersIcon className="w-6 h-6 text-gray-900" />}
+              iconColor="text-gray-500"
+              iconBg="bg-gray-100"
+              percentage="12%"
+              percentageColor="text-green-500"
+              trend="Increased by"
+            />
           </div>
 
           {/* Recent Activity */}
