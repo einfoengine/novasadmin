@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { EnvelopeIcon, StarIcon, TrashIcon, ArchiveBoxIcon, CheckCircleIcon } from "@heroicons/react/24/outline";
 
@@ -48,21 +48,19 @@ const mockMessages: Message[] = [
 export default function InboxPage() {
   const [messages, setMessages] = useState<Message[]>(mockMessages);
   const [selectedIds, setSelectedIds] = useState<number[]>([]);
-  const [darkMode, setDarkMode] = useState(false);
+  const [search, setSearch] = useState("");
+  const [showRead, setShowRead] = useState(true);
+  const router = useRouter();
 
-  useEffect(() => {
-    if (typeof window !== "undefined") {
-      const userPref = localStorage.getItem("theme");
-      const systemPref = window.matchMedia("(prefers-color-scheme: dark)").matches;
-      if (userPref === "dark" || (!userPref && systemPref)) {
-        setDarkMode(true);
-        document.documentElement.classList.add("dark");
-      } else {
-        setDarkMode(false);
-        document.documentElement.classList.remove("dark");
-      }
-    }
-  }, []);
+  // Filtered and searched messages
+  const filteredMessages = messages.filter((msg) => {
+    const matchesSearch =
+      msg.sender.toLowerCase().includes(search.toLowerCase()) ||
+      msg.subject.toLowerCase().includes(search.toLowerCase()) ||
+      msg.preview.toLowerCase().includes(search.toLowerCase());
+    const matchesRead = showRead ? true : msg.unread;
+    return matchesSearch && matchesRead;
+  });
 
   const handleStar = (id: number) => {
     setMessages((msgs) =>
@@ -97,18 +95,32 @@ export default function InboxPage() {
     setSelectedIds([]);
   };
 
-  const router = useRouter();
-
   return (
-    <div className={darkMode ? "min-h-screen bg-gray-900 text-white" : "min-h-screen bg-gray-50 text-gray-900"}>
+    <div className="min-h-screen bg-gray-50 text-gray-900">
       <div className="p-6">
-        <div className="flex items-center justify-between mb-6">
-          <div className="flex items-center-top gap-2">
-            <h1 className="text-2xl font-bold flex gap-2">
+        <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-6">
+          <div className="flex items-center gap-4 flex-1 min-w-0">
+            <h1 className="text-2xl font-bold flex gap-2 shrink-0">
               <EnvelopeIcon className="h-7 w-7 text-black" /> Inbox
             </h1>
+            <input
+              type="text"
+              value={search}
+              onChange={(e) => setSearch(e.target.value)}
+              placeholder="Search messages..."
+              className="w-full max-w-xs px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-black focus:border-black text-sm"
+            />
+            <label className="flex items-center gap-2 text-sm cursor-pointer shrink-0">
+              <input
+                type="checkbox"
+                checked={showRead}
+                onChange={() => setShowRead((v) => !v)}
+                className="form-checkbox"
+              />
+              Show read messages
+            </label>
           </div>
-          <div className="flex items-center gap-2">
+          <div className="flex items-center gap-2 shrink-0">
             {selectedIds.length > 0 && (
               <>
                 <button
@@ -129,16 +141,16 @@ export default function InboxPage() {
             )}
           </div>
         </div>
-        <div className="bg-white dark:bg-gray-800 shadow rounded-lg overflow-x-auto">
-          <table className="min-w-full divide-y divide-gray-200 dark:divide-gray-700">
-            <thead className="bg-gray-50 dark:bg-gray-900">
+        <div className="bg-white shadow rounded-lg overflow-x-auto">
+          <table className="min-w-full divide-y divide-gray-200">
+            <thead className="bg-gray-50">
               <tr>
                 <th className="px-4 py-3">
                   <input
                     type="checkbox"
-                    checked={selectedIds.length === messages.length && messages.length > 0}
+                    checked={selectedIds.length === filteredMessages.length && filteredMessages.length > 0}
                     onChange={(e) =>
-                      setSelectedIds(e.target.checked ? messages.map((m) => m.id) : [])
+                      setSelectedIds(e.target.checked ? filteredMessages.map((m) => m.id) : [])
                     }
                   />
                 </th>
@@ -156,12 +168,12 @@ export default function InboxPage() {
                 </th>
               </tr>
             </thead>
-            <tbody className="divide-y divide-gray-200 dark:divide-gray-700">
-              {messages.map((msg) => (
+            <tbody className="divide-y divide-gray-200">
+              {filteredMessages.map((msg) => (
                 <tr
                   key={msg.id}
-                  className={`hover:bg-gray-50 dark:hover:bg-gray-700 cursor-pointer ${
-                    msg.unread ? "font-bold bg-gray-100 dark:bg-gray-900" : ""
+                  className={`hover:bg-gray-50 cursor-pointer ${
+                    msg.unread ? "font-bold bg-gray-100" : ""
                   }`}
                 >
                   <td className="px-4 py-4">
@@ -173,17 +185,17 @@ export default function InboxPage() {
                     />
                   </td>
                   <td className="px-4 py-4 whitespace-nowrap">
-                    <span className="text-gray-900 dark:text-gray-100">{msg.sender}</span>
+                    <span className="text-gray-900">{msg.sender}</span>
                   </td>
                   <td className="px-4 py-4 whitespace-nowrap">
                     <span
-                      className="text-blue-600 dark:text-blue-400 hover:underline cursor-pointer"
+                      className="text-blue-600 hover:underline cursor-pointer"
                       onClick={() => router.push(`/inbox/${msg.id}`)}
                     >
                       {msg.subject}
                     </span>
                   </td>
-                  <td className="px-4 py-4 whitespace-nowrap text-gray-500 dark:text-gray-300">
+                  <td className="px-4 py-4 whitespace-nowrap text-gray-500">
                     <span
                       className="hover:underline cursor-pointer"
                       onClick={() => router.push(`/inbox/${msg.id}`)}
@@ -191,15 +203,15 @@ export default function InboxPage() {
                       {msg.preview}
                     </span>
                   </td>
-                  <td className="px-4 py-4 whitespace-nowrap text-xs text-gray-400 dark:text-gray-400">
+                  <td className="px-4 py-4 whitespace-nowrap text-xs text-gray-400">
                     {msg.date}
                   </td>
                 </tr>
               ))}
             </tbody>
           </table>
-          {messages.length === 0 && (
-            <div className="p-8 text-center text-gray-500 dark:text-gray-400">
+          {filteredMessages.length === 0 && (
+            <div className="p-8 text-center text-gray-500">
               No messages.
             </div>
           )}
