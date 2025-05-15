@@ -2,9 +2,9 @@
 
 import { useState, useEffect } from "react";
 import { toast } from "react-hot-toast";
-import AdminCards from "@/components/admin-cards";
-import CampaignList from "@/components/campaign-list";
-import LoadingSpinner from "@/components/loading-spinner";
+import AdminCards from "@/components/AdminCards";
+import CampaignList from "@/components/CampaignList";
+import LoadingSpinner from "@/components/loadingSpinner";
 
 interface Campaign {
   campaignId: string;

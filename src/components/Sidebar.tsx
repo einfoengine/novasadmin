@@ -101,45 +101,9 @@ const menuItems = [
     ]
   },
   { 
-    name: 'Campaigns', 
-    href: '/campaigns', 
-    icon: UsersIcon,
-    submenu: []
-  },
-  { 
-    name: 'Products', 
-    href: '/products', 
-    icon: ShoppingBagIcon,
-    submenu: []
-  },
-  { 
-    name: 'Production', 
-    href: '/production', 
-    icon: BuildingStorefrontIcon,
-    submenu: []
-  },
-  { 
     name: 'Currencies', 
     href: '/currencies', 
     icon: CurrencyEuroIcon,
-    submenu: []
-  },
-  { 
-    name: 'Production House', 
-    href: '/production-house', 
-    icon: BuildingStorefrontIcon,
-    submenu: []
-  },
-  { 
-    name: 'Director', 
-    href: '/director', 
-    icon: PresentationChartBarIcon,
-    submenu: []
-  },
-  { 
-    name: 'Invoices', 
-    href: '/invoices', 
-    icon: DocumentTextIcon,
     submenu: []
   },
 ];

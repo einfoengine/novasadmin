@@ -2,7 +2,7 @@
 
 import { useState } from 'react';
 import { PlusIcon, PencilIcon, TrashIcon, EyeIcon } from '@heroicons/react/24/outline';
-import ClientModal from '@/components/client-modal';
+import ClientModal from '@/components/ClientModal';
 
 interface Client {
   id: string;

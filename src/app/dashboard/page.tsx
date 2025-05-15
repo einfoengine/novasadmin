@@ -1,5 +1,5 @@
 "use client";
-import StatsCard from "@/components/stats-card";
+import StatsCard from "@/components/StatsCard";
 
 import { UsersIcon, ChartBarIcon, ClipboardDocumentIcon, ArrowUpIcon, ArrowDownIcon } from "@heroicons/react/24/outline";
 
