@@ -43,16 +43,11 @@ const menuItems = [
     submenu: []
   },
   { 
-    name: 'Country', 
-    href: '/country', 
+    name: 'Countries', 
+    href: '/countries', 
     icon: FlagIcon,
     submenu: [
-      { name: 'List', href: '/country', icon: BriefcaseIcon },
-      { name: 'Admin', href: '/country/admin', icon: BriefcaseIcon },
-      { name: 'Clients', href: '/country/clients', icon: UsersIcon },
-      { name: 'Country Manager', href: '/country/country-manager', icon: UsersIcon },
-      { name: 'Store Manager', href: '/country/store-manager', icon: UsersIcon },
-      { name: 'Production Manager', href: '/country/production-manager', icon: UsersIcon },
+      { name: 'List', href: '/countries', icon: BriefcaseIcon },
     ]
   },
   { 
