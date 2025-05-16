@@ -9,10 +9,8 @@ import {
   BriefcaseIcon, 
   UsersIcon, 
   BuildingStorefrontIcon, 
-  PresentationChartBarIcon, 
   ShoppingBagIcon, 
   CurrencyEuroIcon, 
-  DocumentTextIcon,
   ChevronDownIcon,
   ChevronRightIcon,
   EnvelopeIcon,
@@ -21,13 +19,22 @@ import {
   ClipboardDocumentCheckIcon
 } from '@heroicons/react/24/outline';
 
-
 const menuItems = [
   { 
     name: 'Dashboard', 
     href: '/dashboard', 
     icon: HomeIcon,
     submenu: []
+  },
+  { 
+    name: 'Products', 
+    href: '/products', 
+    icon: ShoppingBagIcon,
+    submenu: [
+      { name: 'All Products', href: '/products', icon: ShoppingBagIcon },
+      { name: 'Categories', href: '/products/categories', icon: ViewColumnsIcon },
+      { name: 'Inventory', href: '/products/inventory', icon: ClipboardDocumentCheckIcon },
+    ]
   },
   { 
     name: 'Messages', 
@@ -138,9 +145,9 @@ export default function Sidebar() {
   };
 
   return (
-    <aside className="w-64 bg-white border-r border-gray-200 flex flex-col h-full">
-      <div className="flex items-center justify-center h-16 border-b border-gray-200">
-        <h1 className="text-xl font-bold text-gray-900">NovasAdmin</h1>
+    <aside className="w-64 bg-gray-900 border-r border-gray-800 flex flex-col h-full">
+      <div className="flex items-center justify-center h-16 border-b border-gray-800">
+        <h1 className="text-xl font-bold text-white">NovasAdmin</h1>
       </div>
       <nav className="flex-1 px-4 py-4 space-y-1 overflow-y-auto">
         {menuItems.map(item => (
@@ -148,8 +155,8 @@ export default function Sidebar() {
             <div
               className={`flex items-center justify-between px-4 py-2 text-sm font-medium rounded-md transition-colors cursor-pointer ${
                 isActive(item.href)
-                  ? 'bg-gray-900 text-white'
-                  : 'text-gray-700 hover:bg-gray-100'
+                  ? 'bg-gray-800 text-white'
+                  : 'text-gray-300 hover:bg-gray-800 hover:text-white'
               }`}
               onClick={() => item.submenu.length > 0 ? toggleSubmenu(item.name) : null}
             >
@@ -177,8 +184,8 @@ export default function Sidebar() {
                     href={subItem.href}
                     className={`flex items-center px-4 py-2 text-sm font-medium rounded-md transition-colors ${
                       isActive(subItem.href)
-                        ? 'bg-gray-900 text-white'
-                        : 'text-gray-700 hover:bg-gray-100'
+                        ? 'bg-gray-800 text-white'
+                        : 'text-gray-300 hover:bg-gray-800 hover:text-white'
                     }`}
                   >
                     <subItem.icon className="w-4 h-4 mr-3" />
@@ -190,14 +197,14 @@ export default function Sidebar() {
           </div>
         ))}
       </nav>
-      <div className="p-4 border-t border-gray-200">
+      <div className="p-4 border-t border-gray-800">
         <div className="flex items-center">
-          <div className="w-8 h-8 rounded-full bg-gray-900 flex items-center justify-center text-white">
+          <div className="w-8 h-8 rounded-full bg-gray-800 flex items-center justify-center text-white">
             U
           </div>
           <div className="ml-3">
-            <p className="text-sm font-medium text-gray-900">User Name</p>
-            <p className="text-xs text-gray-500">user@example.com</p>
+            <p className="text-sm font-medium text-white">User Name</p>
+            <p className="text-xs text-gray-400">user@example.com</p>
           </div>
         </div>
       </div>

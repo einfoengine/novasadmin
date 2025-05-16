@@ -1,209 +1,194 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import StatsCard from "@/components/StatsCard";
 import { ArrowTrendingUpIcon, ClockIcon, DocumentTextIcon } from "@heroicons/react/24/outline";
-import Image from "next/image";
 
 interface Product {
-  id: number;
-  image: string | null;
-  name: string | null;
-  size: string | null;
-  material: string | null;
-  channel: string | null;
-  machine: string | null;
-  surface: string | null;
-  dieMood: string | null;
-  gluing: string | null;
-  finishing: string | null;
-  price: string | null;
+  id: string;
+  name: string;
+  image: string;
+  size: string;
+  material: string;
+  channel: string;
+  machine: string;
+  surface: string;
+  dieMood: string;
+  gluing: string;
+  finishing: string;
+  price: number;
+  stock: number;
+  status: string;
 }
 
-const demoProducts: Product[] = [
-  {
-    id: 1,
-    image: "/images/products/demo1.jpg",
-    name: "Custom Box",
-    size: "30x20x10cm",
-    material: "Cardboard",
-    channel: "Single Wall",
-    machine: "Heidelberg",
-    surface: "Matte",
-    dieMood: "Standard",
-    gluing: "Hotmelt",
-    finishing: "Gloss",
-    price: "$2.50",
-  },
-  {
-    id: 2,
-    image: "/images/products/demo2.jpg",
-    name: "Gift Bag",
-    size: "25x15x8cm",
-    material: "Paper",
-    channel: "N/A",
-    machine: "Komori",
-    surface: "Glossy",
-    dieMood: "Custom",
-    gluing: "Manual",
-    finishing: "Foil",
-    price: "$1.20",
-  },
-  {
-    id: 3,
-    image: "/images/products/demo3.jpg",
-    name: "Label Sticker",
-    size: "10x5cm",
-    material: "Vinyl",
-    channel: "N/A",
-    machine: "HP Indigo",
-    surface: "Glossy",
-    dieMood: "None",
-    gluing: "Self-adhesive",
-    finishing: "UV",
-    price: "$0.10",
-  },
-];
+export default function Products() {
+  const [products, setProducts] = useState<Product[]>([]);
+  const [loading, setLoading] = useState(true);
 
-export default function ProductsPage() {
-  const [search, setSearch] = useState("");
-  const [pageSize, setPageSize] = useState(10);
-  const [page, setPage] = useState(1);
+  useEffect(() => {
+    const fetchProducts = async () => {
+      try {
+        const response = await fetch('/products.json');
+        const data = await response.json();
+        setProducts(data.products);
+        setLoading(false);
+      } catch (error) {
+        console.error('Error fetching products:', error);
+        setLoading(false);
+      }
+    };
 
-  // Filtered products by search
-  const filteredProducts = demoProducts.filter((p) => {
-    const name = p.name || "";
-    return name.toLowerCase().includes(search.toLowerCase());
-  });
-  const totalPages = Math.ceil(filteredProducts.length / pageSize);
-  const paginatedProducts = filteredProducts.slice((page - 1) * pageSize, page * pageSize);
+    fetchProducts();
+  }, []);
+
+  if (loading) {
+    return <div>Loading...</div>;
+  }
 
   return (
-    <div className="min-h-screen bg-gray-50 text-gray-900 p-6">
-      {/* Stats Cards */}
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
-        <StatsCard title="Last Modified" value="May 16, 2025" icon={<ClockIcon className="h-6 w-6" />} iconColor="#6366f1" iconBg="#eef2ff" percentage="+2 days" percentageColor="#10b981" trend="↑" />
-        <StatsCard title="New Products" value="3" icon={<ArrowTrendingUpIcon className="h-6 w-6" />} iconColor="#10b981" iconBg="#ecfdf5" percentage="+1" percentageColor="#10b981" trend="↑" />
-        <StatsCard title="Invoice Status" value="Paid" icon={<DocumentTextIcon className="h-6 w-6" />} iconColor="#f59e42" iconBg="#fff7ed" percentage="100%" percentageColor="#10b981" trend="✔" />
-      </div>
-      
-      {/* Controls Row */}
-      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2 mb-4">
-        {/* Products Table Title */}
-      <div className="flex items-center justify-between mb-2">
-        <h1 className="text-2xl font-bold">Products <span className="text-base font-normal text-gray-500">({filteredProducts.length} products)</span></h1>
-      </div>
-        <div className="flex items-center gap-2 w-full sm:w-auto justify-end">
-          <div className="flex items-center gap-2">
-          <label className="text-sm">Show</label>
-          <select
-            className="border border-gray-300 rounded px-2 py-1 text-sm"
-            value={pageSize}
-            onChange={e => {
-              setPageSize(Number(e.target.value));
-              setPage(1);
-            }}
-          >
-            <option value={10}>10</option>
-            <option value={25}>25</option>
-            <option value={50}>50</option>
-            <option value={100}>100</option>
-          </select>
-          <span className="text-sm">products</span>
-        </div>
-          <input
-            type="text"
-            value={search}
-            onChange={e => {
-              setSearch(e.target.value);
-              setPage(1);
-            }}
-            placeholder="Search products..."
-            className="px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-black focus:border-black text-sm w-full max-w-xs"
-          />
-          <button
-            className="px-4 py-2 rounded bg-black text-white hover:bg-gray-800 text-sm flex items-center gap-1 whitespace-nowrap"
-            onClick={() => window.location.href = '/products/add'}
-          >
-            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-5 h-5">
-              <path strokeLinecap="round" strokeLinejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
-            </svg>
-            Add New Product
-          </button>
-        </div>
-      </div>
-      <div className="bg-white shadow rounded-lg overflow-x-auto">
-        <table className="min-w-[900px] divide-y divide-gray-200">
-          <thead className="bg-gray-50">
-            <tr>
-              <th className="px-4 py-3">Image</th>
-              <th className="px-4 py-3">Product Name</th>
-              <th className="px-4 py-3">Size</th>
-              <th className="px-4 py-3">Type of Material</th>
-              <th className="px-4 py-3">Printing Channel</th>
-              <th className="px-4 py-3">Printing Machine</th>
-              <th className="px-4 py-3">Printing Surface</th>
-              <th className="px-4 py-3">Die Mood</th>
-              <th className="px-4 py-3">Gluing</th>
-              <th className="px-4 py-3">Finishing</th>
-              <th className="px-4 py-3">Price</th>
-              <th className="px-4 py-3">Action</th>
-            </tr>
-          </thead>
-          <tbody className="divide-y divide-gray-200">
-            {paginatedProducts.map((product) => (
-              <tr key={product.id}>
-                <td className="px-4 py-2 text-center">
-                  {product.image ? (
-                    <Image src={product.image} alt={product.name || "Product"} width={48} height={48} className="w-12 h-12 object-cover rounded" />
-                  ) : (
-                    <div className="w-12 h-12 bg-gray-100 rounded" />
-                  )}
-                </td>
-                <td className="px-4 py-2 text-center">{product.name || '-'}</td>
-                <td className="px-4 py-2 text-center">{product.size || '-'}</td>
-                <td className="px-4 py-2 text-center">{product.material || '-'}</td>
-                <td className="px-4 py-2 text-center">{product.channel || '-'}</td>
-                <td className="px-4 py-2 text-center">{product.machine || '-'}</td>
-                <td className="px-4 py-2 text-center">{product.surface || '-'}</td>
-                <td className="px-4 py-2 text-center">{product.dieMood || '-'}</td>
-                <td className="px-4 py-2 text-center">{product.gluing || '-'}</td>
-                <td className="px-4 py-2 text-center">{product.finishing || '-'}</td>
-                <td className="px-4 py-2 text-center">{product.price || '-'}</td>
-                <td className="px-4 py-2 text-center flex items-center justify-center gap-2">
-                  <button className="text-blue-600 hover:text-blue-800" title="Edit">
-                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-5 h-5">
-                      <path strokeLinecap="round" strokeLinejoin="round" d="M16.862 4.487a2.25 2.25 0 1 1 3.182 3.182L7.5 20.213l-4.182 1 1-4.182 12.544-12.544z" />
-                    </svg>
-                  </button>
-                  <button className="text-red-600 hover:text-red-800" title="Delete">
-                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-5 h-5">
-                      <path strokeLinecap="round" strokeLinejoin="round" d="m14.74 9-.346 9m-4.788 0L9.26 9m9.968-3.21c.342.052.682.107 1.022.166m-1.022-.165L18.16 19.673a2.25 2.25 0 0 1-2.244 2.077H8.084a2.25 2.25 0 0 1-2.244-2.077L4.772 5.79m14.456 0a48.108 48.108 0 0 0-3.478-.397m-12 .562c.34-.059.68-.114 1.022-.165m0 0a48.11 48.11 0 0 1 3.478-.397m7.5 0v-.916c0-1.18-.91-2.164-2.09-2.201a51.964 51.964 0 0 0-3.32 0c-1.18.037-2.09 1.022-2.09 2.201v.916m7.5 0a48.667 48.667 0 0 0-7.5 0" />
-                    </svg>
-                  </button>
-                </td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
-      </div>
-      {/* Pagination */}
-      <div className="flex justify-end mt-4 gap-2">
-        <button
-          className="px-3 py-1 rounded bg-gray-200 text-gray-700 hover:bg-gray-300"
-          onClick={() => setPage((p) => Math.max(1, p - 1))}
-          disabled={page === 1}
-        >
-          Prev
-        </button>
-        <span className="px-3 py-1">{page} / {totalPages}</span>
-        <button
-          className="px-3 py-1 rounded bg-gray-200 text-gray-700 hover:bg-gray-300"
-          onClick={() => setPage((p) => Math.min(totalPages, p + 1))}
-          disabled={page === totalPages}
-        >
-          Next
-        </button>
+    <div className="min-h-screen bg-gray-100">
+      <div className="nt-dashboard-main-content w-full">
+        <main className="px-4 py-6 mx-auto max-w-7xl sm:px-6 lg:px-8">
+          {/* Stats Grid */}
+          <div className="grid grid-cols-1 gap-5 mt-5 sm:grid-cols-2 lg:grid-cols-3">
+            <StatsCard 
+              title="Last Modified" 
+              value="2 hours ago" 
+              icon={<ClockIcon className="w-6 h-6" />} 
+              iconColor="#6366f1" 
+              iconBg="#eef2ff" 
+              percentage="" 
+              percentageColor="#6b7280" 
+              trend=""
+            />
+            
+            <StatsCard
+              title="New Products"
+              value="12"
+              icon={<ArrowTrendingUpIcon className="w-6 h-6" />}
+              iconColor="#10b981"
+              iconBg="#ecfdf5"
+              percentage="15%"
+              percentageColor="#10b981"
+              trend="Increased by"
+            />
+
+            <StatsCard
+              title="Invoice Status"
+              value="Pending"
+              icon={<DocumentTextIcon className="w-6 h-6" />}
+              iconColor="#f59e42"
+              iconBg="#fff7ed"
+              percentage="5"
+              percentageColor="#f59e42"
+              trend="invoices"
+            />
+          </div>
+
+          {/* Products Table */}
+          <div className="mt-8">
+            <div className="sm:flex sm:items-center">
+              <div className="sm:flex-auto">
+                <h1 className="text-xl font-semibold text-gray-900">Products</h1>
+                <p className="mt-2 text-sm text-gray-700">
+                  A list of all products in your inventory including their details.
+                </p>
+              </div>
+              <div className="mt-4 sm:mt-0 sm:ml-16 sm:flex-none">
+                <button
+                  type="button"
+                  className="inline-flex items-center justify-center rounded-md border border-transparent bg-indigo-600 px-4 py-2 text-sm font-medium text-white shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 sm:w-auto"
+                >
+                  Add Product
+                </button>
+              </div>
+            </div>
+            <div className="mt-8 flex flex-col">
+              <div className="-my-2 -mx-4 overflow-x-auto sm:-mx-6 lg:-mx-8">
+                <div className="inline-block min-w-full py-2 align-middle md:px-6 lg:px-8">
+                  <div className="overflow-hidden shadow ring-1 ring-black ring-opacity-5 md:rounded-lg">
+                    <table className="min-w-full divide-y divide-gray-300">
+                      <thead className="bg-gray-50">
+                        <tr>
+                          <th scope="col" className="py-3.5 pl-4 pr-3 text-left text-sm font-semibold text-gray-900 sm:pl-6">
+                            ID
+                          </th>
+                          <th scope="col" className="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">
+                            Name
+                          </th>
+                          <th scope="col" className="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">
+                            Size
+                          </th>
+                          <th scope="col" className="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">
+                            Material
+                          </th>
+                          <th scope="col" className="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">
+                            Channel
+                          </th>
+                          <th scope="col" className="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">
+                            Machine
+                          </th>
+                          <th scope="col" className="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">
+                            Surface
+                          </th>
+                          <th scope="col" className="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">
+                            Die Mood
+                          </th>
+                          <th scope="col" className="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">
+                            Gluing
+                          </th>
+                          <th scope="col" className="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">
+                            Finishing
+                          </th>
+                          <th scope="col" className="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">
+                            Price
+                          </th>
+                          <th scope="col" className="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">
+                            Stock
+                          </th>
+                          <th scope="col" className="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">
+                            Status
+                          </th>
+                        </tr>
+                      </thead>
+                      <tbody className="divide-y divide-gray-200 bg-white">
+                        {products.map((product) => (
+                          <tr key={product.id}>
+                            <td className="whitespace-nowrap py-4 pl-4 pr-3 text-sm font-medium text-gray-900 sm:pl-6">
+                              {product.id}
+                            </td>
+                            <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">{product.name}</td>
+                            <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">{product.size}</td>
+                            <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">{product.material}</td>
+                            <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">{product.channel}</td>
+                            <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">{product.machine}</td>
+                            <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">{product.surface}</td>
+                            <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">{product.dieMood}</td>
+                            <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">{product.gluing}</td>
+                            <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">{product.finishing}</td>
+                            <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">${product.price.toFixed(2)}</td>
+                            <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">{product.stock}</td>
+                            <td className="whitespace-nowrap px-3 py-4 text-sm">
+                              <span className={`inline-flex rounded-full px-2 text-xs font-semibold leading-5 ${
+                                product.status === 'In Stock' 
+                                  ? 'bg-green-100 text-green-800'
+                                  : product.status === 'Low Stock'
+                                  ? 'bg-yellow-100 text-yellow-800'
+                                  : 'bg-red-100 text-red-800'
+                              }`}>
+                                {product.status}
+                              </span>
+                            </td>
+                          </tr>
+                        ))}
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </main>
       </div>
     </div>
   );
