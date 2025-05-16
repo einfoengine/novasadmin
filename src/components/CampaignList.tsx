@@ -1,6 +1,6 @@
 'use client';
 import { useState } from 'react';
-import CampaignTable from '@/components/campaign-table_';
+import CampaignTable from '@/components/campaign-table';
 import CampaignModal from '@/components/campaign-modal';
 
 interface Campaign {
