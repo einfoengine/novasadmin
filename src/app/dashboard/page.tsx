@@ -52,7 +52,7 @@ export default function Dashboard() {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const res = await fetch('/campaigns.json');
+        const res = await fetch('/data/campaigns.json');
         const data = await res.json();
         setCampaigns(data.campaigns);
       } catch (error) {

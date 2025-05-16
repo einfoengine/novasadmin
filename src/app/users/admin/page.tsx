@@ -48,10 +48,10 @@ export default function AdminPage() {
     const fetchData = async () => {
       try {
         const [campaignsRes, ordersRes, productsRes, storesRes] = await Promise.all([
-          fetch('/campaigns.json'),
-          fetch('/orders.json'),
-          fetch('/products.json'),
-          fetch('/stores.json')
+          fetch('/data/campaigns.json'),
+          fetch('/data/orders.json'),
+          fetch('/data/products.json'),
+          fetch('/data/stores.json')
         ]);
 
         const [campaignsData, ordersData, productsData, storesData] = await Promise.all([

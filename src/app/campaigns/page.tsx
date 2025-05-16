@@ -37,9 +37,9 @@ export default function Campaigns() {
   });
 
   useEffect(() => {
-    const fetchData = async () => {
+    const fetchCampaigns = async () => {
       try {
-        const res = await fetch('/campaigns.json');
+        const res = await fetch('/data/campaigns.json');
         const data = await res.json();
         setCampaigns(data.campaigns);
       } catch (error) {
@@ -48,7 +48,8 @@ export default function Campaigns() {
         setLoading(false);
       }
     };
-    fetchData();
+
+    fetchCampaigns();
   }, []);
 
   const handleEdit = (campaign: Campaign) => {

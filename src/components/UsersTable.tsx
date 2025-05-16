@@ -45,7 +45,7 @@ const UsersTable: React.FC<UsersTableProps> = ({
   useEffect(() => {
     const fetchUsers = async () => {
       try {
-        const response = await fetch('/users.json');
+        const response = await fetch('/data/users.json');
         const data = await response.json();
         setUsers(data.users || []);
       } catch (error) {
@@ -73,12 +73,42 @@ const UsersTable: React.FC<UsersTableProps> = ({
   }));
 
   const columns = [
-    { key: 'userName', label: 'Name', type: 'link' as const, linkHref: (value: unknown) => `/users/${value}` },
-    { key: 'userType', label: 'Role', type: 'status' as const },
-    { key: 'status', label: 'Status', type: 'status' as const },
-    { key: 'contact', label: 'Contact' },
-    { key: 'joiningDate', label: 'Joining Date', type: 'date' as const },
-    { key: 'endingDate', label: 'Ending Date', type: 'date' as const },
+    { 
+      key: 'userName', 
+      label: 'Name', 
+      type: 'link' as const, 
+      linkHref: (value: unknown) => `/users/${value}`,
+      className: 'text-gray-900 dark:text-white'
+    },
+    { 
+      key: 'userType', 
+      label: 'Role', 
+      type: 'status' as const,
+      className: 'text-gray-900 dark:text-white'
+    },
+    { 
+      key: 'status', 
+      label: 'Status', 
+      type: 'status' as const,
+      className: 'text-gray-900 dark:text-white'
+    },
+    { 
+      key: 'contact', 
+      label: 'Contact',
+      className: 'text-gray-900 dark:text-white'
+    },
+    { 
+      key: 'joiningDate', 
+      label: 'Joining Date', 
+      type: 'date' as const,
+      className: 'text-gray-900 dark:text-white'
+    },
+    { 
+      key: 'endingDate', 
+      label: 'Ending Date', 
+      type: 'date' as const,
+      className: 'text-gray-900 dark:text-white'
+    },
   ];
 
   const handleRowClick = (tableUser: TableUser) => {

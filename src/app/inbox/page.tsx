@@ -34,13 +34,12 @@ export default function InboxPage() {
   useEffect(() => {
     const fetchMessages = async () => {
       try {
-        const response = await fetch('/messages.json');
+        const response = await fetch('/data/messages.json');
         const data = await response.json();
-        setMessages(Array.isArray(data) ? data : data.messages || []);
-        setLoading(false);
+        setMessages(data);
       } catch (error) {
         console.error('Error fetching messages:', error);
-        setMessages([]);
+      } finally {
         setLoading(false);
       }
     };

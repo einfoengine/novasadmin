@@ -3,6 +3,7 @@
 import React, { useState } from 'react';
 import TableHeader from '@/elements/TableHeader';
 import { useTheme } from '@/app/providers';
+import { PencilIcon, TrashIcon } from '@heroicons/react/24/outline';
 
 interface Column {
   key: string;
@@ -125,7 +126,7 @@ const TableBuilder = <T extends { id: string }>({
   };
 
   return (
-    <div className={`${theme === 'dark' ? 'bg-gray-800' : 'bg-white'} rounded-lg shadow overflow-x-auto ${className}`}>
+    <div id="nt-table-builder">
       <TableHeader
         icon={icon}
         title={title}
@@ -137,126 +138,120 @@ const TableBuilder = <T extends { id: string }>({
         selectedCount={selectedIds.length}
         actionButton={actionButton}
       />
+      <div className={`${theme === 'dark' ? 'bg-gray-800' : 'bg-white'} rounded-lg shadow overflow-x-auto ${className}`}>
 
-      <table className="min-w-full divide-y divide-gray-200 dark:divide-gray-700">
-        <thead className={`${theme === 'dark' ? 'bg-gray-900' : 'bg-gray-50'}`}>
-          <tr>
-            {selectable && (
-              <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">
-                <input
-                  type="checkbox"
-                  checked={selectedIds.length === paginatedData.length && paginatedData.length > 0}
-                  onChange={handleSelectAll}
-                  className="rounded border-gray-300 text-indigo-600 focus:ring-indigo-500"
-                />
-              </th>
-            )}
-            {columns.map((column) => (
-              <th
-                key={column.key}
-                className={`px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider ${column.className || ''}`}
-              >
-                {column.label}
-              </th>
-            ))}
-            {(onEdit || onDelete) && (
-              <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">
-                Actions
-              </th>
-            )}
-          </tr>
-        </thead>
-        <tbody className={`${theme === 'dark' ? 'bg-gray-800' : 'bg-white'} divide-y divide-gray-200 dark:divide-gray-700`}>
-          {paginatedData.map((item) => (
-            <tr
-              key={item.id}
-              onClick={() => onRowClick?.(item)}
-              className={`transition-colors duration-200 ${
-                onRowClick ? 'cursor-pointer' : ''
-              } ${theme === 'dark' ? 'hover:bg-gray-700' : 'hover:bg-gray-50'} group`}
-            >
+        <table className="min-w-full divide-y divide-gray-200 dark:divide-gray-700">
+          <thead className={`${theme === 'dark' ? 'bg-gray-900' : 'bg-gray-50'}`}>
+            <tr>
               {selectable && (
-                <td className="px-6 py-4 whitespace-nowrap" onClick={(e) => e.stopPropagation()}>
+                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">
                   <input
                     type="checkbox"
-                    checked={selectedIds.includes(item.id)}
-                    onChange={() => handleSelect(item.id)}
+                    checked={selectedIds.length === data.length && data.length > 0}
+                    onChange={handleSelectAll}
                     className="rounded border-gray-300 text-indigo-600 focus:ring-indigo-500"
                   />
-                </td>
+                </th>
               )}
               {columns.map((column) => (
-                <td
+                <th
                   key={column.key}
-                  className={`px-6 py-4 whitespace-nowrap text-sm text-gray-900 dark:text-white ${
-                    column.type === 'link' ? '' : 'group-hover:text-indigo-600'
-                  } transition-colors duration-200 ${column.className || ''}`}
+                  className="px-6 py-3 text-left text-xs font-medium text-gray-900 dark:text-gray-400 uppercase tracking-wider"
                 >
-                  {formatCellValue(column, item[column.key as keyof T])}
-                </td>
+                  {column.label}
+                </th>
               ))}
               {(onEdit || onDelete) && (
-                <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500" onClick={(e) => e.stopPropagation()}>
-                  <div className="flex items-center space-x-3">
-                    {onEdit && (
-                      <button
-                        onClick={() => onEdit(item)}
-                        className="text-gray-400 hover:text-indigo-600 transition-colors duration-200"
-                      >
-                        <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z" />
-                        </svg>
-                      </button>
-                    )}
-                    {onDelete && (
-                      <button
-                        onClick={() => onDelete(item)}
-                        className="text-gray-400 hover:text-red-600 transition-colors duration-200"
-                      >
-                        <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
-                        </svg>
-                      </button>
-                    )}
-                  </div>
-                </td>
+                <th className="px-6 py-3 text-left text-xs font-medium text-gray-900 dark:text-gray-400 uppercase tracking-wider">
+                  Actions
+                </th>
               )}
             </tr>
-          ))}
-        </tbody>
-      </table>
+          </thead>
+          <tbody className={`${theme === 'dark' ? 'bg-gray-800' : 'bg-white'} divide-y divide-gray-200 dark:divide-gray-700`}>
+            {paginatedData.map((item) => (
+              <tr
+                key={item.id}
+                onClick={() => onRowClick && onRowClick(item)}
+                className={`${onRowClick ? 'cursor-pointer' : ''} ${theme === 'dark' ? 'hover:bg-gray-700' : 'hover:bg-gray-50'} transition-colors duration-200 group`}
+              >
+                {selectable && (
+                  <td className="px-6 py-4 whitespace-nowrap" onClick={(e) => e.stopPropagation()}>
+                    <input
+                      type="checkbox"
+                      checked={selectedIds.includes(item.id)}
+                      onChange={() => handleSelect(item.id)}
+                      className="rounded border-gray-300 text-indigo-600 focus:ring-indigo-500"
+                    />
+                  </td>
+                )}
+                {columns.map((column) => (
+                  <td
+                    key={column.key}
+                    className="px-6 py-4 whitespace-nowrap text-sm text-gray-900 dark:text-white group-hover:text-indigo-600 transition-colors duration-200"
+                  >
+                    {formatCellValue(column, item[column.key as keyof T])}
+                  </td>
+                ))}
+                {(onEdit || onDelete) && (
+                  <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900 dark:text-white" onClick={(e) => e.stopPropagation()}>
+                    <div className="flex items-center space-x-3">
+                      {onEdit && (
+                        <button
+                          onClick={() => onEdit(item)}
+                          className="text-gray-900 dark:text-gray-400 hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors duration-200"
+                        >
+                          <PencilIcon className="h-5 w-5" />
+                        </button>
+                      )}
+                      {onDelete && (
+                        <button
+                          onClick={() => onDelete(item)}
+                          className="text-gray-900 dark:text-gray-400 hover:text-red-600 dark:hover:text-red-400 transition-colors duration-200"
+                        >
+                          <TrashIcon className="h-5 w-5" />
+                        </button>
+                      )}
+                    </div>
+                  </td>
+                )}
+              </tr>
+            ))}
+          </tbody>
+        </table>
 
-      <div className="flex justify-between items-center p-4 border-t border-gray-200 dark:border-gray-700">
-        <span className={`text-sm ${theme === 'dark' ? 'text-gray-400' : 'text-gray-600'}`}>
-          Showing <span className="font-medium">{startIndex + 1}</span> to{' '}
-          <span className="font-medium">
-            {Math.min(startIndex + itemsPerPage, filteredData.length)}
-          </span>{' '}
-          of <span className="font-medium">{filteredData.length}</span> results
-        </span>
-        <div className="flex gap-2">
-          <button
-            className={`px-3 py-1 rounded ${
-              theme === 'dark'
-                ? 'bg-gray-700 text-gray-200 hover:bg-gray-600'
-                : 'bg-gray-200 text-gray-700 hover:bg-gray-300'
-            } disabled:opacity-50`}
-            onClick={() => setCurrentPage((p) => Math.max(1, p - 1))}
-            disabled={currentPage === 1}
-          >
-            Previous
-          </button>
-          <button
-            className={`px-3 py-1 rounded ${
-              theme === 'dark'
-                ? 'bg-gray-700 text-gray-200 hover:bg-gray-600'
-                : 'bg-gray-200 text-gray-700 hover:bg-gray-300'
-            } disabled:opacity-50`}
-            onClick={() => setCurrentPage((p) => Math.min(totalPages, p + 1))}
-            disabled={currentPage === totalPages}
-          >
-            Next
-          </button>
+        <div className="flex justify-between items-center p-4 border-t border-gray-200 dark:border-gray-700">
+          <span className={`text-sm ${theme === 'dark' ? 'text-gray-400' : 'text-gray-600'}`}>
+            Showing <span className="font-medium">{startIndex + 1}</span> to{' '}
+            <span className="font-medium">
+              {Math.min(startIndex + itemsPerPage, filteredData.length)}
+            </span>{' '}
+            of <span className="font-medium">{filteredData.length}</span> results
+          </span>
+          <div className="flex gap-2">
+            <button
+              className={`px-3 py-1 rounded ${
+                theme === 'dark'
+                  ? 'bg-gray-700 text-gray-200 hover:bg-gray-600'
+                  : 'bg-gray-200 text-gray-700 hover:bg-gray-300'
+              } disabled:opacity-50`}
+              onClick={() => setCurrentPage((p) => Math.max(1, p - 1))}
+              disabled={currentPage === 1}
+            >
+              Previous
+            </button>
+            <button
+              className={`px-3 py-1 rounded ${
+                theme === 'dark'
+                  ? 'bg-gray-700 text-gray-200 hover:bg-gray-600'
+                  : 'bg-gray-200 text-gray-700 hover:bg-gray-300'
+              } disabled:opacity-50`}
+              onClick={() => setCurrentPage((p) => Math.min(totalPages, p + 1))}
+              disabled={currentPage === totalPages}
+            >
+              Next
+            </button>
+          </div>
         </div>
       </div>
     </div>

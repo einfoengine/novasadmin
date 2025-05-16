@@ -76,6 +76,7 @@ export default function AddCampaignPage() {
   const [products, setProducts] = useState<Product[]>([]);
   const [selectedProducts, setSelectedProducts] = useState<SelectedProduct[]>([]);
   const [totalCost, setTotalCost] = useState<number>(0);
+  const [loading, setLoading] = useState<boolean>(true);
 
   const {
     register,
@@ -99,22 +100,24 @@ export default function AddCampaignPage() {
     const fetchData = async () => {
       try {
         const [countriesRes, storesRes, productsRes] = await Promise.all([
-          fetch("/countries.json"),
-          fetch("/stores.json"),
-          fetch("/products.json")
+          fetch("/data/countries.json"),
+          fetch("/data/stores.json"),
+          fetch("/data/products.json")
         ]);
 
-        const countriesData: CountryData = await countriesRes.json();
-        const storesData: StoreData = await storesRes.json();
-        const productsData: ProductData = await productsRes.json();
+        const [countriesData, storesData, productsData] = await Promise.all([
+          countriesRes.json(),
+          storesRes.json(),
+          productsRes.json()
+        ]);
 
-        setCountries(countriesData.countries);
-        setStores(storesData.stores);
-        setFilteredStores(storesData.stores);
-        setProducts(productsData.products);
+        setCountries(countriesData);
+        setStores(storesData);
+        setProducts(productsData);
       } catch (error) {
-        console.error("Error fetching data:", error);
-        toast.error("Failed to load data");
+        console.error('Error fetching data:', error);
+      } finally {
+        setLoading(false);
       }
     };
 

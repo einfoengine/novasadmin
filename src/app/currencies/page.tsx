@@ -28,9 +28,9 @@ export default function CurrenciesPage() {
   useEffect(() => {
     const fetchCurrencies = async () => {
       try {
-        const response = await fetch('/currencies.json');
+        const response = await fetch('/data/currencies.json');
         const data = await response.json();
-        setCurrencies(data.currencies);
+        setCurrencies(data);
       } catch (error) {
         console.error('Error fetching currencies:', error);
         toast.error('Failed to load currency data');
