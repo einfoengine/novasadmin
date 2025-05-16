@@ -47,12 +47,12 @@ const menuItems = [
     href: '/country', 
     icon: FlagIcon,
     submenu: [
-      { name: 'List', href: '/users/', icon: BriefcaseIcon },
-      { name: 'Admin', href: '/users/admin', icon: BriefcaseIcon },
-      { name: 'Clients', href: '/users/clients', icon: UsersIcon },
-      { name: 'Country Manager', href: '/users/country-manager', icon: UsersIcon },
-      { name: 'Store Manager', href: '/users/store-manager', icon: UsersIcon },
-      { name: 'Production Manager', href: '/users/production-manager', icon: UsersIcon },
+      { name: 'List', href: '/country', icon: BriefcaseIcon },
+      { name: 'Admin', href: '/country/admin', icon: BriefcaseIcon },
+      { name: 'Clients', href: '/country/clients', icon: UsersIcon },
+      { name: 'Country Manager', href: '/country/country-manager', icon: UsersIcon },
+      { name: 'Store Manager', href: '/country/store-manager', icon: UsersIcon },
+      { name: 'Production Manager', href: '/country/production-manager', icon: UsersIcon },
     ]
   },
   { 
@@ -60,12 +60,12 @@ const menuItems = [
     href: '/store', 
     icon: BuildingStorefrontIcon,
     submenu: [
-      { name: 'List', href: '/users/', icon: BriefcaseIcon },
-      { name: 'Admin', href: '/users/admin', icon: BriefcaseIcon },
-      { name: 'Clients', href: '/users/clients', icon: UsersIcon },
-      { name: 'Country Manager', href: '/users/country-manager', icon: UsersIcon },
-      { name: 'Store Manager', href: '/users/store-manager', icon: UsersIcon },
-      { name: 'Production Manager', href: '/users/production-manager', icon: UsersIcon },
+      { name: 'List', href: '/store', icon: BriefcaseIcon },
+      { name: 'Admin', href: '/store/admin', icon: BriefcaseIcon },
+      { name: 'Clients', href: '/store/clients', icon: UsersIcon },
+      { name: 'Country Manager', href: '/store/country-manager', icon: UsersIcon },
+      { name: 'Store Manager', href: '/store/store-manager', icon: UsersIcon },
+      { name: 'Production Manager', href: '/store/production-manager', icon: UsersIcon },
     ]
   },
   { 
@@ -73,12 +73,12 @@ const menuItems = [
     href: '/template', 
     icon: ViewColumnsIcon,
     submenu: [
-      { name: 'List', href: '/users/', icon: BriefcaseIcon },
-      { name: 'Admin', href: '/users/admin', icon: BriefcaseIcon },
-      { name: 'Clients', href: '/users/clients', icon: UsersIcon },
-      { name: 'Country Manager', href: '/users/country-manager', icon: UsersIcon },
-      { name: 'Store Manager', href: '/users/store-manager', icon: UsersIcon },
-      { name: 'Production Manager', href: '/users/production-manager', icon: UsersIcon },
+      { name: 'List', href: '/template', icon: BriefcaseIcon },
+      { name: 'Admin', href: '/template/admin', icon: BriefcaseIcon },
+      { name: 'Clients', href: '/template/clients', icon: UsersIcon },
+      { name: 'Country Manager', href: '/template/country-manager', icon: UsersIcon },
+      { name: 'Store Manager', href: '/template/store-manager', icon: UsersIcon },
+      { name: 'Production Manager', href: '/template/production-manager', icon: UsersIcon },
     ]
   },
   { 
@@ -97,7 +97,7 @@ const menuItems = [
     href: '/users', 
     icon: UserIcon,
     submenu: [
-      { name: 'List', href: '/users/', icon: BriefcaseIcon },
+      { name: 'List', href: '/users', icon: BriefcaseIcon },
       { name: 'Admin', href: '/users/admin', icon: BriefcaseIcon },
       { name: 'Clients', href: '/users/clients', icon: UsersIcon },
       { name: 'Country Manager', href: '/users/country-manager', icon: UsersIcon },
