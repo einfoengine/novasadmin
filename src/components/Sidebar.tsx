@@ -83,15 +83,13 @@ const menuItems = [
   },
   { 
     name: 'Campaign', 
-    href: '/campaign', 
+    href: '/campaigns', 
     icon: ClipboardDocumentCheckIcon,
     submenu: [
-      { name: 'List', href: '/users/', icon: BriefcaseIcon },
-      { name: 'Admin', href: '/users/admin', icon: BriefcaseIcon },
-      { name: 'Clients', href: '/users/clients', icon: UsersIcon },
-      { name: 'Country Manager', href: '/users/country-manager', icon: UsersIcon },
-      { name: 'Store Manager', href: '/users/store-manager', icon: UsersIcon },
-      { name: 'Production Manager', href: '/users/production-manager', icon: UsersIcon },
+      { name: 'All Campaigns', href: '/campaigns', icon: ClipboardDocumentCheckIcon },
+      { name: 'Add Campaign', href: '/campaigns/add-campaign', icon: BriefcaseIcon },
+      { name: 'Campaign Summary', href: '/campaigns/campaign-summary', icon: BriefcaseIcon },
+      { name: 'Store Brief', href: '/campaigns/store-brief', icon: BriefcaseIcon },
     ]
   },
   { 

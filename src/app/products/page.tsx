@@ -74,10 +74,6 @@ export default function ProductsPage() {
     setCurrentPage(page);
   };
 
-  const handleProductClick = (productId: string) => {
-    router.push(`/products/${productId}`);
-  };
-
   const handleSelect = (id: string) => {
     setSelectedIds(prev =>
       prev.includes(id) ? prev.filter(sid => sid !== id) : [...prev, id]
@@ -110,7 +106,7 @@ export default function ProductsPage() {
   };
 
   return (
-    <div className="p-6">
+    <div className="min-h-screen p-6 bg-white dark:bg-gray-900 text-gray-900 dark:text-white">
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-6">
         <StatsCard
           title="Total Products"
@@ -192,12 +188,12 @@ export default function ProductsPage() {
                 <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Actions</th>
               </tr>
             </thead>
-            <tbody className="bg-white divide-y divide-gray-200">
+            <tbody className="bg-white dark:bg-gray-900 divide-y divide-gray-200">
               {paginatedProducts.map((product) => (
                 <tr 
                   key={product.id}
                   onClick={() => router.push(`/products/${product.id}`)}
-                  className="cursor-pointer hover:bg-gray-50 transition-colors duration-200 group"
+                  className="cursor-pointer hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors duration-200 group"
                 >
                   <td className="px-6 py-4 whitespace-nowrap" onClick={(e) => e.stopPropagation()}>
                     <input
@@ -207,18 +203,18 @@ export default function ProductsPage() {
                       className="rounded border-gray-300 text-indigo-600 focus:ring-indigo-500"
                     />
                   </td>
-                  <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900 group-hover:text-indigo-600 transition-colors duration-200">{product.id}</td>
-                  <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900 group-hover:text-indigo-600 transition-colors duration-200">{product.name}</td>
-                  <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900 group-hover:text-gray-700 transition-colors duration-200">{product.size}</td>
-                  <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900 group-hover:text-gray-700 transition-colors duration-200">{product.material}</td>
-                  <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900 group-hover:text-gray-700 transition-colors duration-200">{product.channel}</td>
-                  <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900 group-hover:text-gray-700 transition-colors duration-200">{product.machine}</td>
-                  <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900 group-hover:text-gray-700 transition-colors duration-200">{product.surface}</td>
-                  <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900 group-hover:text-gray-700 transition-colors duration-200">{product.dieMood}</td>
-                  <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900 group-hover:text-gray-700 transition-colors duration-200">{product.gluing}</td>
-                  <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900 group-hover:text-gray-700 transition-colors duration-200">{product.finishing}</td>
-                  <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900 group-hover:text-gray-700 transition-colors duration-200">${product.price.toFixed(2)}</td>
-                  <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900 group-hover:text-gray-700 transition-colors duration-200">{product.stock}</td>
+                  <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900 dark:text-white group-hover:text-indigo-600 transition-colors duration-200">{product.id}</td>
+                  <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900 dark:text-white group-hover:text-indigo-600 transition-colors duration-200">{product.name}</td>
+                  <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900 dark:text-white group-hover:text-gray-300 transition-colors duration-200">{product.size}</td>
+                  <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900 dark:text-white group-hover:text-gray-300 transition-colors duration-200">{product.material}</td>
+                  <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900 dark:text-white group-hover:text-gray-300 transition-colors duration-200">{product.channel}</td>
+                  <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900 dark:text-white group-hover:text-gray-300 transition-colors duration-200">{product.machine}</td>
+                  <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900 dark:text-white group-hover:text-gray-300 transition-colors duration-200">{product.surface}</td>
+                  <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900 dark:text-white group-hover:text-gray-300 transition-colors duration-200">{product.dieMood}</td>
+                  <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900 dark:text-white group-hover:text-gray-300 transition-colors duration-200">{product.gluing}</td>
+                  <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900 dark:text-white group-hover:text-gray-300 transition-colors duration-200">{product.finishing}</td>
+                  <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900 dark:text-white group-hover:text-gray-300 transition-colors duration-200">${product.price.toFixed(2)}</td>
+                  <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900 dark:text-white group-hover:text-gray-300 transition-colors duration-200">{product.stock}</td>
                   <td className="px-6 py-4 whitespace-nowrap">
                     <span className={`px-2 inline-flex text-xs leading-5 font-semibold rounded-full transition-colors duration-200 ${
                       product.status === "In Stock" 

@@ -12,13 +12,28 @@ export default function Header() {
 
   useEffect(() => {
     setMounted(true)
+    // Set initial dark mode from localStorage or system preference
+    if (typeof window !== 'undefined') {
+      const saved = localStorage.getItem('theme');
+      if (saved === 'dark' || (!saved && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+        setDarkMode(true);
+        document.documentElement.classList.add('dark');
+      } else {
+        setDarkMode(false);
+        document.documentElement.classList.remove('dark');
+      }
+    }
   }, [])
 
   const toggleDarkMode = () => {
-    setDarkMode((prev) => !prev)
-    if (typeof document !== 'undefined') {
-      document.documentElement.classList.toggle('dark', !darkMode)
-    }
+    setDarkMode((prev) => {
+      const next = !prev;
+      if (typeof document !== 'undefined') {
+        document.documentElement.classList.toggle('dark', next);
+        localStorage.setItem('theme', next ? 'dark' : 'light');
+      }
+      return next;
+    });
   }
 
   if (!mounted) {
@@ -31,6 +46,7 @@ export default function Header() {
           <div className="flex items-center gap-4">
             <button
               onClick={toggleDarkMode}
+              id='nt-toggle-dark-mode'
               className={`relative w-12 h-7 flex items-center rounded-full p-1 transition-colors duration-300 ${darkMode ? 'bg-gray-800' : 'bg-gray-300'}`}
               aria-label="Toggle dark mode"
             >
@@ -74,8 +90,8 @@ export default function Header() {
   }
 
   return (
-    <header className="bg-white border-b border-gray-200">
-      <div className="flex items-center justify-between px-6 py-3 h-[63px]">
+    <header className={`border-b border-gray-200 ${darkMode ? 'bg-gray-900' : 'bg-white'}`}>
+      <div className={`flex items-center justify-between px-6 py-3 h-[63px] ${darkMode ? 'bg-gray-900' : 'bg-white'}`}>
         <div className="flex items-center">
           <Breadcrumb />
         </div>
@@ -96,8 +112,8 @@ export default function Header() {
             </span>
             <span className={`inline-block w-5 h-5 bg-white rounded-full shadow transform transition-transform duration-300 ${darkMode ? 'translate-x-5' : 'translate-x-0'}`}></span>
           </button>
-          <button className="p-2 rounded-full hover:bg-gray-200 dark:hover:bg-gray-800 transition-colors" aria-label="Notifications">
-            <BellIcon className={darkMode ? "h-6 w-6 text-gray-700" : "h-6 w-6 text-gray-700"} />
+          <button className={`p-2 rounded-full transition-colors ${darkMode ? 'hover:bg-gray-800' : 'hover:bg-gray-200'}`} aria-label="Notifications">
+            <BellIcon className={darkMode ? "h-6 w-6 text-gray-100" : "h-6 w-6 text-gray-700"} />
           </button>
           <div className="relative inline-block text-left">
             <div
@@ -115,10 +131,10 @@ export default function Header() {
                 <div className="absolute bottom-0 right-0 w-3 h-3 bg-green-500 border-2 border-white rounded-full"></div>
               </div>
               <div className="flex flex-col">
-                <span className="text-sm font-medium text-gray-900">John Doe</span>
-                <span className="text-xs text-gray-500">Administrator</span>
+                <span className={`text-sm font-medium ${darkMode ? 'text-white' : 'text-gray-900'}`}>John Doe</span>
+                <span className={`text-xs ${darkMode ? 'text-gray-200' : 'text-gray-500'}`}>Administrator</span>
               </div>
-              <ChevronDownIcon className="w-5 h-5 text-gray-600" />
+              <ChevronDownIcon className={darkMode ? "w-5 h-5 text-gray-100" : "w-5 h-5 text-gray-600"} />
             </div>
 
             {open && (
