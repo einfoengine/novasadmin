@@ -1,9 +1,9 @@
 import { configureStore } from '@reduxjs/toolkit';
-import campaignReducer from '@/app/store/features/campaignSlice';
+import themeReducer from './themeSlice';
 
 export const store = configureStore({
   reducer: {
-    campaign: campaignReducer,
+    theme: themeReducer,
   },
 });
 

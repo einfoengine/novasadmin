@@ -1,11 +1,27 @@
 'use client';
 import { useState, useEffect } from "react";
 import Link from "next/link";
-import { PlusIcon } from "@heroicons/react/24/outline";
-import CampaignList from "@/components/CampaignList";
-import LoadingSpinner from "@/components/loadingSpinner";
+import { useRouter } from 'next/navigation';
+import { PlusIcon, MegaphoneIcon } from "@heroicons/react/24/outline";
+import TableBuilder from "@/components/TableBuilder";
+import { useTheme } from '../providers';
 
 interface Campaign {
+  id: string;
+  campaignId: string;
+  campaignName: string;
+  country: string;
+  assigned: string;
+  userType: string;
+  creatingDate: string;
+  startDate: string;
+  endDate: string;
+  status: string;
+  totalCost: number;
+  invoiceStatus: string;
+}
+
+interface RawCampaign {
   campaignId: string;
   campaignName: string;
   country: string;
@@ -20,30 +36,25 @@ interface Campaign {
 }
 
 export default function Campaigns() {
+  const router = useRouter();
+  const { theme } = useTheme();
   const [campaigns, setCampaigns] = useState<Campaign[]>([]);
   const [loading, setLoading] = useState(true);
-  const [selectedCampaign, setSelectedCampaign] = useState<Campaign | null>(null);
-  const [formData, setFormData] = useState({
-    campaignName: '',
-    country: '',
-    assigned: '',
-    userType: '',
-    creatingDate: '',
-    startDate: '',
-    endDate: '',
-    status: 'Active',
-    totalCost: '',
-    invoiceStatus: 'Pending'
-  });
 
   useEffect(() => {
     const fetchCampaigns = async () => {
       try {
         const res = await fetch('/data/campaigns.json');
         const data = await res.json();
-        setCampaigns(data.campaigns);
+        // Transform the data to include id field
+        const transformedCampaigns = (data.campaigns || []).map((campaign: RawCampaign) => ({
+          id: campaign.campaignId,
+          ...campaign
+        }));
+        setCampaigns(transformedCampaigns);
       } catch (error) {
         console.error('Error fetching campaigns:', error);
+        setCampaigns([]);
       } finally {
         setLoading(false);
       }
@@ -52,118 +63,96 @@ export default function Campaigns() {
     fetchCampaigns();
   }, []);
 
-  const handleEdit = (campaign: Campaign) => {
-    setSelectedCampaign(campaign);
-    setFormData({
-      campaignName: campaign.campaignName,
-      country: campaign.country,
-      assigned: campaign.assigned,
-      userType: campaign.userType,
-      creatingDate: campaign.creatingDate,
-      startDate: campaign.startDate,
-      endDate: campaign.endDate,
-      status: campaign.status,
-      totalCost: campaign.totalCost.toString(),
-      invoiceStatus: campaign.invoiceStatus
-    });
+  const handleRowClick = (item: { id: string }) => {
+    router.push(`/campaigns/${item.id}`);
   };
 
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    try {
-      if (selectedCampaign) {
-        // Update existing campaign
-        const updatedCampaigns = campaigns.map(c => 
-          c.campaignId === selectedCampaign.campaignId 
-            ? { ...c, ...formData, totalCost: parseFloat(formData.totalCost) }
-            : c
-        );
-        setCampaigns(updatedCampaigns);
-      } else {
-        // Create new campaign
-        const newCampaign: Campaign = {
-          campaignId: `CAMP${String(campaigns.length + 1).padStart(3, '0')}`,
-          campaignName: formData.campaignName,
-          country: formData.country,
-          assigned: formData.assigned,
-          userType: formData.userType,
-          creatingDate: formData.creatingDate,
-          startDate: formData.startDate,
-          endDate: formData.endDate,
-          status: formData.status,
-          totalCost: parseFloat(formData.totalCost),
-          invoiceStatus: formData.invoiceStatus
-        };
-        setCampaigns([...campaigns, newCampaign]);
-      }
-      setSelectedCampaign(null);
-      setFormData({
-        campaignName: '',
-        country: '',
-        assigned: '',
-        userType: '',
-        creatingDate: '',
-        startDate: '',
-        endDate: '',
-        status: 'Active',
-        totalCost: '',
-        invoiceStatus: 'Pending'
-      });
-    } catch (error) {
-      console.error('Error saving campaign:', error);
-    }
-  };
-
-  const handleDelete = (campaignId: string) => {
-    setCampaigns(campaigns.filter(c => c.campaignId !== campaignId));
-  };
+  const columns = [
+    {
+      key: 'campaignName',
+      label: 'Campaign Name',
+      type: 'text' as const,
+    },
+    {
+      key: 'country',
+      label: 'Country',
+      type: 'text' as const,
+    },
+    {
+      key: 'assigned',
+      label: 'Assigned To',
+      type: 'text' as const,
+    },
+    {
+      key: 'userType',
+      label: 'User Type',
+      type: 'text' as const,
+    },
+    {
+      key: 'startDate',
+      label: 'Start Date',
+      type: 'text' as const,
+    },
+    {
+      key: 'endDate',
+      label: 'End Date',
+      type: 'text' as const,
+    },
+    {
+      key: 'status',
+      label: 'Status',
+      type: 'text' as const,
+    },
+    {
+      key: 'totalCost',
+      label: 'Total Cost',
+      type: 'number' as const,
+      format: (value: unknown) => {
+        if (value === undefined || value === null) return '-';
+        return `$${(value as number).toLocaleString()}`;
+      },
+    },
+    {
+      key: 'invoiceStatus',
+      label: 'Invoice Status',
+      type: 'text' as const,
+    },
+  ];
 
   if (loading) {
-    return <LoadingSpinner />;
+    return (
+      <div className="flex items-center justify-center min-h-screen">
+        <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-primary"></div>
+      </div>
+    );
   }
 
   return (
-    <div className="min-h-screen bg-gray-100">
-      <div>
-        <main className="px-4 py-6 mx-auto max-w-7xl sm:px-6 lg:px-8">
-          {/* Inner top nav */}
-          <div className="mt-8 nt-top-nav">
-            <div className="nt-inner-top mb-6">
-              <ul className="flex flex-wrap gap-2">
-                {[
-                  { name: "Campaign", href: "/campaigns/add-campaign" },
-                  { name: "Product", href: "#" },
-                  { name: "Country", href: "#" },
-                  { name: "Store", href: "#" },
-                  { name: "Template", href: "#" },
-                ].map((item) => (
-                  <li key={item.name}>
-                    <Link
-                      href={item.href}
-                      className="flex items-center gap-1 text-white bg-black px-3 py-1 rounded hover:bg-gray-800"
-                    >
-                      <PlusIcon className="w-4 h-4" />
-                      {item.name}
-                    </Link>
-                  </li>
-                ))}
-              </ul>
-            </div>
-
-            {/* Table Section */}
-            <CampaignList
-              campaigns={campaigns}
-              onEdit={handleEdit}
-              onDelete={handleDelete}
-              onSubmit={handleSubmit}
-              formData={formData}
-              setFormData={setFormData}
-              selectedCampaign={selectedCampaign}
-              setSelectedCampaign={setSelectedCampaign}
-            />
-          </div>
-        </main>
+    <main className={`p-6 ${theme === 'dark' ? 'bg-gray-900 text-white' : 'bg-white text-gray-900'}`}>
+      <div className="mb-6">
+        <div className="flex justify-between items-center">
+          <h1 className="text-2xl font-bold flex items-center gap-2">
+            <MegaphoneIcon className="h-6 w-6" />
+            Campaigns
+          </h1>
+          <Link
+            href="/campaigns/add-campaign"
+            className="flex items-center gap-1 text-white bg-black px-3 py-1 rounded hover:bg-gray-800"
+          >
+            <PlusIcon className="w-4 h-4" />
+            Add Campaign
+          </Link>
+        </div>
       </div>
-    </div>
+      <TableBuilder
+        data={campaigns}
+        columns={columns}
+        onRowClick={handleRowClick}
+        searchable
+        selectable
+        title="Campaigns"
+        icon={<MegaphoneIcon className="h-6 w-6" />}
+      />
+    </main>
   );
 }

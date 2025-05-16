@@ -52,11 +52,10 @@ const menuItems = [
     ]
   },
   { 
-    name: 'Store', 
-    href: '/store', 
+    name: 'Stores', 
     icon: BuildingStorefrontIcon,
     submenu: [
-      { name: 'List', href: '/store', icon: BriefcaseIcon },
+      { name: 'List', href: '/stores', icon: BriefcaseIcon },
       { name: 'Admin', href: '/store/admin', icon: BriefcaseIcon },
       { name: 'Clients', href: '/store/clients', icon: UsersIcon },
       { name: 'Country Manager', href: '/store/country-manager', icon: UsersIcon },

@@ -1,13 +1,74 @@
 {
   "stores": [
     {
-      "storeId": "STORE001",
-      "storeName": "Paris Central",
-      "countryId": "FR",
-      "countryName": "France",
+      "store_id": 1,
+      "store_name": "Paris Central",
+      "zip_code": "75008",
+      "country": "France",
+      "store_code": "FR-PAR-001",
+      "password": "$2b$10$X7UrH5YxX5YxX5YxX5YxX.5YxX5YxX5YxX5YxX5YxX5YxX5YxX5YxX",
       "address": "123 Champs-Élysées, Paris",
-      "storeManagerId": "SM001",
-      "storeContact": "+33 1 23 45 67 89"
+      "type_of_store": "Flagship",
+      "quantity": 1500,
+      "security_gate_count": 4,
+      "size": "Large",
+      "comment": "Main flagship store in Paris"
+    },
+    {
+      "store_id": 2,
+      "store_name": "Berlin Mitte",
+      "zip_code": "10117",
+      "country": "Germany",
+      "store_code": "DE-BER-001",
+      "password": "$2b$10$X7UrH5YxX5YxX5YxX5YxX.5YxX5YxX5YxX5YxX5YxX5YxX5YxX5YxX",
+      "address": "78 Friedrichstraße, Berlin",
+      "type_of_store": "Premium",
+      "quantity": 1200,
+      "security_gate_count": 3,
+      "size": "Medium",
+      "comment": "Premium store in central Berlin"
+    },
+    {
+      "store_id": 3,
+      "store_name": "London Oxford",
+      "zip_code": "W1D 2HG",
+      "country": "United Kingdom",
+      "store_code": "GB-LON-001",
+      "password": "$2b$10$X7UrH5YxX5YxX5YxX5YxX.5YxX5YxX5YxX5YxX5YxX5YxX5YxX5YxX",
+      "address": "34 Oxford Street, London",
+      "type_of_store": "Flagship",
+      "quantity": 2000,
+      "security_gate_count": 5,
+      "size": "Large",
+      "comment": "Main UK flagship store"
+    },
+    {
+      "store_id": 4,
+      "store_name": "Madrid Plaza",
+      "zip_code": "28013",
+      "country": "Spain",
+      "store_code": "ES-MAD-001",
+      "password": "$2b$10$X7UrH5YxX5YxX5YxX5YxX.5YxX5YxX5YxX5YxX5YxX5YxX5YxX5YxX",
+      "address": "23 Plaza Mayor, Madrid",
+      "type_of_store": "Standard",
+      "quantity": 800,
+      "security_gate_count": 2,
+      "size": "Medium",
+      "comment": "Standard store in Madrid"
+    },
+    {
+      "store_id": 5,
+      "store_name": "Amsterdam Central",
+      "zip_code": "1012 AB",
+      "country": "Netherlands",
+      "store_code": "NL-AMS-001",
+      "password": "$2b$10$X7UrH5YxX5YxX5YxX5YxX.5YxX5YxX5YxX5YxX5YxX5YxX5YxX5YxX",
+      "address": "45 Damrak, Amsterdam",
+      "type_of_store": "Premium",
+      "quantity": 1000,
+      "security_gate_count": 3,
+      "size": "Medium",
+      "comment": "Premium store in Amsterdam"
     },
     {
       "storeId": "STORE002",
@@ -65,15 +126,6 @@
     },
     {
       "storeId": "STORE008",
-      "storeName": "Madrid Plaza",
-      "countryId": "ES",
-      "countryName": "Spain",
-      "address": "23 Plaza Mayor, Madrid",
-      "storeManagerId": "SM008",
-      "storeContact": "+34 91 123 456 789"
-    },
-    {
-      "storeId": "STORE009",
       "storeName": "Barcelona Beach",
       "countryId": "ES",
       "countryName": "Spain",
@@ -83,15 +135,6 @@
     },
     {
       "storeId": "STORE010",
-      "storeName": "London Oxford",
-      "countryId": "GB",
-      "countryName": "United Kingdom",
-      "address": "34 Oxford Street, London",
-      "storeManagerId": "SM010",
-      "storeContact": "+44 20 1234 5678"
-    },
-    {
-      "storeId": "STORE011",
       "storeName": "Manchester City",
       "countryId": "GB",
       "countryName": "United Kingdom",
@@ -100,16 +143,7 @@
       "storeContact": "+44 161 123 4567"
     },
     {
-      "storeId": "STORE012",
-      "storeName": "Amsterdam Central",
-      "countryId": "NL",
-      "countryName": "Netherlands",
-      "address": "45 Damrak, Amsterdam",
-      "storeManagerId": "SM012",
-      "storeContact": "+31 20 123 4567"
-    },
-    {
-      "storeId": "STORE013",
+      "storeId": "STORE011",
       "storeName": "Rotterdam Port",
       "countryId": "NL",
       "countryName": "Netherlands",
@@ -118,7 +152,7 @@
       "storeContact": "+31 10 987 6543"
     },
     {
-      "storeId": "STORE014",
+      "storeId": "STORE012",
       "storeName": "Brussels Grand",
       "countryId": "BE",
       "countryName": "Belgium",
@@ -127,7 +161,7 @@
       "storeContact": "+32 2 123 4567"
     },
     {
-      "storeId": "STORE015",
+      "storeId": "STORE013",
       "storeName": "Antwerp Diamond",
       "countryId": "BE",
       "countryName": "Belgium",
@@ -136,7 +170,7 @@
       "storeContact": "+32 3 987 6543"
     },
     {
-      "storeId": "STORE016",
+      "storeId": "STORE014",
       "storeName": "Vienna Opera",
       "countryId": "AT",
       "countryName": "Austria",
@@ -145,7 +179,7 @@
       "storeContact": "+43 1 123 4567"
     },
     {
-      "storeId": "STORE017",
+      "storeId": "STORE015",
       "storeName": "Salzburg Old Town",
       "countryId": "AT",
       "countryName": "Austria",
@@ -154,7 +188,7 @@
       "storeContact": "+43 662 987 6543"
     },
     {
-      "storeId": "STORE018",
+      "storeId": "STORE016",
       "storeName": "Stockholm Royal",
       "countryId": "SE",
       "countryName": "Sweden",
@@ -163,7 +197,7 @@
       "storeContact": "+46 8 123 4567"
     },
     {
-      "storeId": "STORE019",
+      "storeId": "STORE017",
       "storeName": "Gothenburg Harbor",
       "countryId": "SE",
       "countryName": "Sweden",
@@ -172,7 +206,7 @@
       "storeContact": "+46 31 987 6543"
     },
     {
-      "storeId": "STORE020",
+      "storeId": "STORE018",
       "storeName": "Copenhagen Tivoli",
       "countryId": "DK",
       "countryName": "Denmark",
