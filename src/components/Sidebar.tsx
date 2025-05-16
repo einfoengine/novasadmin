@@ -39,7 +39,7 @@ const menuItems = [
   },
   { 
     name: 'Messages', 
-    href: '/inbox', 
+    href: '/messages', 
     icon: EnvelopeIcon,
     submenu: []
   },
