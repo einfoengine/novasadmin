@@ -94,16 +94,10 @@ const TableBuilder = <T extends { id: string }>({
           <span
             className={`px-2 inline-flex text-xs leading-5 font-semibold rounded-full ${
               value === 'active' || value === 'success'
-                ? theme === 'dark'
-                  ? 'bg-green-900 text-green-300'
-                  : 'bg-green-100 text-green-800'
+                ? 'bg-green-900 text-green-300'
                 : value === 'pending' || value === 'warning'
-                ? theme === 'dark'
-                  ? 'bg-yellow-900 text-yellow-300'
-                  : 'bg-yellow-100 text-yellow-800'
-                : theme === 'dark'
-                ? 'bg-red-900 text-red-300'
-                : 'bg-red-100 text-red-800'
+                ? 'bg-yellow-900 text-yellow-300'
+                : 'bg-red-900 text-red-300'
             }`}
           >
             {String(value)}
@@ -113,9 +107,7 @@ const TableBuilder = <T extends { id: string }>({
         return (
           <a
             href={column.linkHref?.(value) || '#'}
-            className={`${
-              theme === 'dark' ? 'text-blue-400 hover:text-blue-300' : 'text-blue-600 hover:text-blue-900'
-            } group-hover:text-indigo-600 transition-colors duration-200`}
+            className="text-blue-400 hover:text-blue-300 transition-colors duration-200"
           >
             {String(value)}
           </a>
@@ -138,42 +130,41 @@ const TableBuilder = <T extends { id: string }>({
         selectedCount={selectedIds.length}
         actionButton={actionButton}
       />
-      <div className={`${theme === 'dark' ? 'bg-gray-800' : 'bg-white'} rounded-lg shadow overflow-x-auto ${className}`}>
-
-        <table className="min-w-full divide-y divide-gray-200 dark:divide-gray-700">
-          <thead className={`${theme === 'dark' ? 'bg-gray-900' : 'bg-gray-50'}`}>
+      <div className="bg-gray-800 rounded-lg shadow overflow-x-auto">
+        <table className="min-w-full divide-y divide-gray-700">
+          <thead className="bg-gray-900">
             <tr>
               {selectable && (
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">
+                <th className="px-6 py-3 text-left text-xs font-medium text-gray-400 uppercase tracking-wider">
                   <input
                     type="checkbox"
                     checked={selectedIds.length === data.length && data.length > 0}
                     onChange={handleSelectAll}
-                    className="rounded border-gray-300 text-indigo-600 focus:ring-indigo-500"
+                    className="rounded border-gray-600 text-indigo-600 focus:ring-indigo-500 bg-gray-700"
                   />
                 </th>
               )}
               {columns.map((column) => (
                 <th
                   key={column.key}
-                  className="px-6 py-3 text-left text-xs font-medium text-gray-900 dark:text-gray-400 uppercase tracking-wider"
+                  className="px-6 py-3 text-left text-xs font-medium text-gray-400 uppercase tracking-wider"
                 >
                   {column.label}
                 </th>
               ))}
               {(onEdit || onDelete) && (
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-900 dark:text-gray-400 uppercase tracking-wider">
+                <th className="px-6 py-3 text-left text-xs font-medium text-gray-400 uppercase tracking-wider">
                   Actions
                 </th>
               )}
             </tr>
           </thead>
-          <tbody className={`${theme === 'dark' ? 'bg-gray-800' : 'bg-white'} divide-y divide-gray-200 dark:divide-gray-700`}>
+          <tbody className="bg-gray-800 divide-y divide-gray-700">
             {paginatedData.map((item) => (
               <tr
                 key={item.id}
                 onClick={() => onRowClick && onRowClick(item)}
-                className={`${onRowClick ? 'cursor-pointer' : ''} ${theme === 'dark' ? 'hover:bg-gray-700' : 'hover:bg-gray-50'} transition-colors duration-200 group`}
+                className={`${onRowClick ? 'cursor-pointer' : ''} hover:bg-gray-700 transition-colors duration-200 group`}
               >
                 {selectable && (
                   <td className="px-6 py-4 whitespace-nowrap" onClick={(e) => e.stopPropagation()}>
@@ -181,25 +172,25 @@ const TableBuilder = <T extends { id: string }>({
                       type="checkbox"
                       checked={selectedIds.includes(item.id)}
                       onChange={() => handleSelect(item.id)}
-                      className="rounded border-gray-300 text-indigo-600 focus:ring-indigo-500"
+                      className="rounded border-gray-600 text-indigo-600 focus:ring-indigo-500 bg-gray-700"
                     />
                   </td>
                 )}
                 {columns.map((column) => (
                   <td
                     key={column.key}
-                    className="px-6 py-4 whitespace-nowrap text-sm text-gray-900 dark:text-white group-hover:text-indigo-600 transition-colors duration-200"
+                    className="px-6 py-4 whitespace-nowrap text-sm text-gray-300 group-hover:text-indigo-400 transition-colors duration-200"
                   >
                     {formatCellValue(column, item[column.key as keyof T])}
                   </td>
                 ))}
                 {(onEdit || onDelete) && (
-                  <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900 dark:text-white" onClick={(e) => e.stopPropagation()}>
+                  <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-300" onClick={(e) => e.stopPropagation()}>
                     <div className="flex items-center space-x-3">
                       {onEdit && (
                         <button
                           onClick={() => onEdit(item)}
-                          className="text-gray-900 dark:text-gray-400 hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors duration-200"
+                          className="text-gray-400 hover:text-indigo-400 transition-colors duration-200"
                         >
                           <PencilIcon className="h-5 w-5" />
                         </button>
@@ -207,7 +198,7 @@ const TableBuilder = <T extends { id: string }>({
                       {onDelete && (
                         <button
                           onClick={() => onDelete(item)}
-                          className="text-gray-900 dark:text-gray-400 hover:text-red-600 dark:hover:text-red-400 transition-colors duration-200"
+                          className="text-gray-400 hover:text-red-400 transition-colors duration-200"
                         >
                           <TrashIcon className="h-5 w-5" />
                         </button>
@@ -220,32 +211,24 @@ const TableBuilder = <T extends { id: string }>({
           </tbody>
         </table>
 
-        <div className="flex justify-between items-center p-4 border-t border-gray-200 dark:border-gray-700">
-          <span className={`text-sm ${theme === 'dark' ? 'text-gray-400' : 'text-gray-600'}`}>
-            Showing <span className="font-medium">{startIndex + 1}</span> to{' '}
-            <span className="font-medium">
+        <div className="flex justify-between items-center p-4 border-t border-gray-700 bg-gray-900">
+          <span className="text-sm text-gray-400">
+            Showing <span className="font-medium text-gray-300">{startIndex + 1}</span> to{' '}
+            <span className="font-medium text-gray-300">
               {Math.min(startIndex + itemsPerPage, filteredData.length)}
             </span>{' '}
-            of <span className="font-medium">{filteredData.length}</span> results
+            of <span className="font-medium text-gray-300">{filteredData.length}</span> results
           </span>
           <div className="flex gap-2">
             <button
-              className={`px-3 py-1 rounded ${
-                theme === 'dark'
-                  ? 'bg-gray-700 text-gray-200 hover:bg-gray-600'
-                  : 'bg-gray-200 text-gray-700 hover:bg-gray-300'
-              } disabled:opacity-50`}
+              className="px-3 py-1 rounded bg-gray-700 text-gray-200 hover:bg-gray-600 transition-colors duration-200 disabled:opacity-50 disabled:cursor-not-allowed"
               onClick={() => setCurrentPage((p) => Math.max(1, p - 1))}
               disabled={currentPage === 1}
             >
               Previous
             </button>
             <button
-              className={`px-3 py-1 rounded ${
-                theme === 'dark'
-                  ? 'bg-gray-700 text-gray-200 hover:bg-gray-600'
-                  : 'bg-gray-200 text-gray-700 hover:bg-gray-300'
-              } disabled:opacity-50`}
+              className="px-3 py-1 rounded bg-gray-700 text-gray-200 hover:bg-gray-600 transition-colors duration-200 disabled:opacity-50 disabled:cursor-not-allowed"
               onClick={() => setCurrentPage((p) => Math.min(totalPages, p + 1))}
               disabled={currentPage === totalPages}
             >
