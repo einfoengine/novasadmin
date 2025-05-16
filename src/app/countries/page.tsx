@@ -4,6 +4,7 @@ import React, { useState, useEffect } from "react";
 import { useTheme } from '@/app/providers';
 import TableBuilder from "@/components/TableBuilder";
 import { GlobeAltIcon } from "@heroicons/react/24/outline";
+import { useRouter } from 'next/navigation';
 
 interface Country {
   id: string;
@@ -17,6 +18,7 @@ export default function CountriesPage() {
   const [countries, setCountries] = useState<Country[]>([]);
   const [loading, setLoading] = useState(true);
   const { theme } = useTheme();
+  const router = useRouter();
 
   useEffect(() => {
     const fetchCountries = async () => {
@@ -46,7 +48,24 @@ export default function CountriesPage() {
   }
 
   const handleRowClick = (country: Country) => {
-    window.location.href = `/countries/${country.id}`;
+    router.push(`/countries/${country.id}`);
+  };
+
+  const handleEdit = (country: Country) => {
+    router.push(`/countries/${country.id}/edit`);
+  };
+
+  const handleDelete = async (country: Country) => {
+    if (window.confirm(`Are you sure you want to delete ${country.name}?`)) {
+      try {
+        // Here you would typically make an API call to delete the country
+        // For now, we'll just remove it from the local state
+        setCountries(countries.filter(c => c.id !== country.id));
+      } catch (error) {
+        console.error('Error deleting country:', error);
+        alert('Failed to delete country. Please try again.');
+      }
+    }
   };
 
   const columns = [
@@ -91,6 +110,12 @@ export default function CountriesPage() {
           searchable
           selectable
           onRowClick={handleRowClick}
+          onEdit={handleEdit}
+          onDelete={handleDelete}
+          actionButton={{
+            label: 'Add Country',
+            href: '/countries/new'
+          }}
         />
       </div>
     </div>
