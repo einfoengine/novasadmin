@@ -82,9 +82,9 @@ export default function ProductsPage() {
     <div className="min-h-screen bg-gray-50 text-gray-900 p-6">
       {/* Stats Cards */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
-        <StatsCard title="Last Modified" value="-" icon={<ClockIcon className="h-6 w-6" />} iconColor="#6366f1" iconBg="#eef2ff" percentage="-" percentageColor="#6b7280" trend="" />
-        <StatsCard title="New Products" value="-" icon={<ArrowTrendingUpIcon className="h-6 w-6" />} iconColor="#10b981" iconBg="#ecfdf5" percentage="-" percentageColor="#6b7280" trend="" />
-        <StatsCard title="Invoice Status" value="-" icon={<DocumentTextIcon className="h-6 w-6" />} iconColor="#f59e42" iconBg="#fff7ed" percentage="-" percentageColor="#6b7280" trend="" />
+        <StatsCard title="Last Modified" value="May 16, 2025" icon={<ClockIcon className="h-6 w-6" />} iconColor="#6366f1" iconBg="#eef2ff" percentage="+2 days" percentageColor="#10b981" trend="↑" />
+        <StatsCard title="New Products" value="3" icon={<ArrowTrendingUpIcon className="h-6 w-6" />} iconColor="#10b981" iconBg="#ecfdf5" percentage="+1" percentageColor="#10b981" trend="↑" />
+        <StatsCard title="Invoice Status" value="Paid" icon={<DocumentTextIcon className="h-6 w-6" />} iconColor="#f59e42" iconBg="#fff7ed" percentage="100%" percentageColor="#10b981" trend="✔" />
       </div>
       
       {/* Controls Row */}
@@ -178,7 +178,7 @@ export default function ProductsPage() {
                   </button>
                   <button className="text-red-600 hover:text-red-800" title="Delete">
                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-5 h-5">
-                      <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
+                      <path strokeLinecap="round" strokeLinejoin="round" d="m14.74 9-.346 9m-4.788 0L9.26 9m9.968-3.21c.342.052.682.107 1.022.166m-1.022-.165L18.16 19.673a2.25 2.25 0 0 1-2.244 2.077H8.084a2.25 2.25 0 0 1-2.244-2.077L4.772 5.79m14.456 0a48.108 48.108 0 0 0-3.478-.397m-12 .562c.34-.059.68-.114 1.022-.165m0 0a48.11 48.11 0 0 1 3.478-.397m7.5 0v-.916c0-1.18-.91-2.164-2.09-2.201a51.964 51.964 0 0 0-3.32 0c-1.18.037-2.09 1.022-2.09 2.201v.916m7.5 0a48.667 48.667 0 0 0-7.5 0" />
                     </svg>
                   </button>
                 </td>
