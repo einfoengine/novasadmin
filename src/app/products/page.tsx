@@ -2,9 +2,9 @@
 
 import { useState, useEffect } from "react";
 import StatsCard from "@/components/StatsCard";
-import { ArrowTrendingUpIcon, ClockIcon, DocumentTextIcon } from "@heroicons/react/24/outline";
-import Link from "next/link";
-import { MagnifyingGlassIcon } from "@heroicons/react/24/outline";
+import { ArrowTrendingUpIcon, ClockIcon, DocumentTextIcon, CubeIcon, PencilIcon, TrashIcon } from "@heroicons/react/24/outline";
+import TableHeader from "@/components/TableHeader";
+import { useRouter } from "next/navigation";
 
 interface Product {
   id: string;
@@ -24,11 +24,13 @@ interface Product {
 }
 
 export default function ProductsPage() {
+  const router = useRouter();
   const [products, setProducts] = useState<Product[]>([]);
   const [searchTerm, setSearchTerm] = useState("");
   const [itemsPerPage, setItemsPerPage] = useState(10);
   const [currentPage, setCurrentPage] = useState(1);
   const [loading, setLoading] = useState(true);
+  const [selectedIds, setSelectedIds] = useState<string[]>([]);
 
   useEffect(() => {
     const fetchProducts = async () => {
@@ -72,6 +74,41 @@ export default function ProductsPage() {
     setCurrentPage(page);
   };
 
+  const handleProductClick = (productId: string) => {
+    router.push(`/products/${productId}`);
+  };
+
+  const handleSelect = (id: string) => {
+    setSelectedIds(prev =>
+      prev.includes(id) ? prev.filter(sid => sid !== id) : [...prev, id]
+    );
+  };
+
+  const handleSelectAll = () => {
+    setSelectedIds(prev =>
+      prev.length === paginatedProducts.length ? [] : paginatedProducts.map(p => p.id)
+    );
+  };
+
+  const handleDelete = (id: string, e: React.MouseEvent) => {
+    e.stopPropagation();
+    if (window.confirm('Are you sure you want to delete this product?')) {
+      setProducts(prev => prev.filter(p => p.id !== id));
+    }
+  };
+
+  const handleEdit = (id: string, e: React.MouseEvent) => {
+    e.stopPropagation();
+    router.push(`/products/${id}/edit`);
+  };
+
+  const handleDeleteSelected = () => {
+    if (window.confirm(`Are you sure you want to delete ${selectedIds.length} products?`)) {
+      setProducts(prev => prev.filter(p => !selectedIds.includes(p.id)));
+      setSelectedIds([]);
+    }
+  };
+
   return (
     <div className="p-6">
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-6">
@@ -108,48 +145,37 @@ export default function ProductsPage() {
       </div>
 
       <div className="nt-products-table bg-white rounded-lg shadow">
-        <div className="p-6 border-b border-gray-200">
-          <div className="flex flex-col sm:flex-row justify-between items-center gap-4">
-            <h1 className="text-2xl font-bold text-gray-900">Products</h1>
-            <div className="flex items-center gap-4">
-              <select
-                value={itemsPerPage}
-                onChange={(e) => {
-                  setItemsPerPage(Number(e.target.value));
-                  setCurrentPage(1);
-                }}
-                className="rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
-              >
-                <option value={5}>5 per page</option>
-                <option value={10}>10 per page</option>
-                <option value={50}>50 per page</option>
-                <option value={100}>100 per page</option>
-                <option value={filteredProducts.length}>All</option>
-              </select>
-              <div className="relative">
-                <input
-                  type="text"
-                  placeholder="Search products..."
-                  value={searchTerm}
-                  onChange={(e) => setSearchTerm(e.target.value)}
-                  className="pl-10 pr-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
-                />
-                <MagnifyingGlassIcon className="h-5 w-5 text-gray-400 absolute left-3 top-1/2 transform -translate-y-1/2" />
-              </div>
-            </div>
-            <Link
-              href="/products/add"
-              className="inline-flex items-center px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
-            >
-              Add Product
-            </Link>
-          </div>
-        </div>
+        <TableHeader
+          icon={<CubeIcon className="h-6 w-6 text-gray-900" />}
+          title="Products"
+          searchTerm={searchTerm}
+          onSearchChange={setSearchTerm}
+          itemsPerPage={itemsPerPage}
+          onItemsPerPageChange={(value) => {
+            setItemsPerPage(value);
+            setCurrentPage(1);
+          }}
+          totalItems={filteredProducts.length}
+          selectedCount={selectedIds.length}
+          onDelete={handleDeleteSelected}
+          actionButton={{
+            label: "Add Product",
+            href: "/products/add"
+          }}
+        />
 
         <div className="overflow-x-auto">
           <table className="min-w-full divide-y divide-gray-200">
             <thead className="bg-gray-50">
               <tr>
+                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                  <input
+                    type="checkbox"
+                    checked={selectedIds.length === paginatedProducts.length && paginatedProducts.length > 0}
+                    onChange={handleSelectAll}
+                    className="rounded border-gray-300 text-indigo-600 focus:ring-indigo-500"
+                  />
+                </th>
                 <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">ID</th>
                 <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Name</th>
                 <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Size</th>
@@ -163,33 +189,62 @@ export default function ProductsPage() {
                 <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Price</th>
                 <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Stock</th>
                 <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Status</th>
+                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Actions</th>
               </tr>
             </thead>
             <tbody className="bg-white divide-y divide-gray-200">
               {paginatedProducts.map((product) => (
-                <tr key={product.id}>
-                  <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">{product.id}</td>
-                  <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">{product.name}</td>
-                  <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">{product.size}</td>
-                  <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">{product.material}</td>
-                  <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">{product.channel}</td>
-                  <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">{product.machine}</td>
-                  <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">{product.surface}</td>
-                  <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">{product.dieMood}</td>
-                  <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">{product.gluing}</td>
-                  <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">{product.finishing}</td>
-                  <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">${product.price.toFixed(2)}</td>
-                  <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">{product.stock}</td>
+                <tr 
+                  key={product.id}
+                  onClick={() => router.push(`/products/${product.id}`)}
+                  className="cursor-pointer hover:bg-gray-50 transition-colors duration-200 group"
+                >
+                  <td className="px-6 py-4 whitespace-nowrap" onClick={(e) => e.stopPropagation()}>
+                    <input
+                      type="checkbox"
+                      checked={selectedIds.includes(product.id)}
+                      onChange={() => handleSelect(product.id)}
+                      className="rounded border-gray-300 text-indigo-600 focus:ring-indigo-500"
+                    />
+                  </td>
+                  <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900 group-hover:text-indigo-600 transition-colors duration-200">{product.id}</td>
+                  <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900 group-hover:text-indigo-600 transition-colors duration-200">{product.name}</td>
+                  <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900 group-hover:text-gray-700 transition-colors duration-200">{product.size}</td>
+                  <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900 group-hover:text-gray-700 transition-colors duration-200">{product.material}</td>
+                  <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900 group-hover:text-gray-700 transition-colors duration-200">{product.channel}</td>
+                  <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900 group-hover:text-gray-700 transition-colors duration-200">{product.machine}</td>
+                  <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900 group-hover:text-gray-700 transition-colors duration-200">{product.surface}</td>
+                  <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900 group-hover:text-gray-700 transition-colors duration-200">{product.dieMood}</td>
+                  <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900 group-hover:text-gray-700 transition-colors duration-200">{product.gluing}</td>
+                  <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900 group-hover:text-gray-700 transition-colors duration-200">{product.finishing}</td>
+                  <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900 group-hover:text-gray-700 transition-colors duration-200">${product.price.toFixed(2)}</td>
+                  <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900 group-hover:text-gray-700 transition-colors duration-200">{product.stock}</td>
                   <td className="px-6 py-4 whitespace-nowrap">
-                    <span className={`px-2 inline-flex text-xs leading-5 font-semibold rounded-full ${
+                    <span className={`px-2 inline-flex text-xs leading-5 font-semibold rounded-full transition-colors duration-200 ${
                       product.status === "In Stock" 
-                        ? "bg-green-100 text-green-800" 
+                        ? "bg-green-100 text-green-800 group-hover:bg-green-200" 
                         : product.status === "Low Stock"
-                        ? "bg-yellow-100 text-yellow-800"
-                        : "bg-red-100 text-red-800"
+                        ? "bg-yellow-100 text-yellow-800 group-hover:bg-yellow-200"
+                        : "bg-red-100 text-red-800 group-hover:bg-red-200"
                     }`}>
                       {product.status}
                     </span>
+                  </td>
+                  <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500" onClick={(e) => e.stopPropagation()}>
+                    <div className="flex items-center space-x-3">
+                      <button
+                        onClick={(e) => handleEdit(product.id, e)}
+                        className="text-gray-400 hover:text-indigo-600 transition-colors duration-200"
+                      >
+                        <PencilIcon className="h-5 w-5" />
+                      </button>
+                      <button
+                        onClick={(e) => handleDelete(product.id, e)}
+                        className="text-gray-400 hover:text-red-600 transition-colors duration-200"
+                      >
+                        <TrashIcon className="h-5 w-5" />
+                      </button>
+                    </div>
                   </td>
                 </tr>
               ))}

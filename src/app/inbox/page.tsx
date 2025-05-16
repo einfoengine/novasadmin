@@ -1,17 +1,14 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import Link from "next/link";
 import { 
   EnvelopeIcon, 
   EnvelopeOpenIcon, 
-  PaperAirplaneIcon,
-  MagnifyingGlassIcon,
-  ArchiveBoxIcon,
-  TrashIcon
+  PaperAirplaneIcon
 } from "@heroicons/react/24/outline";
 import StatsCard from "@/components/StatsCard";
 import { useRouter } from "next/navigation";
+import TableHeader from "@/components/TableHeader";
 
 interface Message {
   id: string;
@@ -190,63 +187,22 @@ export default function InboxPage() {
       </div>
 
       <div className="nt-inbox-table bg-white rounded-lg shadow">
-        <div className="p-6 border-b border-gray-200">
-          <div className="nt-table-top flex flex-col sm:flex-row justify-between items-center gap-4">
-            <div className="flex items-center gap-2">
-              <EnvelopeIcon className="h-6 w-6 text-gray-900" />
-              <h1 className="text-2xl font-bold text-gray-900">Inbox</h1>
-            </div>
-            <div className="flex items-center gap-4">
-              <select
-                value={itemsPerPage}
-                onChange={(e) => {
-                  setItemsPerPage(Number(e.target.value));
-                }}
-                className="rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
-              >
-                <option value={5}>5 per page</option>
-                <option value={10}>10 per page</option>
-                <option value={50}>50 per page</option>
-                <option value={100}>100 per page</option>
-                <option value={filteredMessages.length}>All</option>
-              </select>
-              <div className="relative">
-                <input
-                  type="text"
-                  placeholder="Search messages..."
-                  value={searchTerm}
-                  onChange={(e) => setSearchTerm(e.target.value)}
-                  className="pl-10 pr-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
-                />
-                <MagnifyingGlassIcon className="h-5 w-5 text-gray-400 absolute left-3 top-1/2 transform -translate-y-1/2" />
-              </div>
-              {selectedIds.length > 0 && (
-                <div className="flex items-center gap-2">
-                  <button
-                    onClick={handleArchive}
-                    className="p-2 text-gray-600 hover:text-gray-900 hover:bg-gray-100 rounded-md"
-                    title="Archive"
-                  >
-                    <ArchiveBoxIcon className="h-5 w-5" />
-                  </button>
-                  <button
-                    onClick={handleDelete}
-                    className="p-2 text-red-600 hover:text-red-900 hover:bg-red-50 rounded-md"
-                    title="Delete"
-                  >
-                    <TrashIcon className="h-5 w-5" />
-                  </button>
-                </div>
-              )}
-              <Link
-                href="/inbox/compose"
-                className="inline-flex items-center px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
-              >
-                Compose
-              </Link>
-            </div>
-          </div>
-        </div>
+        <TableHeader
+          icon={<EnvelopeIcon className="h-6 w-6 text-gray-900" />}
+          title="Inbox"
+          searchTerm={searchTerm}
+          onSearchChange={setSearchTerm}
+          itemsPerPage={itemsPerPage}
+          onItemsPerPageChange={setItemsPerPage}
+          totalItems={filteredMessages.length}
+          selectedCount={selectedIds.length}
+          onArchive={handleArchive}
+          onDelete={handleDelete}
+          actionButton={{
+            label: "Compose",
+            href: "/inbox/compose"
+          }}
+        />
 
         <div className="overflow-x-auto">
           <table className="min-w-full divide-y divide-gray-200">
