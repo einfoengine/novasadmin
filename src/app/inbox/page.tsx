@@ -62,14 +62,6 @@ export default function InboxPage() {
     return matchesSearch && matchesRead;
   });
 
-  const handleStar = (id: number) => {
-    setMessages((msgs) =>
-      msgs.map((msg) =>
-        msg.id === id ? { ...msg, starred: !msg.starred } : msg
-      )
-    );
-  };
-
   const handleSelect = (id: number) => {
     setSelectedIds((prev) =>
       prev.includes(id) ? prev.filter((sid) => sid !== id) : [...prev, id]
@@ -81,14 +73,6 @@ export default function InboxPage() {
     setSelectedIds([]);
   };
 
-  const handleMarkRead = () => {
-    setMessages((msgs) =>
-      msgs.map((msg) =>
-        selectedIds.includes(msg.id) ? { ...msg, unread: false } : msg
-      )
-    );
-    setSelectedIds([]);
-  };
 
   const handleArchive = () => {
     setMessages((msgs) => msgs.filter((msg) => !selectedIds.includes(msg.id)));
@@ -101,7 +85,7 @@ export default function InboxPage() {
         <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-6">
           <div className="flex items-center gap-4 flex-1 min-w-0">
             <h1 className="text-2xl font-bold flex gap-2 shrink-0">
-              <EnvelopeIcon className="h-7 w-7 text-black" /> Inbox
+              <EnvelopeIcon className="h-7 w-7 text-black" /> Messages
             </h1>
             <input
               type="text"
@@ -139,6 +123,16 @@ export default function InboxPage() {
                 </button>
               </>
             )}
+            <button
+              className="p-2 rounded bg-black text-white hover:bg-gray-800 flex items-center gap-1 ml-2"
+              aria-label="Compose New"
+              onClick={() => router.push('/inbox/compose')}
+            >
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="h-5 w-5">
+                <path strokeLinecap="round" strokeLinejoin="round" d="M16.862 4.487a2.25 2.25 0 1 1 3.182 3.182L7.5 20.213l-4.182 1 1-4.182 12.544-12.544z" />
+              </svg>
+              <span className="hidden sm:inline">Compose New</span>
+            </button>
           </div>
         </div>
         <div className="bg-white shadow rounded-lg overflow-x-auto">

@@ -1,203 +1,210 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState } from "react";
+import StatsCard from "@/components/StatsCard";
+import { ArrowTrendingUpIcon, ClockIcon, DocumentTextIcon } from "@heroicons/react/24/outline";
 import Image from "next/image";
-import Link from "next/link";
-import { toast } from "react-hot-toast";
-import { EyeIcon, PencilIcon, TrashIcon } from "@heroicons/react/24/outline";
 
 interface Product {
-  productId: string;
-  productName: string;
-  productCost: number;
-  productPrice: number;
-  productStock: number;
-  imageUrl: string;
+  id: number;
+  image: string | null;
+  name: string | null;
+  size: string | null;
+  material: string | null;
+  channel: string | null;
+  machine: string | null;
+  surface: string | null;
+  dieMood: string | null;
+  gluing: string | null;
+  finishing: string | null;
+  price: string | null;
 }
 
-const ITEMS_PER_PAGE = 10;
+const demoProducts: Product[] = [
+  {
+    id: 1,
+    image: "/images/products/demo1.jpg",
+    name: "Custom Box",
+    size: "30x20x10cm",
+    material: "Cardboard",
+    channel: "Single Wall",
+    machine: "Heidelberg",
+    surface: "Matte",
+    dieMood: "Standard",
+    gluing: "Hotmelt",
+    finishing: "Gloss",
+    price: "$2.50",
+  },
+  {
+    id: 2,
+    image: "/images/products/demo2.jpg",
+    name: "Gift Bag",
+    size: "25x15x8cm",
+    material: "Paper",
+    channel: "N/A",
+    machine: "Komori",
+    surface: "Glossy",
+    dieMood: "Custom",
+    gluing: "Manual",
+    finishing: "Foil",
+    price: "$1.20",
+  },
+  {
+    id: 3,
+    image: "/images/products/demo3.jpg",
+    name: "Label Sticker",
+    size: "10x5cm",
+    material: "Vinyl",
+    channel: "N/A",
+    machine: "HP Indigo",
+    surface: "Glossy",
+    dieMood: "None",
+    gluing: "Self-adhesive",
+    finishing: "UV",
+    price: "$0.10",
+  },
+];
 
 export default function ProductsPage() {
-  const [products, setProducts] = useState<Product[]>([]);
-  const [displayedProducts, setDisplayedProducts] = useState<Product[]>([]);
-  const [loading, setLoading] = useState(true);
-  const [loadingMore, setLoadingMore] = useState(false);
-  const [hasMore, setHasMore] = useState(true);
+  const [search, setSearch] = useState("");
+  const [pageSize, setPageSize] = useState(10);
+  const [page, setPage] = useState(1);
 
-  useEffect(() => {
-    const fetchProducts = async () => {
-      try {
-        const response = await fetch('/products.json');
-        const data = await response.json();
-        setProducts(data.products);
-        setDisplayedProducts(data.products.slice(0, ITEMS_PER_PAGE));
-        setHasMore(data.products.length > ITEMS_PER_PAGE);
-      } catch (error) {
-        console.error('Error fetching products:', error);
-        toast.error('Failed to load products');
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    fetchProducts();
-  }, []);
-
-  const loadMore = () => {
-    setLoadingMore(true);
-    const currentLength = displayedProducts.length;
-    const nextProducts = products.slice(currentLength, currentLength + ITEMS_PER_PAGE);
-    
-    setTimeout(() => {
-      setDisplayedProducts([...displayedProducts, ...nextProducts]);
-      setHasMore(currentLength + ITEMS_PER_PAGE < products.length);
-      setLoadingMore(false);
-    }, 500); // Simulate network delay
-  };
-
-  const handleAction = async (action: string, product: Product) => {
-    const confirmMessage = {
-      edit: "Are you sure you want to edit this product?",
-      delete: "Are you sure you want to delete this product?",
-      view: "Are you sure you want to view this product's details?"
-    };
-
-    const successMessage = {
-      edit: "Redirecting to edit page...",
-      delete: "Product deleted successfully",
-      view: "Redirecting to view page..."
-    };
-
-    if (window.confirm(confirmMessage[action as keyof typeof confirmMessage])) {
-      toast.success(successMessage[action as keyof typeof successMessage]);
-      
-      switch (action) {
-        case 'edit':
-          window.location.href = `/products/edit/${product.productId}`;
-          break;
-        case 'delete':
-          setProducts(products.filter(p => p.productId !== product.productId));
-          setDisplayedProducts(displayedProducts.filter(p => p.productId !== product.productId));
-          break;
-        case 'view':
-          window.location.href = `/products/${product.productId}`;
-          break;
-      }
-    }
-  };
-
-  if (loading) {
-    return (
-      <div className="min-h-screen bg-gray-50 p-8">
-        <div className="max-w-7xl mx-auto">
-          <div className="animate-pulse">
-            <div className="h-8 bg-gray-200 rounded w-1/4 mb-4"></div>
-            <div className="h-4 bg-gray-200 rounded w-3/4 mb-2"></div>
-            <div className="h-4 bg-gray-200 rounded w-1/2"></div>
-          </div>
-        </div>
-      </div>
-    );
-  }
+  // Filtered products by search
+  const filteredProducts = demoProducts.filter((p) => {
+    const name = p.name || "";
+    return name.toLowerCase().includes(search.toLowerCase());
+  });
+  const totalPages = Math.ceil(filteredProducts.length / pageSize);
+  const paginatedProducts = filteredProducts.slice((page - 1) * pageSize, page * pageSize);
 
   return (
-    <div className="min-h-screen bg-gray-50 p-8">
-      <div className="max-w-7xl mx-auto">
-        <div className="flex justify-between items-center mb-6">
-          <h1 className="text-2xl font-bold text-gray-900">Products</h1>
-          <Link
-            href="/products/add"
-            className="bg-black text-white px-4 py-2 rounded-md hover:bg-gray-800 transition-colors"
+    <div className="min-h-screen bg-gray-50 text-gray-900 p-6">
+      {/* Stats Cards */}
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
+        <StatsCard title="Last Modified" value="-" icon={<ClockIcon className="h-6 w-6" />} iconColor="#6366f1" iconBg="#eef2ff" percentage="-" percentageColor="#6b7280" trend="" />
+        <StatsCard title="New Products" value="-" icon={<ArrowTrendingUpIcon className="h-6 w-6" />} iconColor="#10b981" iconBg="#ecfdf5" percentage="-" percentageColor="#6b7280" trend="" />
+        <StatsCard title="Invoice Status" value="-" icon={<DocumentTextIcon className="h-6 w-6" />} iconColor="#f59e42" iconBg="#fff7ed" percentage="-" percentageColor="#6b7280" trend="" />
+      </div>
+      
+      {/* Controls Row */}
+      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2 mb-4">
+        {/* Products Table Title */}
+      <div className="flex items-center justify-between mb-2">
+        <h1 className="text-2xl font-bold">Products <span className="text-base font-normal text-gray-500">({filteredProducts.length} products)</span></h1>
+      </div>
+        <div className="flex items-center gap-2 w-full sm:w-auto justify-end">
+          <div className="flex items-center gap-2">
+          <label className="text-sm">Show</label>
+          <select
+            className="border border-gray-300 rounded px-2 py-1 text-sm"
+            value={pageSize}
+            onChange={e => {
+              setPageSize(Number(e.target.value));
+              setPage(1);
+            }}
           >
+            <option value={10}>10</option>
+            <option value={25}>25</option>
+            <option value={50}>50</option>
+            <option value={100}>100</option>
+          </select>
+          <span className="text-sm">products</span>
+        </div>
+          <input
+            type="text"
+            value={search}
+            onChange={e => {
+              setSearch(e.target.value);
+              setPage(1);
+            }}
+            placeholder="Search products..."
+            className="px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-black focus:border-black text-sm w-full max-w-xs"
+          />
+          <button
+            className="px-4 py-2 rounded bg-black text-white hover:bg-gray-800 text-sm flex items-center gap-1 whitespace-nowrap"
+            onClick={() => window.location.href = '/products/add'}
+          >
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-5 h-5">
+              <path strokeLinecap="round" strokeLinejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
+            </svg>
             Add New Product
-          </Link>
+          </button>
         </div>
-
-        <div className="bg-white rounded-lg shadow overflow-hidden">
-          <div className="grid grid-cols-12 gap-4 p-4 bg-gray-100 border-b">
-            <div className="col-span-1 font-medium text-gray-900">Image</div>
-            <div className="col-span-2 font-medium text-gray-900">Product ID</div>
-            <div className="col-span-3 font-medium text-gray-900">Name</div>
-            <div className="col-span-2 font-medium text-gray-900">Cost</div>
-            <div className="col-span-2 font-medium text-gray-900">Price</div>
-            <div className="col-span-1 font-medium text-gray-900">Stock</div>
-            <div className="col-span-1 font-medium text-gray-900">Actions</div>
-          </div>
-
-          <div className="divide-y divide-gray-200">
-            {displayedProducts.map((product) => (
-              <div key={product.productId} className="grid grid-cols-12 gap-4 p-4 items-center hover:bg-gray-50">
-                <div className="col-span-1">
-                  <div className="relative w-12 h-12">
-                    <Image
-                      src={product.imageUrl}
-                      alt={product.productName}
-                      fill
-                      className="object-cover rounded-md"
-                    />
-                  </div>
-                </div>
-                <div className="col-span-2 text-gray-900">{product.productId}</div>
-                <div className="col-span-3 text-gray-900">{product.productName}</div>
-                <div className="col-span-2 text-gray-900">${product.productCost.toFixed(2)}</div>
-                <div className="col-span-2 text-gray-900">${product.productPrice.toFixed(2)}</div>
-                <div className="col-span-1 text-gray-900">{product.productStock}</div>
-                <div className="col-span-1">
-                  <div className="flex space-x-2">
-                    <button
-                      onClick={() => handleAction('view', product)}
-                      className="text-gray-600 hover:text-gray-900"
-                      title="View"
-                    >
-                      <EyeIcon className="h-5 w-5" />
-                    </button>
-                    <button
-                      onClick={() => handleAction('edit', product)}
-                      className="text-gray-600 hover:text-gray-900"
-                      title="Edit"
-                    >
-                      <PencilIcon className="h-5 w-5" />
-                    </button>
-                    <button
-                      onClick={() => handleAction('delete', product)}
-                      className="text-gray-600 hover:text-gray-900"
-                      title="Delete"
-                    >
-                      <TrashIcon className="h-5 w-5" />
-                    </button>
-                  </div>
-                </div>
-              </div>
-            ))}
-          </div>
-
-          {hasMore && (
-            <div className="p-4 border-t border-gray-200">
-              <button
-                onClick={loadMore}
-                disabled={loadingMore}
-                className={`w-full py-2 px-4 rounded-md text-sm font-medium transition-colors ${
-                  loadingMore
-                    ? 'bg-gray-100 text-gray-400 cursor-not-allowed'
-                    : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
-                }`}
-              >
-                {loadingMore ? (
-                  <span className="flex items-center justify-center">
-                    <svg className="animate-spin -ml-1 mr-3 h-5 w-5 text-gray-400" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-                      <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
-                      <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+      </div>
+      <div className="bg-white shadow rounded-lg overflow-x-auto">
+        <table className="min-w-[900px] divide-y divide-gray-200">
+          <thead className="bg-gray-50">
+            <tr>
+              <th className="px-4 py-3">Image</th>
+              <th className="px-4 py-3">Product Name</th>
+              <th className="px-4 py-3">Size</th>
+              <th className="px-4 py-3">Type of Material</th>
+              <th className="px-4 py-3">Printing Channel</th>
+              <th className="px-4 py-3">Printing Machine</th>
+              <th className="px-4 py-3">Printing Surface</th>
+              <th className="px-4 py-3">Die Mood</th>
+              <th className="px-4 py-3">Gluing</th>
+              <th className="px-4 py-3">Finishing</th>
+              <th className="px-4 py-3">Price</th>
+              <th className="px-4 py-3">Action</th>
+            </tr>
+          </thead>
+          <tbody className="divide-y divide-gray-200">
+            {paginatedProducts.map((product) => (
+              <tr key={product.id}>
+                <td className="px-4 py-2 text-center">
+                  {product.image ? (
+                    <Image src={product.image} alt={product.name || "Product"} width={48} height={48} className="w-12 h-12 object-cover rounded" />
+                  ) : (
+                    <div className="w-12 h-12 bg-gray-100 rounded" />
+                  )}
+                </td>
+                <td className="px-4 py-2 text-center">{product.name || '-'}</td>
+                <td className="px-4 py-2 text-center">{product.size || '-'}</td>
+                <td className="px-4 py-2 text-center">{product.material || '-'}</td>
+                <td className="px-4 py-2 text-center">{product.channel || '-'}</td>
+                <td className="px-4 py-2 text-center">{product.machine || '-'}</td>
+                <td className="px-4 py-2 text-center">{product.surface || '-'}</td>
+                <td className="px-4 py-2 text-center">{product.dieMood || '-'}</td>
+                <td className="px-4 py-2 text-center">{product.gluing || '-'}</td>
+                <td className="px-4 py-2 text-center">{product.finishing || '-'}</td>
+                <td className="px-4 py-2 text-center">{product.price || '-'}</td>
+                <td className="px-4 py-2 text-center flex items-center justify-center gap-2">
+                  <button className="text-blue-600 hover:text-blue-800" title="Edit">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-5 h-5">
+                      <path strokeLinecap="round" strokeLinejoin="round" d="M16.862 4.487a2.25 2.25 0 1 1 3.182 3.182L7.5 20.213l-4.182 1 1-4.182 12.544-12.544z" />
                     </svg>
-                    Loading...
-                  </span>
-                ) : (
-                  'Load More'
-                )}
-              </button>
-            </div>
-          )}
-        </div>
+                  </button>
+                  <button className="text-red-600 hover:text-red-800" title="Delete">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-5 h-5">
+                      <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
+                    </svg>
+                  </button>
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+      {/* Pagination */}
+      <div className="flex justify-end mt-4 gap-2">
+        <button
+          className="px-3 py-1 rounded bg-gray-200 text-gray-700 hover:bg-gray-300"
+          onClick={() => setPage((p) => Math.max(1, p - 1))}
+          disabled={page === 1}
+        >
+          Prev
+        </button>
+        <span className="px-3 py-1">{page} / {totalPages}</span>
+        <button
+          className="px-3 py-1 rounded bg-gray-200 text-gray-700 hover:bg-gray-300"
+          onClick={() => setPage((p) => Math.min(totalPages, p + 1))}
+          disabled={page === totalPages}
+        >
+          Next
+        </button>
       </div>
     </div>
   );
-} 
+}
