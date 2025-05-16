@@ -1,0 +1,49 @@
+{
+  "messages": [
+    {
+      "id": "1",
+      "from": "John Smith",
+      "subject": "Project Update - Q2 Review",
+      "content": "Hi team, I wanted to share the latest updates on our Q2 project progress...",
+      "date": "2024-03-20",
+      "read": false,
+      "priority": "high"
+    },
+    {
+      "id": "2",
+      "from": "Sarah Johnson",
+      "subject": "Meeting Notes - Marketing Strategy",
+      "content": "Here are the key points from today's marketing strategy meeting...",
+      "date": "2024-03-19",
+      "read": true,
+      "priority": "medium"
+    },
+    {
+      "id": "3",
+      "from": "me",
+      "subject": "Re: Client Proposal",
+      "content": "I've reviewed the proposal and have some suggestions...",
+      "date": "2024-03-18",
+      "read": true,
+      "priority": "low"
+    },
+    {
+      "id": "4",
+      "from": "Support Team",
+      "subject": "System Maintenance Notice",
+      "content": "Please be advised that our system will undergo maintenance...",
+      "date": "2024-03-17",
+      "read": false,
+      "priority": "high"
+    },
+    {
+      "id": "5",
+      "from": "me",
+      "subject": "New Client Onboarding",
+      "content": "I've completed the initial setup for the new client...",
+      "date": "2024-03-16",
+      "read": true,
+      "priority": "medium"
+    }
+  ]
+} 

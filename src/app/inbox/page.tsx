@@ -1,214 +1,294 @@
 "use client";
 
+import { useState, useEffect } from "react";
 import Link from "next/link";
-import { useState } from "react";
-import { useRouter } from "next/navigation";
-import { EnvelopeIcon, StarIcon, TrashIcon, ArchiveBoxIcon, CheckCircleIcon } from "@heroicons/react/24/outline";
+import { 
+  EnvelopeIcon, 
+  EnvelopeOpenIcon, 
+  PaperAirplaneIcon,
+  MagnifyingGlassIcon,
+  ArchiveBoxIcon,
+  TrashIcon
+} from "@heroicons/react/24/outline";
+import StatsCard from "@/components/StatsCard";
 
 interface Message {
-  id: number;
-  sender: string;
+  id: string;
+  from: string;
   subject: string;
-  preview: string;
+  content: string;
   date: string;
-  unread: boolean;
-  starred: boolean;
+  read: boolean;
+  priority: "high" | "medium" | "low";
 }
 
-const mockMessages: Message[] = [
-  {
-    id: 1,
-    sender: "Alice Johnson",
-    subject: "Welcome to NovasAdmin!",
-    preview: "Hi there, welcome to the platform. Let us know if you need anything!",
-    date: "2025-05-16",
-    unread: true,
-    starred: false,
-  },
-  {
-    id: 2,
-    sender: "Support Team",
-    subject: "Your account has been updated",
-    preview: "Your profile information was successfully updated.",
-    date: "2025-05-15",
-    unread: false,
-    starred: true,
-  },
-  {
-    id: 3,
-    sender: "Marketing",
-    subject: "New campaign features",
-    preview: "Check out the latest updates to campaign management.",
-    date: "2025-05-14",
-    unread: true,
-    starred: false,
-  },
-];
-
 export default function InboxPage() {
-  const [messages, setMessages] = useState<Message[]>(mockMessages);
-  const [selectedIds, setSelectedIds] = useState<number[]>([]);
-  const [search, setSearch] = useState("");
-  const [showRead, setShowRead] = useState(true);
-  const router = useRouter();
+  const [messages, setMessages] = useState<Message[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [searchTerm, setSearchTerm] = useState("");
+  const [itemsPerPage, setItemsPerPage] = useState(10);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [selectedIds, setSelectedIds] = useState<string[]>([]);
 
-  // Filtered and searched messages
-  const filteredMessages = messages.filter((msg) => {
-    const matchesSearch =
-      msg.sender.toLowerCase().includes(search.toLowerCase()) ||
-      msg.subject.toLowerCase().includes(search.toLowerCase()) ||
-      msg.preview.toLowerCase().includes(search.toLowerCase());
-    const matchesRead = showRead ? true : msg.unread;
-    return matchesSearch && matchesRead;
-  });
+  useEffect(() => {
+    const fetchMessages = async () => {
+      try {
+        const response = await fetch('/messages.json');
+        const data = await response.json();
+        setMessages(Array.isArray(data) ? data : data.messages || []);
+        setLoading(false);
+      } catch (error) {
+        console.error('Error fetching messages:', error);
+        setMessages([]);
+        setLoading(false);
+      }
+    };
 
-  const handleSelect = (id: number) => {
-    setSelectedIds((prev) =>
-      prev.includes(id) ? prev.filter((sid) => sid !== id) : [...prev, id]
+    fetchMessages();
+  }, []);
+
+  if (loading) {
+    return (
+      <div className="p-6">
+        <div className="flex items-center justify-center h-64">
+          <div className="text-gray-500">Loading messages...</div>
+        </div>
+      </div>
+    );
+  }
+
+  const filteredMessages = messages.filter(message =>
+    message.from.toLowerCase().includes(searchTerm.toLowerCase()) ||
+    message.subject.toLowerCase().includes(searchTerm.toLowerCase()) ||
+    message.content.toLowerCase().includes(searchTerm.toLowerCase())
+  );
+
+  const totalPages = Math.ceil(filteredMessages.length / itemsPerPage);
+  const startIndex = (currentPage - 1) * itemsPerPage;
+  const paginatedMessages = filteredMessages.slice(startIndex, startIndex + itemsPerPage);
+
+  const handleSelect = (id: string) => {
+    setSelectedIds(prev =>
+      prev.includes(id) ? prev.filter(sid => sid !== id) : [...prev, id]
+    );
+  };
+
+  const handleSelectAll = () => {
+    setSelectedIds(prev =>
+      prev.length === paginatedMessages.length ? [] : paginatedMessages.map(m => m.id)
     );
   };
 
   const handleDelete = () => {
-    setMessages((msgs) => msgs.filter((msg) => !selectedIds.includes(msg.id)));
+    setMessages(prev => prev.filter(msg => !selectedIds.includes(msg.id)));
     setSelectedIds([]);
   };
-
 
   const handleArchive = () => {
-    setMessages((msgs) => msgs.filter((msg) => !selectedIds.includes(msg.id)));
+    // In a real app, this would move messages to an archive
+    setMessages(prev => prev.filter(msg => !selectedIds.includes(msg.id)));
     setSelectedIds([]);
   };
 
+  const unreadCount = messages.filter(m => !m.read).length;
+  const highPriorityCount = messages.filter(m => m.priority === "high").length;
+  const sentCount = messages.filter(m => m.from === "me").length;
+
   return (
-    <div className="min-h-screen bg-gray-50 text-gray-900">
-      <div className="p-6">
-        <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-6">
-          <div className="flex items-center gap-4 flex-1 min-w-0">
-            <h1 className="text-2xl font-bold flex gap-2 shrink-0">
-              <EnvelopeIcon className="h-7 w-7 text-black" /> Messages
-            </h1>
-            <input
-              type="text"
-              value={search}
-              onChange={(e) => setSearch(e.target.value)}
-              placeholder="Search messages..."
-              className="w-full max-w-xs px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-black focus:border-black text-sm"
-            />
-            <label className="flex items-center gap-2 text-sm cursor-pointer shrink-0">
-              <input
-                type="checkbox"
-                checked={showRead}
-                onChange={() => setShowRead((v) => !v)}
-                className="form-checkbox"
-              />
-              Show read messages
-            </label>
-          </div>
-          <div className="flex items-center gap-2 shrink-0">
-            {selectedIds.length > 0 && (
-              <>
-                <button
-                  onClick={handleDelete}
-                  className="p-2 rounded hover:bg-red-100 text-red-600"
-                  aria-label="Delete"
-                >
-                  <TrashIcon className="h-5 w-5" />
-                </button>
-                <button
-                  onClick={handleArchive}
-                  className="p-2 rounded hover:bg-gray-200 text-gray-600"
-                  aria-label="Archive"
-                >
-                  <ArchiveBoxIcon className="h-5 w-5" />
-                </button>
-              </>
-            )}
-            <button
-              className="p-2 rounded bg-black text-white hover:bg-gray-800 flex items-center gap-1 ml-2"
-              aria-label="Compose New"
-              onClick={() => router.push('/inbox/compose')}
-            >
-              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="h-5 w-5">
-                <path strokeLinecap="round" strokeLinejoin="round" d="M16.862 4.487a2.25 2.25 0 1 1 3.182 3.182L7.5 20.213l-4.182 1 1-4.182 12.544-12.544z" />
-              </svg>
-              <span className="hidden sm:inline">Compose New</span>
-            </button>
+    <div className="p-6">
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-6">
+        <StatsCard
+          title="Unread Messages"
+          value={unreadCount.toString()}
+          icon={<EnvelopeIcon className="w-6 h-6" />}
+          iconColor="#6366f1"
+          iconBg="#eef2ff"
+          percentage=""
+          percentageColor="#6b7280"
+          trend="+5 new"
+        />
+        <StatsCard
+          title="High Priority"
+          value={highPriorityCount.toString()}
+          icon={<EnvelopeOpenIcon className="w-6 h-6" />}
+          iconColor="#f59e42"
+          iconBg="#fff7ed"
+          percentage=""
+          percentageColor="#6b7280"
+          trend="2 urgent"
+        />
+        <StatsCard
+          title="Sent Messages"
+          value={sentCount.toString()}
+          icon={<PaperAirplaneIcon className="w-6 h-6" />}
+          iconColor="#10b981"
+          iconBg="#ecfdf5"
+          percentage=""
+          percentageColor="#6b7280"
+          trend="+12%"
+        />
+      </div>
+
+      <div className="nt-inbox-table bg-white rounded-lg shadow">
+        <div className="p-6 border-b border-gray-200">
+          <div className="flex flex-col sm:flex-row justify-between items-center gap-4">
+            <div className="flex items-center gap-2">
+              <EnvelopeIcon className="h-6 w-6 text-gray-900" />
+              <h1 className="text-2xl font-bold text-gray-900">Inbox</h1>
+            </div>
+            <div className="flex items-center gap-4">
+              <select
+                value={itemsPerPage}
+                onChange={(e) => {
+                  setItemsPerPage(Number(e.target.value));
+                  setCurrentPage(1);
+                }}
+                className="rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
+              >
+                <option value={5}>5 per page</option>
+                <option value={10}>10 per page</option>
+                <option value={50}>50 per page</option>
+                <option value={100}>100 per page</option>
+                <option value={filteredMessages.length}>All</option>
+              </select>
+              <div className="relative">
+                <input
+                  type="text"
+                  placeholder="Search messages..."
+                  value={searchTerm}
+                  onChange={(e) => setSearchTerm(e.target.value)}
+                  className="pl-10 pr-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                />
+                <MagnifyingGlassIcon className="h-5 w-5 text-gray-400 absolute left-3 top-1/2 transform -translate-y-1/2" />
+              </div>
+              {selectedIds.length > 0 && (
+                <div className="flex items-center gap-2">
+                  <button
+                    onClick={handleArchive}
+                    className="p-2 text-gray-600 hover:text-gray-900 hover:bg-gray-100 rounded-md"
+                    title="Archive"
+                  >
+                    <ArchiveBoxIcon className="h-5 w-5" />
+                  </button>
+                  <button
+                    onClick={handleDelete}
+                    className="p-2 text-red-600 hover:text-red-900 hover:bg-red-50 rounded-md"
+                    title="Delete"
+                  >
+                    <TrashIcon className="h-5 w-5" />
+                  </button>
+                </div>
+              )}
+              <Link
+                href="/inbox/compose"
+                className="inline-flex items-center px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+              >
+                Compose
+              </Link>
+            </div>
           </div>
         </div>
-        <div className="bg-white shadow rounded-lg overflow-x-auto">
+
+        <div className="overflow-x-auto">
           <table className="min-w-full divide-y divide-gray-200">
             <thead className="bg-gray-50">
               <tr>
-                <th className="px-4 py-3">
+                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                   <input
                     type="checkbox"
-                    checked={selectedIds.length === filteredMessages.length && filteredMessages.length > 0}
-                    onChange={(e) =>
-                      setSelectedIds(e.target.checked ? filteredMessages.map((m) => m.id) : [])
-                    }
+                    checked={selectedIds.length === paginatedMessages.length && paginatedMessages.length > 0}
+                    onChange={handleSelectAll}
+                    className="rounded border-gray-300 text-indigo-600 focus:ring-indigo-500"
                   />
                 </th>
-                <th className="px-4 py-3 text-left text-xs font-medium uppercase tracking-wider">
-                  Sender
-                </th>
-                <th className="px-4 py-3 text-left text-xs font-medium uppercase tracking-wider">
-                  Subject
-                </th>
-                <th className="px-4 py-3 text-left text-xs font-medium uppercase tracking-wider">
-                  Preview
-                </th>
-                <th className="px-4 py-3 text-left text-xs font-medium uppercase tracking-wider">
-                  Date
-                </th>
+                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">From</th>
+                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Subject</th>
+                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Date</th>
+                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Priority</th>
+                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Status</th>
               </tr>
             </thead>
-            <tbody className="divide-y divide-gray-200">
-              {filteredMessages.map((msg) => (
-                <tr
-                  key={msg.id}
-                  className={`hover:bg-gray-50 cursor-pointer ${
-                    msg.unread ? "font-bold bg-gray-100" : ""
-                  }`}
-                >
-                  <td className="px-4 py-4">
+            <tbody className="bg-white divide-y divide-gray-200">
+              {paginatedMessages.map((message) => (
+                <tr key={message.id} className={!message.read ? "bg-gray-50" : ""}>
+                  <td className="px-6 py-4 whitespace-nowrap">
                     <input
                       type="checkbox"
-                      checked={selectedIds.includes(msg.id)}
-                      onChange={() => handleSelect(msg.id)}
-                      onClick={(e) => e.stopPropagation()}
+                      checked={selectedIds.includes(message.id)}
+                      onChange={() => handleSelect(message.id)}
+                      className="rounded border-gray-300 text-indigo-600 focus:ring-indigo-500"
                     />
                   </td>
-                  <td className="px-4 py-4 whitespace-nowrap">
-                    <span className="text-gray-900">{msg.sender}</span>
+                  <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
+                    {message.from}
                   </td>
-                  <td className="px-4 py-4 whitespace-nowrap">
-                    <span
-                      className="text-blue-600 hover:underline cursor-pointer"
-                      onClick={() => router.push(`/inbox/${msg.id}`)}
-                    >
-                      {msg.subject}
+                  <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+                    <Link href={`/inbox/${message.id}`} className="hover:text-indigo-600">
+                      {message.subject}
+                    </Link>
+                  </td>
+                  <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                    {message.date}
+                  </td>
+                  <td className="px-6 py-4 whitespace-nowrap">
+                    <span className={`px-2 inline-flex text-xs leading-5 font-semibold rounded-full ${
+                      message.priority === "high" 
+                        ? "bg-red-100 text-red-800" 
+                        : message.priority === "medium"
+                        ? "bg-yellow-100 text-yellow-800"
+                        : "bg-green-100 text-green-800"
+                    }`}>
+                      {message.priority}
                     </span>
                   </td>
-                  <td className="px-4 py-4 whitespace-nowrap text-gray-500">
-                    <span
-                      className="hover:underline cursor-pointer"
-                      onClick={() => router.push(`/inbox/${msg.id}`)}
-                    >
-                      {msg.preview}
-                    </span>
-                  </td>
-                  <td className="px-4 py-4 whitespace-nowrap text-xs text-gray-400">
-                    {msg.date}
+                  <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                    {message.read ? "Read" : "Unread"}
                   </td>
                 </tr>
               ))}
             </tbody>
           </table>
-          {filteredMessages.length === 0 && (
-            <div className="p-8 text-center text-gray-500">
-              No messages.
+        </div>
+
+        <div className="px-6 py-4 border-t border-gray-200">
+          <div className="flex items-center justify-between">
+            <div className="text-sm text-gray-700">
+              Showing <span className="font-medium">{startIndex + 1}</span> to{" "}
+              <span className="font-medium">
+                {Math.min(startIndex + itemsPerPage, filteredMessages.length)}
+              </span>{" "}
+              of <span className="font-medium">{filteredMessages.length}</span> results
             </div>
-          )}
+            <div className="flex items-center space-x-2">
+              <button
+                onClick={() => setCurrentPage(currentPage - 1)}
+                disabled={currentPage === 1}
+                className="px-3 py-1 rounded-md border border-gray-300 text-sm font-medium text-gray-700 hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed"
+              >
+                Previous
+              </button>
+              {Array.from({ length: totalPages }, (_, i) => i + 1).map((page) => (
+                <button
+                  key={page}
+                  onClick={() => setCurrentPage(page)}
+                  className={`px-3 py-1 rounded-md text-sm font-medium ${
+                    currentPage === page
+                      ? "bg-indigo-600 text-white"
+                      : "border border-gray-300 text-gray-700 hover:bg-gray-50"
+                  }`}
+                >
+                  {page}
+                </button>
+              ))}
+              <button
+                onClick={() => setCurrentPage(currentPage + 1)}
+                disabled={currentPage === totalPages}
+                className="px-3 py-1 rounded-md border border-gray-300 text-sm font-medium text-gray-700 hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed"
+              >
+                Next
+              </button>
+            </div>
+          </div>
         </div>
       </div>
     </div>
