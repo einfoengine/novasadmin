@@ -22,11 +22,11 @@ export default function RootLayout({
       </head>
       <body suppressHydrationWarning className="antialiased">
         <Providers>
-          <div className="flex h-screen w-full overflow-hidden">
+          <div className="flex h-screen w-full overflow-hidden bg-white dark:bg-gray-900">
             <Sidebar />
             <div className="flex flex-col flex-1 overflow-hidden">
               <Header />
-              <main id="nt-main-content" className="flex-1 overflow-y-auto bg-white dark:bg-gray-900">
+              <main id="nt-main-content" className="flex-1 overflow-y-auto bg-gray-50 dark:bg-gray-900">
                 {children}
               </main>
             </div>

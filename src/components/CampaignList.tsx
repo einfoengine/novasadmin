@@ -2,6 +2,7 @@
 import { useState } from 'react';
 import CampaignTable from '@/components/campaign-table';
 import CampaignModal from '@/components/campaign-modal';
+import { useTheme } from '@/app/providers';
 
 interface Campaign {
   campaignId: string;
@@ -50,6 +51,7 @@ export default function CampaignList({
   setSelectedCampaign
 }: CampaignListProps) {
   const [showModal, setShowModal] = useState(false);
+  const { theme } = useTheme();
 
   const handleAddNew = () => {
     setSelectedCampaign(null);
@@ -70,12 +72,12 @@ export default function CampaignList({
 
   return (
     <div className="mt-8">
-      <div className="p-6 border-b border-gray-200">
+      <div className={`p-6 ${theme === 'dark' ? 'border-gray-700' : 'border-gray-200'} border-b`}>
         <div className="flex justify-between items-center">
-          <h2 className="text-xl font-semibold text-gray-900">Campaigns</h2>
+          <h2 className={`text-xl font-semibold ${theme === 'dark' ? 'text-white' : 'text-gray-900'}`}>Campaigns</h2>
           <button
             onClick={handleAddNew}
-            className="bg-black text-white px-4 py-2 rounded-md hover:bg-gray-800 transition-colors"
+            className={`${theme === 'dark' ? 'bg-gray-800 hover:bg-gray-700' : 'bg-black hover:bg-gray-800'} text-white px-4 py-2 rounded-md transition-colors`}
           >
             Add New Campaign
           </button>

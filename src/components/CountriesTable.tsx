@@ -1,95 +1,72 @@
 'use client'
 
-import React, { useEffect, useState } from "react";
-import TableHeader from "./TableHeader";
+import React, { useState, useEffect } from 'react';
+import { useRouter } from 'next/navigation';
+import { GlobeAltIcon } from '@heroicons/react/24/outline';
+import TableBuilder from './TableBuilder';
 
 interface Country {
   id: string;
   name: string;
-  totalStores: number;
-  currency: string;
-  exchangeRate: number;
+  code: string;
+  population: number;
+  area: number;
+  gdp: number;
+  status: 'active' | 'inactive';
+  lastUpdated: string;
 }
 
-const fetchCountries = async (): Promise<Country[]> => {
-  const res = await fetch("/countries.json");
-  const data = await res.json();
-  return data.countries;
-};
-
-const CountriesTable: React.FC = () => {
+const CountriesTable = () => {
+  const router = useRouter();
   const [countries, setCountries] = useState<Country[]>([]);
-  const [search, setSearch] = useState("");
-  const [itemsPerPage, setItemsPerPage] = useState(10);
-  const [page, setPage] = useState(1);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    fetchCountries().then(setCountries);
+    const fetchCountries = async () => {
+      try {
+        const response = await fetch('/api/countries');
+        const data = await response.json();
+        setCountries(data);
+      } catch (error) {
+        console.error('Error fetching countries:', error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchCountries();
   }, []);
 
-  const filtered = countries.filter((c) =>
-    c.name.toLowerCase().includes(search.toLowerCase()) ||
-    c.id.toLowerCase().includes(search.toLowerCase())
-  );
+  const columns = [
+    { key: 'name', label: 'Country Name', type: 'link' as const, linkHref: (value: unknown) => `/countries/${value}` },
+    { key: 'code', label: 'Country Code' },
+    { key: 'population', label: 'Population', type: 'number' as const },
+    { key: 'area', label: 'Area (km²)', type: 'number' as const },
+    { key: 'gdp', label: 'GDP (USD)', type: 'currency' as const },
+    { key: 'status', label: 'Status', type: 'status' as const },
+    { key: 'lastUpdated', label: 'Last Updated', type: 'date' as const },
+  ];
 
-  const paginated = filtered.slice((page - 1) * itemsPerPage, page * itemsPerPage);
-  const totalPages = Math.ceil(filtered.length / itemsPerPage);
+  const handleRowClick = (country: Country) => {
+    router.push(`/countries/${country.id}`);
+  };
+
+  if (loading) {
+    return <div>Loading...</div>;
+  }
 
   return (
-    <div className="bg-white dark:bg-gray-900 rounded-lg shadow overflow-x-auto">
-      <TableHeader
-        icon={<span role="img" aria-label="globe">🌍</span>}
-        title="Countries"
-        searchTerm={search}
-        onSearchChange={setSearch}
-        itemsPerPage={itemsPerPage}
-        onItemsPerPageChange={setItemsPerPage}
-        totalItems={filtered.length}
-      />
-      <table className="min-w-full divide-y divide-gray-200 dark:divide-gray-700">
-        <thead className="bg-gray-50 dark:bg-gray-800">
-          <tr>
-            <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">ID</th>
-            <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">Name</th>
-            <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">Total Stores</th>
-            <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">Currency</th>
-            <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">Exchange Rate</th>
-          </tr>
-        </thead>
-        <tbody className="bg-white dark:bg-gray-900 divide-y divide-gray-200 dark:divide-gray-800">
-          {paginated.map((country) => (
-            <tr key={country.id}>
-              <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900 dark:text-white">{country.id}</td>
-              <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900 dark:text-white">{country.name}</td>
-              <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900 dark:text-white">{country.totalStores}</td>
-              <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900 dark:text-white">{country.currency}</td>
-              <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900 dark:text-white">{country.exchangeRate}</td>
-            </tr>
-          ))}
-        </tbody>
-      </table>
-      <div className="flex justify-between items-center p-4">
-        <span className="text-sm text-gray-600 dark:text-gray-300">
-          Page {page} of {totalPages}
-        </span>
-        <div className="flex gap-2">
-          <button
-            className="px-3 py-1 rounded bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-200 disabled:opacity-50"
-            onClick={() => setPage((p) => Math.max(1, p - 1))}
-            disabled={page === 1}
-          >
-            Previous
-          </button>
-          <button
-            className="px-3 py-1 rounded bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-200 disabled:opacity-50"
-            onClick={() => setPage((p) => Math.min(totalPages, p + 1))}
-            disabled={page === totalPages}
-          >
-            Next
-          </button>
-        </div>
-      </div>
-    </div>
+    <TableBuilder
+      data={countries}
+      columns={columns}
+      title="Countries"
+      icon={<GlobeAltIcon className="h-6 w-6" />}
+      onRowClick={handleRowClick}
+      actionButton={{
+        label: 'Add Country',
+        href: '/countries/new',
+      }}
+    />
   );
 };
 

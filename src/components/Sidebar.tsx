@@ -3,6 +3,7 @@
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
+import { useTheme } from '@/app/providers';
 import { 
   HomeIcon, 
   UserIcon, 
@@ -112,6 +113,7 @@ export default function Sidebar() {
   const pathname = usePathname();
   const [mounted, setMounted] = useState(false);
   const [expandedMenus, setExpandedMenus] = useState<{ [key: string]: boolean }>({});
+  const { theme } = useTheme();
 
   useEffect(() => {
     setMounted(true);
@@ -138,9 +140,9 @@ export default function Sidebar() {
   };
 
   return (
-    <aside className="w-64 bg-gray-900 border-r border-gray-800 flex flex-col h-full">
-      <div className="flex items-center justify-center h-16 border-b border-gray-800">
-        <h1 className="text-xl font-bold text-white">NovasAdmin</h1>
+    <aside className={`w-64 ${theme === 'dark' ? 'bg-gray-900 border-gray-800' : 'bg-white border-gray-200'} border-r flex flex-col h-full`}>
+      <div className={`flex items-center justify-center h-16 ${theme === 'dark' ? 'border-gray-800' : 'border-gray-200'} border-b`}>
+        <h1 className={`text-xl font-bold ${theme === 'dark' ? 'text-white' : 'text-gray-900'}`}>NovasAdmin</h1>
       </div>
       <nav className="flex-1 px-4 py-4 space-y-1 overflow-y-auto">
         {menuItems.map(item => (
@@ -148,13 +150,13 @@ export default function Sidebar() {
             <div
               className={`flex items-center justify-between px-4 py-2 text-sm font-medium rounded-md transition-colors cursor-pointer ${
                 isActive(item.href)
-                  ? 'bg-gray-800 text-white'
-                  : 'text-gray-300 hover:bg-gray-800 hover:text-white'
+                  ? theme === 'dark' ? 'bg-gray-800 text-white' : 'bg-gray-100 text-gray-900'
+                  : theme === 'dark' ? 'text-gray-300 hover:bg-gray-800 hover:text-white' : 'text-gray-600 hover:bg-gray-100 hover:text-gray-900'
               }`}
               onClick={() => item.submenu.length > 0 ? toggleSubmenu(item.name) : null}
             >
               <div className="flex items-center">
-                <item.icon className="w-5 h-5 mr-3" />
+                <item.icon className={`w-5 h-5 mr-3 ${theme === 'dark' ? 'text-gray-300' : 'text-gray-600'}`} />
                 {item.submenu.length > 0 ? (
                   <span>{item.name}</span>
                 ) : (
@@ -165,8 +167,8 @@ export default function Sidebar() {
               </div>
               {item.submenu.length > 0 && (
                 expandedMenus[item.name] ? 
-                  <ChevronDownIcon className="w-4 h-4" /> : 
-                  <ChevronRightIcon className="w-4 h-4" />
+                  <ChevronDownIcon className={`w-4 h-4 ${theme === 'dark' ? 'text-gray-300' : 'text-gray-600'}`} /> : 
+                  <ChevronRightIcon className={`w-4 h-4 ${theme === 'dark' ? 'text-gray-300' : 'text-gray-600'}`} />
               )}
             </div>
             {item.submenu.length > 0 && expandedMenus[item.name] && (
@@ -177,11 +179,11 @@ export default function Sidebar() {
                     href={subItem.href}
                     className={`flex items-center px-4 py-2 text-sm font-medium rounded-md transition-colors ${
                       isActive(subItem.href)
-                        ? 'bg-gray-800 text-white'
-                        : 'text-gray-300 hover:bg-gray-800 hover:text-white'
+                        ? theme === 'dark' ? 'bg-gray-800 text-white' : 'bg-gray-100 text-gray-900'
+                        : theme === 'dark' ? 'text-gray-300 hover:bg-gray-800 hover:text-white' : 'text-gray-600 hover:bg-gray-100 hover:text-gray-900'
                     }`}
                   >
-                    <subItem.icon className="w-4 h-4 mr-3" />
+                    <subItem.icon className={`w-4 h-4 mr-3 ${theme === 'dark' ? 'text-gray-300' : 'text-gray-600'}`} />
                     {subItem.name}
                   </Link>
                 ))}
@@ -190,14 +192,14 @@ export default function Sidebar() {
           </div>
         ))}
       </nav>
-      <div className="p-4 border-t border-gray-800">
+      <div className={`p-4 ${theme === 'dark' ? 'border-gray-800' : 'border-gray-200'} border-t`}>
         <div className="flex items-center">
-          <div className="w-8 h-8 rounded-full bg-gray-800 flex items-center justify-center text-white">
+          <div className={`w-8 h-8 rounded-full ${theme === 'dark' ? 'bg-gray-800' : 'bg-gray-100'} flex items-center justify-center ${theme === 'dark' ? 'text-white' : 'text-gray-900'}`}>
             U
           </div>
           <div className="ml-3">
-            <p className="text-sm font-medium text-white">User Name</p>
-            <p className="text-xs text-gray-400">user@example.com</p>
+            <p className={`text-sm font-medium ${theme === 'dark' ? 'text-white' : 'text-gray-900'}`}>User Name</p>
+            <p className={`text-xs ${theme === 'dark' ? 'text-gray-400' : 'text-gray-500'}`}>user@example.com</p>
           </div>
         </div>
       </div>

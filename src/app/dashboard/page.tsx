@@ -2,8 +2,10 @@
 import { useState, useEffect } from "react";
 import CampaignList from "@/components/CampaignList";
 import StatsCard from "@/components/StatsCard";
+import UsersTable from "@/components/UsersTable";
 import { UsersIcon, ChartBarIcon } from "@heroicons/react/24/outline";
 import LoadingSpinner from "@/components/loadingSpinner";
+import { useTheme } from '@/app/providers';
 
 interface Campaign {
   campaignId: string;
@@ -17,6 +19,16 @@ interface Campaign {
   status: string;
   totalCost: number;
   invoiceStatus: string;
+}
+
+interface User {
+  id: string;
+  name: string;
+  email: string;
+  role: 'admin' | 'user' | 'manager';
+  status: 'active' | 'inactive';
+  lastLogin: string;
+  createdAt: string;
 }
 
 export default function Dashboard() {
@@ -35,6 +47,7 @@ export default function Dashboard() {
     totalCost: '',
     invoiceStatus: 'Pending'
   });
+  const { theme } = useTheme();
 
   useEffect(() => {
     const fetchData = async () => {
@@ -117,12 +130,27 @@ export default function Dashboard() {
     setCampaigns(campaigns.filter(c => c.campaignId !== campaignId));
   };
 
+  const handleUserEdit = (user: User) => {
+    // Implement user edit logic
+    console.log('Edit user:', user);
+  };
+
+  const handleUserDelete = (userId: string) => {
+    // Implement user delete logic
+    console.log('Delete user:', userId);
+  };
+
+  const handleUserRowClick = (user: User) => {
+    // Implement user row click logic
+    console.log('User clicked:', user);
+  };
+
   if (loading) {
     return <LoadingSpinner />;
   }
 
   return (
-    <div className="min-h-screen bg-gray-100">
+    <div className={`min-h-screen ${theme === 'dark' ? 'bg-gray-900' : 'bg-gray-50'}`}>
       {/* Main Content */}
       <div className="nt-dashboard-main-content w-full">
         {/* Content */}
@@ -132,9 +160,9 @@ export default function Dashboard() {
             <StatsCard
               title="Current Campaigns"
               value={campaigns.filter(c => c.status === 'Active').length.toString()}
-              icon={<UsersIcon className="w-6 h-6 text-gray-900" />}
-              iconColor="text-gray-500"
-              iconBg="bg-gray-100"
+              icon={<UsersIcon className="w-6 h-6 text-gray-900 dark:text-white" />}
+              iconColor="text-gray-500 dark:text-gray-400"
+              iconBg="bg-gray-100 dark:bg-gray-800"
               percentage="12%"
               percentageColor="text-green-500"
               trend="Increased by"
@@ -143,9 +171,9 @@ export default function Dashboard() {
             <StatsCard
               title="Upcoming Campaigns"
               value={campaigns.filter(c => new Date(c.startDate) > new Date()).length.toString()}
-              icon={<UsersIcon className="w-6 h-6 text-gray-900" />}
-              iconColor="text-gray-500"
-              iconBg="bg-gray-100"
+              icon={<UsersIcon className="w-6 h-6 text-gray-900 dark:text-white" />}
+              iconColor="text-gray-500 dark:text-gray-400"
+              iconBg="bg-gray-100 dark:bg-gray-800"
               percentage="12%"
               percentageColor="text-green-500"
               trend="Increased by"
@@ -153,26 +181,40 @@ export default function Dashboard() {
             <StatsCard 
               title="Invoice status" 
               value={campaigns.filter(c => c.invoiceStatus === 'Paid').length.toString()} 
-              icon={<ChartBarIcon className="w-6 h-6 text-gray-900" />} 
-              iconColor="text-gray-500" 
-              iconBg="bg-gray-100" 
+              icon={<ChartBarIcon className="w-6 h-6 text-gray-900 dark:text-white" />} 
+              iconColor="text-gray-500 dark:text-gray-400" 
+              iconBg="bg-gray-100 dark:bg-gray-800" 
               percentage="12%" 
               percentageColor="text-green-500" 
               trend="Increased by"
             />
           </div>
 
+          {/* Users Table */}
+          <div className="mt-8">
+            <UsersTable 
+              title="Users"
+              icon={<UsersIcon className="w-6 h-6 text-gray-900 dark:text-white" />}
+              selectable={true}
+              onRowClick={handleUserRowClick}
+              onEdit={handleUserEdit}
+              onDelete={handleUserDelete}
+            />
+          </div>
+
           {/* Recent Activity */}
-          <CampaignList
-            campaigns={campaigns}
-            onEdit={handleEdit}
-            onDelete={handleDelete}
-            onSubmit={handleSubmit}
-            formData={formData}
-            setFormData={setFormData}
-            selectedCampaign={selectedCampaign}
-            setSelectedCampaign={setSelectedCampaign}
-          />
+          <div className="mt-8">
+            <CampaignList
+              campaigns={campaigns}
+              onEdit={handleEdit}
+              onDelete={handleDelete}
+              onSubmit={handleSubmit}
+              formData={formData}
+              setFormData={setFormData}
+              selectedCampaign={selectedCampaign}
+              setSelectedCampaign={setSelectedCampaign}
+            />
+          </div>
         </main>
       </div>
     </div>

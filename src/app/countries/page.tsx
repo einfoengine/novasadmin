@@ -1,9 +1,11 @@
 import React from "react";
 import CountriesTable from "@/components/CountriesTable";
+import { useTheme } from '@/app/providers';
 
 const CountriesPage = () => {
+  const { theme } = useTheme();
   return (
-    <main className="nt-main-content min-h-screen bg-white dark:bg-gray-900 text-gray-900 dark:text-white p-6">
+    <main className={`nt-main-content min-h-screen ${theme === 'dark' ? 'bg-gray-900' : 'bg-gray-50'} p-6`}>
       <CountriesTable />
     </main>
   );
