@@ -3,6 +3,8 @@
 import { useState, useEffect } from "react";
 import StatsCard from "@/components/StatsCard";
 import { ArrowTrendingUpIcon, ClockIcon, DocumentTextIcon } from "@heroicons/react/24/outline";
+import Link from "next/link";
+import { MagnifyingGlassIcon } from "@heroicons/react/24/outline";
 
 interface Product {
   id: string;
@@ -21,8 +23,11 @@ interface Product {
   status: string;
 }
 
-export default function Products() {
+export default function ProductsPage() {
   const [products, setProducts] = useState<Product[]>([]);
+  const [searchTerm, setSearchTerm] = useState("");
+  const [itemsPerPage, setItemsPerPage] = useState(10);
+  const [currentPage, setCurrentPage] = useState(1);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -30,10 +35,12 @@ export default function Products() {
       try {
         const response = await fetch('/products.json');
         const data = await response.json();
-        setProducts(data.products);
+        // Ensure we're setting an array of products
+        setProducts(Array.isArray(data) ? data : data.products || []);
         setLoading(false);
       } catch (error) {
         console.error('Error fetching products:', error);
+        setProducts([]);
         setLoading(false);
       }
     };
@@ -42,153 +49,194 @@ export default function Products() {
   }, []);
 
   if (loading) {
-    return <div>Loading...</div>;
+    return (
+      <div className="p-6">
+        <div className="flex items-center justify-center h-64">
+          <div className="text-gray-500">Loading products...</div>
+        </div>
+      </div>
+    );
   }
 
+  const filteredProducts = products.filter(product =>
+    product.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+    product.material.toLowerCase().includes(searchTerm.toLowerCase()) ||
+    product.channel.toLowerCase().includes(searchTerm.toLowerCase())
+  );
+
+  const totalPages = Math.ceil(filteredProducts.length / itemsPerPage);
+  const startIndex = (currentPage - 1) * itemsPerPage;
+  const paginatedProducts = filteredProducts.slice(startIndex, startIndex + itemsPerPage);
+
+  const handlePageChange = (page: number) => {
+    setCurrentPage(page);
+  };
+
   return (
-    <div className="min-h-screen bg-gray-100">
-      <div className="nt-dashboard-main-content w-full">
-        <main className="px-4 py-6 mx-auto max-w-7xl sm:px-6 lg:px-8">
-          {/* Stats Grid */}
-          <div className="grid grid-cols-1 gap-5 mt-5 sm:grid-cols-2 lg:grid-cols-3">
-            <StatsCard 
-              title="Last Modified" 
-              value="2 hours ago" 
-              icon={<ClockIcon className="w-6 h-6" />} 
-              iconColor="#6366f1" 
-              iconBg="#eef2ff" 
-              percentage="" 
-              percentageColor="#6b7280" 
-              trend=""
-            />
-            
-            <StatsCard
-              title="New Products"
-              value="12"
-              icon={<ArrowTrendingUpIcon className="w-6 h-6" />}
-              iconColor="#10b981"
-              iconBg="#ecfdf5"
-              percentage="15%"
-              percentageColor="#10b981"
-              trend="Increased by"
-            />
+    <div className="p-6">
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-6">
+        <StatsCard
+          title="Total Products"
+          value={products.length.toString()}
+          icon={<DocumentTextIcon className="w-6 h-6" />}
+          iconColor="#6366f1"
+          iconBg="#eef2ff"
+          percentage=""
+          percentageColor="#6b7280"
+          trend="+12%"
+        />
+        <StatsCard
+          title="Low Stock Items"
+          value={products.filter(p => p.status === "Low Stock").length.toString()}
+          icon={<ClockIcon className="w-6 h-6" />}
+          iconColor="#10b981"
+          iconBg="#ecfdf5"
+          percentage=""
+          percentageColor="#6b7280"
+          trend="-5%"
+        />
+        <StatsCard
+          title="Out of Stock"
+          value={products.filter(p => p.status === "Out of Stock").length.toString()}
+          icon={<ArrowTrendingUpIcon className="w-6 h-6" />}
+          iconColor="#f59e42"
+          iconBg="#fff7ed"
+          percentage=""
+          percentageColor="#6b7280"
+          trend="+2%"
+        />
+      </div>
 
-            <StatsCard
-              title="Invoice Status"
-              value="Pending"
-              icon={<DocumentTextIcon className="w-6 h-6" />}
-              iconColor="#f59e42"
-              iconBg="#fff7ed"
-              percentage="5"
-              percentageColor="#f59e42"
-              trend="invoices"
-            />
-          </div>
-
-          {/* Products Table */}
-          <div className="mt-8">
-            <div className="sm:flex sm:items-center">
-              <div className="sm:flex-auto">
-                <h1 className="text-xl font-semibold text-gray-900">Products</h1>
-                <p className="mt-2 text-sm text-gray-700">
-                  A list of all products in your inventory including their details.
-                </p>
+      <div className="nt-products-table bg-white rounded-lg shadow">
+        <div className="p-6 border-b border-gray-200">
+          <div className="flex flex-col sm:flex-row justify-between items-center gap-4">
+            <h1 className="text-2xl font-bold text-gray-900">Products</h1>
+            <div className="flex items-center gap-4">
+              <select
+                value={itemsPerPage}
+                onChange={(e) => {
+                  setItemsPerPage(Number(e.target.value));
+                  setCurrentPage(1);
+                }}
+                className="rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
+              >
+                <option value={5}>5 per page</option>
+                <option value={10}>10 per page</option>
+                <option value={50}>50 per page</option>
+                <option value={100}>100 per page</option>
+                <option value={filteredProducts.length}>All</option>
+              </select>
+              <div className="relative">
+                <input
+                  type="text"
+                  placeholder="Search products..."
+                  value={searchTerm}
+                  onChange={(e) => setSearchTerm(e.target.value)}
+                  className="pl-10 pr-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                />
+                <MagnifyingGlassIcon className="h-5 w-5 text-gray-400 absolute left-3 top-1/2 transform -translate-y-1/2" />
               </div>
-              <div className="mt-4 sm:mt-0 sm:ml-16 sm:flex-none">
+            </div>
+            <Link
+              href="/products/add"
+              className="inline-flex items-center px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+            >
+              Add Product
+            </Link>
+          </div>
+        </div>
+
+        <div className="overflow-x-auto">
+          <table className="min-w-full divide-y divide-gray-200">
+            <thead className="bg-gray-50">
+              <tr>
+                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">ID</th>
+                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Name</th>
+                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Size</th>
+                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Material</th>
+                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Channel</th>
+                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Machine</th>
+                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Surface</th>
+                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Die Mood</th>
+                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Gluing</th>
+                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Finishing</th>
+                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Price</th>
+                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Stock</th>
+                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Status</th>
+              </tr>
+            </thead>
+            <tbody className="bg-white divide-y divide-gray-200">
+              {paginatedProducts.map((product) => (
+                <tr key={product.id}>
+                  <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">{product.id}</td>
+                  <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">{product.name}</td>
+                  <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">{product.size}</td>
+                  <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">{product.material}</td>
+                  <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">{product.channel}</td>
+                  <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">{product.machine}</td>
+                  <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">{product.surface}</td>
+                  <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">{product.dieMood}</td>
+                  <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">{product.gluing}</td>
+                  <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">{product.finishing}</td>
+                  <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">${product.price.toFixed(2)}</td>
+                  <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">{product.stock}</td>
+                  <td className="px-6 py-4 whitespace-nowrap">
+                    <span className={`px-2 inline-flex text-xs leading-5 font-semibold rounded-full ${
+                      product.status === "In Stock" 
+                        ? "bg-green-100 text-green-800" 
+                        : product.status === "Low Stock"
+                        ? "bg-yellow-100 text-yellow-800"
+                        : "bg-red-100 text-red-800"
+                    }`}>
+                      {product.status}
+                    </span>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+
+        <div className="px-6 py-4 border-t border-gray-200">
+          <div className="flex items-center justify-between">
+            <div className="text-sm text-gray-700">
+              Showing <span className="font-medium">{startIndex + 1}</span> to{" "}
+              <span className="font-medium">
+                {Math.min(startIndex + itemsPerPage, filteredProducts.length)}
+              </span>{" "}
+              of <span className="font-medium">{filteredProducts.length}</span> results
+            </div>
+            <div className="flex items-center space-x-2">
+              <button
+                onClick={() => handlePageChange(currentPage - 1)}
+                disabled={currentPage === 1}
+                className="px-3 py-1 rounded-md border border-gray-300 text-sm font-medium text-gray-700 hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed"
+              >
+                Previous
+              </button>
+              {Array.from({ length: totalPages }, (_, i) => i + 1).map((page) => (
                 <button
-                  type="button"
-                  className="inline-flex items-center justify-center rounded-md border border-transparent bg-indigo-600 px-4 py-2 text-sm font-medium text-white shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 sm:w-auto"
+                  key={page}
+                  onClick={() => handlePageChange(page)}
+                  className={`px-3 py-1 rounded-md text-sm font-medium ${
+                    currentPage === page
+                      ? "bg-indigo-600 text-white"
+                      : "border border-gray-300 text-gray-700 hover:bg-gray-50"
+                  }`}
                 >
-                  Add Product
+                  {page}
                 </button>
-              </div>
-            </div>
-            <div className="mt-8 flex flex-col">
-              <div className="-my-2 -mx-4 overflow-x-auto sm:-mx-6 lg:-mx-8">
-                <div className="inline-block min-w-full py-2 align-middle md:px-6 lg:px-8">
-                  <div className="overflow-hidden shadow ring-1 ring-black ring-opacity-5 md:rounded-lg">
-                    <table className="min-w-full divide-y divide-gray-300">
-                      <thead className="bg-gray-50">
-                        <tr>
-                          <th scope="col" className="py-3.5 pl-4 pr-3 text-left text-sm font-semibold text-gray-900 sm:pl-6">
-                            ID
-                          </th>
-                          <th scope="col" className="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">
-                            Name
-                          </th>
-                          <th scope="col" className="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">
-                            Size
-                          </th>
-                          <th scope="col" className="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">
-                            Material
-                          </th>
-                          <th scope="col" className="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">
-                            Channel
-                          </th>
-                          <th scope="col" className="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">
-                            Machine
-                          </th>
-                          <th scope="col" className="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">
-                            Surface
-                          </th>
-                          <th scope="col" className="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">
-                            Die Mood
-                          </th>
-                          <th scope="col" className="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">
-                            Gluing
-                          </th>
-                          <th scope="col" className="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">
-                            Finishing
-                          </th>
-                          <th scope="col" className="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">
-                            Price
-                          </th>
-                          <th scope="col" className="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">
-                            Stock
-                          </th>
-                          <th scope="col" className="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">
-                            Status
-                          </th>
-                        </tr>
-                      </thead>
-                      <tbody className="divide-y divide-gray-200 bg-white">
-                        {products.map((product) => (
-                          <tr key={product.id}>
-                            <td className="whitespace-nowrap py-4 pl-4 pr-3 text-sm font-medium text-gray-900 sm:pl-6">
-                              {product.id}
-                            </td>
-                            <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">{product.name}</td>
-                            <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">{product.size}</td>
-                            <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">{product.material}</td>
-                            <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">{product.channel}</td>
-                            <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">{product.machine}</td>
-                            <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">{product.surface}</td>
-                            <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">{product.dieMood}</td>
-                            <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">{product.gluing}</td>
-                            <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">{product.finishing}</td>
-                            <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">${product.price.toFixed(2)}</td>
-                            <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">{product.stock}</td>
-                            <td className="whitespace-nowrap px-3 py-4 text-sm">
-                              <span className={`inline-flex rounded-full px-2 text-xs font-semibold leading-5 ${
-                                product.status === 'In Stock' 
-                                  ? 'bg-green-100 text-green-800'
-                                  : product.status === 'Low Stock'
-                                  ? 'bg-yellow-100 text-yellow-800'
-                                  : 'bg-red-100 text-red-800'
-                              }`}>
-                                {product.status}
-                              </span>
-                            </td>
-                          </tr>
-                        ))}
-                      </tbody>
-                    </table>
-                  </div>
-                </div>
-              </div>
+              ))}
+              <button
+                onClick={() => handlePageChange(currentPage + 1)}
+                disabled={currentPage === totalPages}
+                className="px-3 py-1 rounded-md border border-gray-300 text-sm font-medium text-gray-700 hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed"
+              >
+                Next
+              </button>
             </div>
           </div>
-        </main>
+        </div>
       </div>
     </div>
   );
