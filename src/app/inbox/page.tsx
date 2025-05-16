@@ -11,6 +11,7 @@ import {
   TrashIcon
 } from "@heroicons/react/24/outline";
 import StatsCard from "@/components/StatsCard";
+import { useRouter } from "next/navigation";
 
 interface Message {
   id: string;
@@ -29,6 +30,7 @@ export default function InboxPage() {
   const [itemsPerPage, setItemsPerPage] = useState(10);
   const [currentPage, setCurrentPage] = useState(1);
   const [selectedIds, setSelectedIds] = useState<string[]>([]);
+  const router = useRouter();
 
   useEffect(() => {
     const fetchMessages = async () => {
@@ -46,6 +48,11 @@ export default function InboxPage() {
 
     fetchMessages();
   }, []);
+
+  // Reset to first page when search term or items per page changes
+  useEffect(() => {
+    setCurrentPage(1);
+  }, [searchTerm, itemsPerPage]);
 
   if (loading) {
     return (
@@ -94,6 +101,59 @@ export default function InboxPage() {
   const highPriorityCount = messages.filter(m => m.priority === "high").length;
   const sentCount = messages.filter(m => m.from === "me").length;
 
+  // Generate page numbers for pagination
+  const getPageNumbers = () => {
+    const pages = [];
+    const maxVisiblePages = 5;
+    
+    if (totalPages <= maxVisiblePages) {
+      // Show all pages if total pages is less than max visible
+      for (let i = 1; i <= totalPages; i++) {
+        pages.push(i);
+      }
+    } else {
+      // Always show first page
+      pages.push(1);
+      
+      // Calculate start and end of visible pages
+      let start = Math.max(2, currentPage - 1);
+      let end = Math.min(totalPages - 1, currentPage + 1);
+      
+      // Adjust if at the start
+      if (currentPage <= 2) {
+        end = 4;
+      }
+      // Adjust if at the end
+      if (currentPage >= totalPages - 1) {
+        start = totalPages - 3;
+      }
+      
+      // Add ellipsis if needed
+      if (start > 2) {
+        pages.push('...');
+      }
+      
+      // Add middle pages
+      for (let i = start; i <= end; i++) {
+        pages.push(i);
+      }
+      
+      // Add ellipsis if needed
+      if (end < totalPages - 1) {
+        pages.push('...');
+      }
+      
+      // Always show last page
+      pages.push(totalPages);
+    }
+    
+    return pages;
+  };
+
+  const handleMessageClick = (messageId: string) => {
+    router.push(`/inbox/${messageId}`);
+  };
+
   return (
     <div className="p-6">
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-6">
@@ -131,7 +191,7 @@ export default function InboxPage() {
 
       <div className="nt-inbox-table bg-white rounded-lg shadow">
         <div className="p-6 border-b border-gray-200">
-          <div className="flex flex-col sm:flex-row justify-between items-center gap-4">
+          <div className="nt-table-top flex flex-col sm:flex-row justify-between items-center gap-4">
             <div className="flex items-center gap-2">
               <EnvelopeIcon className="h-6 w-6 text-gray-900" />
               <h1 className="text-2xl font-bold text-gray-900">Inbox</h1>
@@ -141,7 +201,6 @@ export default function InboxPage() {
                 value={itemsPerPage}
                 onChange={(e) => {
                   setItemsPerPage(Number(e.target.value));
-                  setCurrentPage(1);
                 }}
                 className="rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
               >
@@ -210,8 +269,14 @@ export default function InboxPage() {
             </thead>
             <tbody className="bg-white divide-y divide-gray-200">
               {paginatedMessages.map((message) => (
-                <tr key={message.id} className={!message.read ? "bg-gray-50" : ""}>
-                  <td className="px-6 py-4 whitespace-nowrap">
+                <tr 
+                  key={message.id} 
+                  className={`${
+                    !message.read ? "bg-gray-50" : ""
+                  } cursor-pointer transition-colors duration-200 hover:bg-gray-50 group`}
+                  onClick={() => handleMessageClick(message.id)}
+                >
+                  <td className="px-6 py-4 whitespace-nowrap" onClick={(e) => e.stopPropagation()}>
                     <input
                       type="checkbox"
                       checked={selectedIds.includes(message.id)}
@@ -219,29 +284,30 @@ export default function InboxPage() {
                       className="rounded border-gray-300 text-indigo-600 focus:ring-indigo-500"
                     />
                   </td>
-                  <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
+                  <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900 group-hover:text-indigo-600 transition-colors duration-200">
                     {message.from}
                   </td>
                   <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
-                    <Link href={`/inbox/${message.id}`} className="hover:text-indigo-600">
-                      {message.subject}
-                    </Link>
+                    <div className="flex flex-col">
+                      <span className="font-medium group-hover:text-indigo-600 transition-colors duration-200">{message.subject}</span>
+                      <span className="text-gray-500 truncate max-w-md group-hover:text-gray-700 transition-colors duration-200">{message.content}</span>
+                    </div>
                   </td>
-                  <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                  <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500 group-hover:text-gray-700 transition-colors duration-200">
                     {message.date}
                   </td>
                   <td className="px-6 py-4 whitespace-nowrap">
-                    <span className={`px-2 inline-flex text-xs leading-5 font-semibold rounded-full ${
+                    <span className={`px-2 inline-flex text-xs leading-5 font-semibold rounded-full transition-colors duration-200 ${
                       message.priority === "high" 
-                        ? "bg-red-100 text-red-800" 
+                        ? "bg-red-100 text-red-800 group-hover:bg-red-200" 
                         : message.priority === "medium"
-                        ? "bg-yellow-100 text-yellow-800"
-                        : "bg-green-100 text-green-800"
+                        ? "bg-yellow-100 text-yellow-800 group-hover:bg-yellow-200"
+                        : "bg-green-100 text-green-800 group-hover:bg-green-200"
                     }`}>
                       {message.priority}
                     </span>
                   </td>
-                  <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                  <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500 group-hover:text-gray-700 transition-colors duration-200">
                     {message.read ? "Read" : "Unread"}
                   </td>
                 </tr>
@@ -267,18 +333,22 @@ export default function InboxPage() {
               >
                 Previous
               </button>
-              {Array.from({ length: totalPages }, (_, i) => i + 1).map((page) => (
-                <button
-                  key={page}
-                  onClick={() => setCurrentPage(page)}
-                  className={`px-3 py-1 rounded-md text-sm font-medium ${
-                    currentPage === page
-                      ? "bg-indigo-600 text-white"
-                      : "border border-gray-300 text-gray-700 hover:bg-gray-50"
-                  }`}
-                >
-                  {page}
-                </button>
+              {getPageNumbers().map((page, index) => (
+                page === '...' ? (
+                  <span key={`ellipsis-${index}`} className="px-3 py-1 text-gray-500">...</span>
+                ) : (
+                  <button
+                    key={page}
+                    onClick={() => setCurrentPage(Number(page))}
+                    className={`px-3 py-1 rounded-md text-sm font-medium ${
+                      currentPage === page
+                        ? "bg-indigo-600 text-white"
+                        : "border border-gray-300 text-gray-700 hover:bg-gray-50"
+                    }`}
+                  >
+                    {page}
+                  </button>
+                )
               ))}
               <button
                 onClick={() => setCurrentPage(currentPage + 1)}
