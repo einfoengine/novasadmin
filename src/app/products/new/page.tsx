@@ -1,9 +1,16 @@
 "use client";
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import ImageUpload from '@/components/ImageUpload';
 import { ArrowLeftIcon } from '@heroicons/react/24/outline';
+
+interface Material {
+  id: string;
+  name: string;
+  materialSegment: string;
+  description: string;
+}
 
 interface ProductFormData {
   name: string;
@@ -20,6 +27,7 @@ interface ProductFormData {
 
 export default function NewProductPage() {
   const router = useRouter();
+  const [materials, setMaterials] = useState<Material[]>([]);
   const [formData, setFormData] = useState<ProductFormData>({
     name: '',
     size: '',
@@ -32,6 +40,20 @@ export default function NewProductPage() {
     description: '',
     image: ''
   });
+
+  useEffect(() => {
+    const fetchMaterials = async () => {
+      try {
+        const response = await fetch('/data/materisls.json');
+        const data = await response.json();
+        setMaterials(data.materials || []);
+      } catch (error) {
+        console.error('Error fetching materials:', error);
+      }
+    };
+
+    fetchMaterials();
+  }, []);
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
     const { name, value } = e.target;
@@ -46,6 +68,12 @@ export default function NewProductPage() {
     // TODO: Implement product creation logic
     console.log('Form submitted:', formData);
   };
+
+  // Filter materials by segment
+  const rollMaterials = materials.filter(m => m.materialSegment === 'roll');
+  const sheetMaterials = materials.filter(m => m.materialSegment === 'sheet');
+  const printerMaterials = materials.filter(m => m.materialSegment === 'printer');
+  const finisherMaterials = materials.filter(m => m.materialSegment === 'finisher');
 
   return (
     <div className="min-h-screen p-6">
@@ -100,28 +128,45 @@ export default function NewProductPage() {
                 <label className="block text-sm font-medium text-gray-700 mb-2">
                   Material
                 </label>
-                <input
-                  type="text"
+                <select
                   name="material"
                   value={formData.material}
                   onChange={handleInputChange}
                   className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent"
                   required
-                />
+                >
+                  <option value="">Select Material</option>
+                  {rollMaterials.map(material => (
+                    <option key={material.id} value={material.id}>
+                      {material.name}
+                    </option>
+                  ))}
+                  {sheetMaterials.map(material => (
+                    <option key={material.id} value={material.id}>
+                      {material.name}
+                    </option>
+                  ))}
+                </select>
               </div>
 
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-2">
                   Printing
                 </label>
-                <input
-                  type="text"
+                <select
                   name="printing"
                   value={formData.printing}
                   onChange={handleInputChange}
                   className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent"
                   required
-                />
+                >
+                  <option value="">Select Printer</option>
+                  {printerMaterials.map(material => (
+                    <option key={material.id} value={material.id}>
+                      {material.name}
+                    </option>
+                  ))}
+                </select>
               </div>
 
               <div>
@@ -156,14 +201,20 @@ export default function NewProductPage() {
                 <label className="block text-sm font-medium text-gray-700 mb-2">
                   Finishing
                 </label>
-                <input
-                  type="text"
+                <select
                   name="finishing"
                   value={formData.finishing}
                   onChange={handleInputChange}
                   className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent"
                   required
-                />
+                >
+                  <option value="">Select Finishing</option>
+                  {finisherMaterials.map(material => (
+                    <option key={material.id} value={material.id}>
+                      {material.name}
+                    </option>
+                  ))}
+                </select>
               </div>
 
               <div>

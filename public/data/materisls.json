@@ -1,15 +1,274 @@
 {
     "materials": [
       {
-        "materialId": "CAMP001",
-        "materialName": "Summer Sale 2024",
+        "id": "MAT001",
+        "name": "Premium Glossy Paper Roll",
         "materialSegment": "roll",
-        "materialType": "Demo type",
-        "materialSize": "3200/5000",
-        "materialColor": "red",
-        "materialPrice": 100,
-        "materialDescription": "This is a description of the material",
-        "materialImage": "https://via.placeholder.com/150"
-      }      
+        "description": "High-quality glossy paper roll for premium printing"
+      },
+      {
+        "id": "MAT002",
+        "name": "Matte Paper Roll",
+        "materialSegment": "roll",
+        "description": "Professional matte finish paper roll"
+      },
+      {
+        "id": "MAT003",
+        "name": "Vinyl Roll",
+        "materialSegment": "roll",
+        "description": "Durable vinyl material for outdoor applications"
+      },
+      {
+        "id": "MAT004",
+        "name": "Canvas Roll",
+        "materialSegment": "roll",
+        "description": "Artist-grade canvas for fine art printing"
+      },
+      {
+        "id": "MAT005",
+        "name": "Banner Material Roll",
+        "materialSegment": "roll",
+        "description": "Heavy-duty banner material for large format printing"
+      },
+      {
+        "id": "MAT006",
+        "name": "Backlit Film Roll",
+        "materialSegment": "roll",
+        "description": "Translucent film for backlit displays"
+      },
+      {
+        "id": "MAT007",
+        "name": "Self-Adhesive Vinyl Roll",
+        "materialSegment": "roll",
+        "description": "Premium self-adhesive vinyl for vehicle wraps"
+      },
+      {
+        "id": "MAT008",
+        "name": "Textile Roll",
+        "materialSegment": "roll",
+        "description": "Fabric material for soft signage"
+      },
+      {
+        "id": "MAT009",
+        "name": "Photo Paper Roll",
+        "materialSegment": "roll",
+        "description": "Professional photo paper for high-resolution printing"
+      },
+      {
+        "id": "MAT010",
+        "name": "Wallpaper Roll",
+        "materialSegment": "roll",
+        "description": "Custom wallpaper material for interior decoration"
+      },
+      {
+        "id": "MAT011",
+        "name": "Premium Card Stock Sheet",
+        "materialSegment": "sheet",
+        "description": "High-quality card stock for business cards"
+      },
+      {
+        "id": "MAT012",
+        "name": "Photo Paper Sheet",
+        "materialSegment": "sheet",
+        "description": "Professional photo paper sheets"
+      },
+      {
+        "id": "MAT013",
+        "name": "Vinyl Sheet",
+        "materialSegment": "sheet",
+        "description": "Premium vinyl sheets for decals"
+      },
+      {
+        "id": "MAT014",
+        "name": "Canvas Sheet",
+        "materialSegment": "sheet",
+        "description": "Artist canvas sheets for fine art"
+      },
+      {
+        "id": "MAT015",
+        "name": "Transparency Sheet",
+        "materialSegment": "sheet",
+        "description": "Clear transparency sheets for overhead projection"
+      },
+      {
+        "id": "MAT016",
+        "name": "Label Sheet",
+        "materialSegment": "sheet",
+        "description": "Professional label sheets for product labeling"
+      },
+      {
+        "id": "MAT017",
+        "name": "Sticker Sheet",
+        "materialSegment": "sheet",
+        "description": "Premium sticker sheets for custom stickers"
+      },
+      {
+        "id": "MAT018",
+        "name": "Foil Sheet",
+        "materialSegment": "sheet",
+        "description": "Metallic foil sheets for special effects"
+      },
+      {
+        "id": "MAT019",
+        "name": "Magnetic Sheet",
+        "materialSegment": "sheet",
+        "description": "Magnetic material for magnetic signs"
+      },
+      {
+        "id": "MAT020",
+        "name": "Acrylic Sheet",
+        "materialSegment": "sheet",
+        "description": "Clear acrylic sheets for signage"
+      },
+      {
+        "id": "MAT021",
+        "name": "UV Flatbed Printer",
+        "materialSegment": "printer",
+        "description": "Industrial UV flatbed printer for rigid materials"
+      },
+      {
+        "id": "MAT022",
+        "name": "Roll-to-Roll Printer",
+        "materialSegment": "printer",
+        "description": "High-speed roll-to-roll printer for flexible materials"
+      },
+      {
+        "id": "MAT023",
+        "name": "Dye Sublimation Printer",
+        "materialSegment": "printer",
+        "description": "Professional dye sublimation printer for textiles"
+      },
+      {
+        "id": "MAT024",
+        "name": "Latex Printer",
+        "materialSegment": "printer",
+        "description": "Eco-friendly latex printer for indoor applications"
+      },
+      {
+        "id": "MAT025",
+        "name": "Solvent Printer",
+        "materialSegment": "printer",
+        "description": "Industrial solvent printer for outdoor applications"
+      },
+      {
+        "id": "MAT026",
+        "name": "Eco-Solvent Printer",
+        "materialSegment": "printer",
+        "description": "Environmentally friendly eco-solvent printer"
+      },
+      {
+        "id": "MAT027",
+        "name": "UV LED Printer",
+        "materialSegment": "printer",
+        "description": "Energy-efficient UV LED printer"
+      },
+      {
+        "id": "MAT028",
+        "name": "Textile Printer",
+        "materialSegment": "printer",
+        "description": "Specialized printer for fabric materials"
+      },
+      {
+        "id": "MAT029",
+        "name": "Direct-to-Garment Printer",
+        "materialSegment": "printer",
+        "description": "Printer for custom apparel printing"
+      },
+      {
+        "id": "MAT030",
+        "name": "3D Printer",
+        "materialSegment": "printer",
+        "description": "Advanced 3D printer for prototyping"
+      },
+      {
+        "id": "MAT031",
+        "name": "Laminator",
+        "materialSegment": "finisher",
+        "description": "Professional laminating machine"
+      },
+      {
+        "id": "MAT032",
+        "name": "Die Cutter",
+        "materialSegment": "finisher",
+        "description": "Precision die cutting machine"
+      },
+      {
+        "id": "MAT033",
+        "name": "UV Coater",
+        "materialSegment": "finisher",
+        "description": "UV coating machine for glossy finish"
+      },
+      {
+        "id": "MAT034",
+        "name": "Foil Stamping Machine",
+        "materialSegment": "finisher",
+        "description": "Hot foil stamping machine for metallic effects"
+      },
+      {
+        "id": "MAT035",
+        "name": "Embossing Machine",
+        "materialSegment": "finisher",
+        "description": "Professional embossing machine"
+      },
+      {
+        "id": "MAT036",
+        "name": "Spot UV Machine",
+        "materialSegment": "finisher",
+        "description": "Precision spot UV coating machine"
+      },
+      {
+        "id": "MAT037",
+        "name": "Binding Machine",
+        "materialSegment": "finisher",
+        "description": "Professional document binding machine"
+      },
+      {
+        "id": "MAT038",
+        "name": "Folding Machine",
+        "materialSegment": "finisher",
+        "description": "Automatic paper folding machine"
+      },
+      {
+        "id": "MAT039",
+        "name": "Creasing Machine",
+        "materialSegment": "finisher",
+        "description": "Precision creasing machine for packaging"
+      },
+      {
+        "id": "MAT040",
+        "name": "Cutting Plotter",
+        "materialSegment": "finisher",
+        "description": "Computer-controlled cutting plotter"
+      },
+      {
+        "id": "MAT041",
+        "name": "Banner Stand",
+        "materialSegment": "finisher",
+        "description": "Professional banner stand system"
+      },
+      {
+        "id": "MAT042",
+        "name": "Mounting Press",
+        "materialSegment": "finisher",
+        "description": "Heat mounting press for rigid materials"
+      },
+      {
+        "id": "MAT043",
+        "name": "Digital Finishing System",
+        "materialSegment": "finisher",
+        "description": "Complete digital finishing solution"
+      },
+      {
+        "id": "MAT044",
+        "name": "Packaging Machine",
+        "materialSegment": "finisher",
+        "description": "Automated packaging system"
+      },
+      {
+        "id": "MAT045",
+        "name": "Quality Control System",
+        "materialSegment": "finisher",
+        "description": "Automated quality control system"
+      }
     ]
   } 
