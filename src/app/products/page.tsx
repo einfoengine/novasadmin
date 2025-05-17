@@ -2,7 +2,6 @@
 
 import React, { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
-import { useTheme } from '@/app/providers';
 import { ArrowTrendingUpIcon, ClockIcon, DocumentTextIcon, CubeIcon } from '@heroicons/react/24/outline';
 import TableBuilder from '@/components/TableBuilder';
 import StatsCard from "@/components/StatsCard";
@@ -26,7 +25,6 @@ interface Product {
 
 export default function ProductsPage() {
   const router = useRouter();
-  const { theme } = useTheme();
   const [products, setProducts] = useState<Product[]>([]);
   const [loading, setLoading] = useState(true);
 
@@ -65,6 +63,11 @@ export default function ProductsPage() {
     { 
       key: 'id', 
       label: 'ID',
+      className: ''
+    },
+    { 
+      key: 'img', 
+      label: 'Image',
       className: ''
     },
     { 
