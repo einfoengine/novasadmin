@@ -15,8 +15,8 @@ interface Material {
 interface ProductFormData {
   name: string;
   size: string;
-  material: string;
-  printing: string;
+  material: string[];
+  printing: string[];
   surface: string;
   lamination: string;
   finishing: string;
@@ -31,8 +31,8 @@ export default function NewProductPage() {
   const [formData, setFormData] = useState<ProductFormData>({
     name: '',
     size: '',
-    material: '',
-    printing: '',
+    material: [],
+    printing: [],
     surface: '',
     lamination: '',
     finishing: '',
@@ -60,6 +60,22 @@ export default function NewProductPage() {
     setFormData(prev => ({
       ...prev,
       [name]: name === 'pricing' ? parseFloat(value) || 0 : value
+    }));
+  };
+
+  const handleMultiSelect = (name: 'material' | 'printing', value: string) => {
+    setFormData(prev => ({
+      ...prev,
+      [name]: prev[name].includes(value)
+        ? prev[name].filter(item => item !== value)
+        : [...prev[name], value]
+    }));
+  };
+
+  const removeSelectedItem = (name: 'material' | 'printing', value: string) => {
+    setFormData(prev => ({
+      ...prev,
+      [name]: prev[name].filter(item => item !== value)
     }));
   };
 
@@ -128,45 +144,103 @@ export default function NewProductPage() {
                 <label className="block text-sm font-medium text-gray-700 mb-2">
                   Material
                 </label>
-                <select
-                  name="material"
-                  value={formData.material}
-                  onChange={handleInputChange}
-                  className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent"
-                  required
-                >
-                  <option value="">Select Material</option>
-                  {rollMaterials.map(material => (
-                    <option key={material.id} value={material.id}>
-                      {material.name}
-                    </option>
-                  ))}
-                  {sheetMaterials.map(material => (
-                    <option key={material.id} value={material.id}>
-                      {material.name}
-                    </option>
-                  ))}
-                </select>
+                <div className="space-y-2">
+                  <select
+                    name="material"
+                    value=""
+                    onChange={(e) => handleMultiSelect('material', e.target.value)}
+                    className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent"
+                  >
+                    <option value="">Select Material</option>
+                    {rollMaterials.map(material => (
+                      <option 
+                        key={material.id} 
+                        value={material.id}
+                        disabled={formData.material.includes(material.id)}
+                      >
+                        {material.name}
+                      </option>
+                    ))}
+                    {sheetMaterials.map(material => (
+                      <option 
+                        key={material.id} 
+                        value={material.id}
+                        disabled={formData.material.includes(material.id)}
+                      >
+                        {material.name}
+                      </option>
+                    ))}
+                  </select>
+                  {formData.material.length > 0 && (
+                    <div className="mt-2 space-y-2">
+                      {formData.material.map(materialId => {
+                        const material = materials.find(m => m.id === materialId);
+                        return material ? (
+                          <div 
+                            key={materialId}
+                            className="flex items-center justify-between bg-gray-50 px-3 py-2 rounded-md"
+                          >
+                            <span className="text-sm">{material.name}</span>
+                            <button
+                              type="button"
+                              onClick={() => removeSelectedItem('material', materialId)}
+                              className="text-red-500 hover:text-red-700"
+                            >
+                              ×
+                            </button>
+                          </div>
+                        ) : null;
+                      })}
+                    </div>
+                  )}
+                </div>
               </div>
 
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-2">
                   Printing
                 </label>
-                <select
-                  name="printing"
-                  value={formData.printing}
-                  onChange={handleInputChange}
-                  className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent"
-                  required
-                >
-                  <option value="">Select Printer</option>
-                  {printerMaterials.map(material => (
-                    <option key={material.id} value={material.id}>
-                      {material.name}
-                    </option>
-                  ))}
-                </select>
+                <div className="space-y-2">
+                  <select
+                    name="printing"
+                    value=""
+                    onChange={(e) => handleMultiSelect('printing', e.target.value)}
+                    className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent"
+                  >
+                    <option value="">Select Printer</option>
+                    {printerMaterials.map(material => (
+                      <option 
+                        key={material.id} 
+                        value={material.id}
+                        disabled={formData.printing.includes(material.id)}
+                      >
+                        {material.name}
+                      </option>
+                    ))}
+                  </select>
+                  {formData.printing.length > 0 && (
+                    <div className="mt-2 space-y-2">
+                      {formData.printing.map(printerId => {
+                        const printer = materials.find(m => m.id === printerId);
+                        return printer ? (
+                          <div 
+                            key={printerId}
+                            className="flex items-center justify-between bg-gray-50 px-3 py-2 rounded-md"
+                          >
+                            <span className="text-sm">{printer.name}</span>
+                            <button
+                              type="button"
+                              onClick={() => removeSelectedItem('printing', printerId)}
+                              className="text-red-500 hover:text-red-700"
+                            >
+                              ×
+                            </button>
+                          </div>
+                        ) : null;
+                      })}
+                    </div>
+                  )}
+                </div>
               </div>
 
               <div>
