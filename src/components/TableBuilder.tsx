@@ -46,6 +46,55 @@ const TableBuilder = <T extends { id: string }>({
   const [currentPage, setCurrentPage] = useState(1);
   const [itemsPerPage, setItemsPerPage] = useState(initialItemsPerPage);
 
+  // Generate page numbers for pagination
+  const getPageNumbers = () => {
+    const pageNumbers = [];
+    const maxVisiblePages = 5;
+    
+    if (totalPages <= maxVisiblePages) {
+      // If total pages is less than max visible, show all pages
+      for (let i = 1; i <= totalPages; i++) {
+        pageNumbers.push(i);
+      }
+    } else {
+      // Always show first page
+      pageNumbers.push(1);
+      
+      // Calculate start and end of visible pages
+      let startPage = Math.max(2, currentPage - 1);
+      let endPage = Math.min(totalPages - 1, currentPage + 1);
+      
+      // Adjust if at the start
+      if (currentPage <= 2) {
+        endPage = 4;
+      }
+      // Adjust if at the end
+      if (currentPage >= totalPages - 1) {
+        startPage = totalPages - 3;
+      }
+      
+      // Add ellipsis if needed
+      if (startPage > 2) {
+        pageNumbers.push('...');
+      }
+      
+      // Add middle pages
+      for (let i = startPage; i <= endPage; i++) {
+        pageNumbers.push(i);
+      }
+      
+      // Add ellipsis if needed
+      if (endPage < totalPages - 1) {
+        pageNumbers.push('...');
+      }
+      
+      // Always show last page
+      pageNumbers.push(totalPages);
+    }
+    
+    return pageNumbers;
+  };
+
   // Filter data based on search term
   const filteredData = data.filter((item) =>
     Object.values(item).some((value) =>
@@ -215,6 +264,22 @@ const TableBuilder = <T extends { id: string }>({
             >
               Previous
             </button>
+            {getPageNumbers().map((pageNum, index) => (
+              <button
+                key={index}
+                className={`px-3 py-1 rounded border duration-200 ${
+                  pageNum === currentPage
+                    ? 'bg-primary text-white'
+                    : pageNum === '...'
+                    ? 'cursor-default'
+                    : 'hover:bg-gray-100'
+                }`}
+                onClick={() => typeof pageNum === 'number' && setCurrentPage(pageNum)}
+                disabled={pageNum === '...'}
+              >
+                {pageNum}
+              </button>
+            ))}
             <button
               className="px-3 py-1 rounded border  duration-200 disabled:opacity-50 disabled:cursor-not-allowed"
               onClick={() => setCurrentPage((p) => Math.min(totalPages, p + 1))}

@@ -8,7 +8,6 @@ import {
   HomeIcon, 
   UserIcon, 
   BriefcaseIcon, 
-  UsersIcon, 
   BuildingStorefrontIcon, 
   ShoppingBagIcon, 
   CurrencyEuroIcon, 
