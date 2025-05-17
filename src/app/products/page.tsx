@@ -12,15 +12,12 @@ interface Product {
   image: string;
   size: string;
   material: string;
-  channel: string;
-  machine: string;
+  printing: string;
   surface: string;
-  dieMood: string;
-  gluing: string;
+  lamination: string;
   finishing: string;
-  price: number;
-  stock: number;
-  status: string;
+  pricing: number;
+  description: string;
 }
 
 export default function ProductsPage() {
@@ -61,21 +58,16 @@ export default function ProductsPage() {
 
   const columns = [
     { 
-      key: 'id', 
-      label: 'ID',
+      key: 'name', 
+      label: 'Name',
+      type: 'link' as const,
+      linkHref: (value: unknown) => `/products/${value}`,
       className: ''
     },
     { 
       key: 'image', 
       label: 'Image',
       type: 'image' as const,
-      className: ''
-    },
-    { 
-      key: 'name', 
-      label: 'Product Name',
-      type: 'link' as const,
-      linkHref: (value: unknown) => `/products/${value}`,
       className: ''
     },
     { 
@@ -89,13 +81,8 @@ export default function ProductsPage() {
       className: ''
     },
     { 
-      key: 'channel', 
-      label: 'Channel',
-      className: ''
-    },
-    { 
-      key: 'machine', 
-      label: 'Machine',
+      key: 'printing', 
+      label: 'Printing',
       className: ''
     },
     { 
@@ -104,13 +91,8 @@ export default function ProductsPage() {
       className: ''
     },
     { 
-      key: 'dieMood', 
-      label: 'Die Mood',
-      className: ''
-    },
-    { 
-      key: 'gluing', 
-      label: 'Gluing',
+      key: 'lamination', 
+      label: 'Lamination',
       className: ''
     },
     { 
@@ -119,23 +101,16 @@ export default function ProductsPage() {
       className: ''
     },
     { 
-      key: 'price', 
-      label: 'Price',
+      key: 'pricing', 
+      label: 'Pricing',
       type: 'currency' as const,
       className: ''
     },
     { 
-      key: 'stock', 
-      label: 'Stock',
-      type: 'number' as const,
-      className: ''
-    },
-    { 
-      key: 'status', 
-      label: 'Status',
-      type: 'status' as const,
-      className: ''
-    },
+      key: 'description', 
+      label: 'Description',
+      className: 'max-w-xs truncate'
+    }
   ];
 
   if (loading) {
@@ -162,8 +137,8 @@ export default function ProductsPage() {
           trend="+12%"
         />
         <StatsCard
-          title="Low Stock Items"
-          value={products.filter(p => p.status === "Low Stock").length.toString()}
+          title="Average Price"
+          value={`$${(products.reduce((acc, p) => acc + p.pricing, 0) / products.length).toFixed(2)}`}
           icon={<ClockIcon className="w-6 h-6" />}
           iconColor="#10b981"
           iconBg="#ecfdf5"
@@ -172,8 +147,8 @@ export default function ProductsPage() {
           trend="-5%"
         />
         <StatsCard
-          title="Out of Stock"
-          value={products.filter(p => p.status === "Out of Stock").length.toString()}
+          title="Total Value"
+          value={`$${products.reduce((acc, p) => acc + p.pricing, 0).toFixed(2)}`}
           icon={<ArrowTrendingUpIcon className="w-6 h-6" />}
           iconColor="#f59e42"
           iconBg="#fff7ed"

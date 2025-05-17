@@ -6,15 +6,12 @@
       "image": "/images/products/demo1.jpg",
       "size": "30x20x10cm",
       "material": "Cardboard",
-      "channel": "Single Wall",
-      "machine": "Heidelberg",
+      "printing": "Offset",
       "surface": "Matte",
-      "dieMood": "Standard",
-      "gluing": "Hotmelt",
+      "lamination": "Matte",
       "finishing": "Gloss",
-      "price": 2.50,
-      "stock": 150,
-      "status": "In Stock"
+      "pricing": 2.50,
+      "description": "High-quality custom box with premium finishing"
     },
     {
       "id": "PRD002",
@@ -22,15 +19,12 @@
       "image": "/images/products/demo2.jpg",
       "size": "25x15x8cm",
       "material": "Paper",
-      "channel": "N/A",
-      "machine": "Komori",
+      "printing": "Digital",
       "surface": "Glossy",
-      "dieMood": "Custom",
-      "gluing": "Manual",
+      "lamination": "Glossy",
       "finishing": "Foil",
-      "price": 1.20,
-      "stock": 75,
-      "status": "In Stock"
+      "pricing": 1.20,
+      "description": "Elegant gift bag with foil finishing"
     },
     {
       "id": "PRD003",
@@ -38,15 +32,12 @@
       "image": "/images/products/demo3.jpg",
       "size": "10x5cm",
       "material": "Vinyl",
-      "channel": "N/A",
-      "machine": "HP Indigo",
+      "printing": "Digital",
       "surface": "Glossy",
-      "dieMood": "None",
-      "gluing": "Self-adhesive",
+      "lamination": "None",
       "finishing": "UV",
-      "price": 0.10,
-      "stock": 50,
-      "status": "Low Stock"
+      "pricing": 0.10,
+      "description": "Durable vinyl label with UV protection"
     },
     {
       "id": "PRD004",
@@ -54,15 +45,12 @@
       "image": "/images/products/demo4.jpg",
       "size": "40x30x20cm",
       "material": "Corrugated Board",
-      "channel": "Double Wall",
-      "machine": "Bobst",
+      "printing": "Offset",
       "surface": "Matte",
-      "dieMood": "Standard",
-      "gluing": "Hotmelt",
+      "lamination": "None",
       "finishing": "Matte",
-      "price": 3.75,
-      "stock": 200,
-      "status": "In Stock"
+      "pricing": 3.75,
+      "description": "Strong corrugated box for shipping"
     },
     {
       "id": "PRD005",
@@ -70,15 +58,12 @@
       "image": "/images/products/demo5.jpg",
       "size": "35x25x10cm",
       "material": "Kraft Paper",
-      "channel": "N/A",
-      "machine": "Komori",
+      "printing": "Offset",
       "surface": "Natural",
-      "dieMood": "Custom",
-      "gluing": "Manual",
+      "lamination": "None",
       "finishing": "None",
-      "price": 0.85,
-      "stock": 300,
-      "status": "In Stock"
+      "pricing": 0.85,
+      "description": "Eco-friendly kraft paper bag"
     },
     {
       "id": "PRD006",
