@@ -4,13 +4,61 @@
       "id": "PRD001",
       "name": "Custom Box",
       "image": "/images/products/demo1.jpg",
-      "size": [30,20],
-      "roll-sheet": [],
-      "printer": [],
-      "finisher": [],
-      "others": [],
+      "size": [300, 200],
+      "roll-sheet-ids": ["MAT011", "MAT012"],
+      "printer-ids": ["MAT021", "MAT022", "MAT023"],
+      "finisher-ids": ["MAT032", "MAT033"],
+      "others-ids": ["MAT044"],
       "pricing": 2.50,
       "description": "High-quality custom box with premium finishing"
+    },
+    {
+      "id": "PRD002",
+      "name": "Banner Display",
+      "image": "/images/products/demo2.jpg",
+      "size": [600, 300],
+      "roll-sheet-ids": ["MAT005", "MAT006"],
+      "printer-ids": ["MAT024", "MAT025"],
+      "finisher-ids": ["MAT031"],
+      "others-ids": ["MAT041"],
+      "pricing": 5.75,
+      "description": "Professional banner display with backlit option"
+    },
+    {
+      "id": "PRD003",
+      "name": "Vehicle Wrap",
+      "image": "/images/products/demo3.jpg",
+      "size": [500, 250],
+      "roll-sheet-ids": ["MAT007"],
+      "printer-ids": ["MAT025", "MAT026"],
+      "finisher-ids": ["MAT031", "MAT033"],
+      "others-ids": [],
+      "pricing": 8.25,
+      "description": "Premium vehicle wrap with UV protection"
+    },
+    {
+      "id": "PRD004",
+      "name": "Canvas Print",
+      "image": "/images/products/demo4.jpg",
+      "size": [400, 300],
+      "roll-sheet-ids": ["MAT004", "MAT014"],
+      "printer-ids": ["MAT023", "MAT028"],
+      "finisher-ids": ["MAT033", "MAT034"],
+      "others-ids": [],
+      "pricing": 4.50,
+      "description": "Gallery-quality canvas print with premium finishing"
+    },
+    {
+      "id": "PRD005",
+      "name": "Business Cards",
+      "image": "/images/products/demo5.jpg",
+      "size": [90, 50],
+      "roll-sheet-ids": ["MAT011", "MAT012"],
+      "printer-ids": ["MAT021", "MAT027"],
+      "finisher-ids": ["MAT032", "MAT036"],
+      "others-ids": [],
+      "pricing": 1.25,
+      "description": "Premium business cards with spot UV finish"
     }
   ]
 } 
