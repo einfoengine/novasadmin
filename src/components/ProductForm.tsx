@@ -37,19 +37,18 @@ export default function ProductForm({
   submitLabel = 'Create Product'
 }: ProductFormProps) {
   const [materials, setMaterials] = useState<Material[]>([]);
-  const [formData, setFormData] = useState<ProductFormData>({
-    name: '',
-    size: '',
-    material: [],
-    printing: [],
-    surface: '',
-    lamination: '',
-    finishing: '',
-    pricing: 0,
-    description: '',
-    image: '',
-    ...initialData
-  });
+  const [formData, setFormData] = useState<ProductFormData>(() => ({
+    name: initialData.name || '',
+    size: initialData.size || '',
+    material: Array.isArray(initialData.material) ? initialData.material : [],
+    printing: Array.isArray(initialData.printing) ? initialData.printing : [],
+    surface: initialData.surface || '',
+    lamination: initialData.lamination || '',
+    finishing: initialData.finishing || '',
+    pricing: initialData.pricing || 0,
+    description: initialData.description || '',
+    image: initialData.image || ''
+  }));
 
   useEffect(() => {
     const fetchMaterials = async () => {

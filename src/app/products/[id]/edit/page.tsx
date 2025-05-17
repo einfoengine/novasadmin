@@ -22,8 +22,9 @@ interface ProductFormData {
   image: string;
 }
 
-export default function EditProductPage({ params }: { params: { id: string } }) {
+export default function EditProductPage({ params }: { params: Promise<{ id: string }> }) {
   const router = useRouter();
+  const resolvedParams = React.use(params);
   const [product, setProduct] = useState<ProductData | null>(null);
   const [loading, setLoading] = useState(true);
 
@@ -32,7 +33,7 @@ export default function EditProductPage({ params }: { params: { id: string } }) 
       try {
         const response = await fetch('/data/products.json');
         const data = await response.json();
-        const product = data.products.find((p: ProductData) => p.id === params.id);
+        const product = data.products.find((p: ProductData) => p.id === resolvedParams.id);
         if (product) {
           setProduct(product);
         }
@@ -44,11 +45,11 @@ export default function EditProductPage({ params }: { params: { id: string } }) 
     };
 
     fetchProduct();
-  }, [params.id]);
+  }, [resolvedParams.id]);
 
   const handleSubmit = async (formData: ProductFormData) => {
     // TODO: Implement product update logic
-    console.log('Form submitted:', { ...formData, id: params.id });
+    console.log('Form submitted:', { ...formData, id: resolvedParams.id });
     router.push('/products');
   };
 
