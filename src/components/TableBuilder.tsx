@@ -2,6 +2,7 @@
 
 import React, { useState } from 'react';
 import TableHeader from '@/elements/TableHeader';
+import { PencilIcon } from "@heroicons/react/24/outline";
 
 interface Column {
   key: string;
@@ -121,15 +122,6 @@ const TableBuilder = <T extends { id: string }>({
   };
 
   // Handle bulk actions
-  const handleBulkEdit = () => {
-    if (selectedIds.length === 1 && onEdit) {
-      const selectedItem = data.find(item => item.id === selectedIds[0]);
-      if (selectedItem) {
-        onEdit(selectedItem);
-      }
-    }
-  };
-
   const handleBulkDelete = () => {
     if (selectedIds.length > 0 && onDelete) {
       if (window.confirm(`Are you sure you want to delete ${selectedIds.length} selected items?`)) {
@@ -188,7 +180,6 @@ const TableBuilder = <T extends { id: string }>({
         onItemsPerPageChange={setItemsPerPage}
         totalItems={filteredData.length}
         selectedCount={selectedIds.length}
-        onEdit={selectedIds.length > 0 ? handleBulkEdit : undefined}
         onDelete={selectedIds.length > 0 ? handleBulkDelete : undefined}
         actionButton={actionButton}
       />
@@ -214,6 +205,9 @@ const TableBuilder = <T extends { id: string }>({
                   {column.label}
                 </th>
               ))}
+              <th className="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider">
+                Actions
+              </th>
             </tr>
           </thead>
           <tbody className="divide-y">
@@ -243,12 +237,23 @@ const TableBuilder = <T extends { id: string }>({
                     {formatCellValue(column, item[column.key as keyof T])}
                   </td>
                 ))}
+                <td className="px-6 py-4 whitespace-nowrap text-sm" onClick={(e) => e.stopPropagation()}>
+                  {onEdit && (
+                    <button
+                      onClick={() => onEdit(item)}
+                      className="p-2 rounded-md hover:bg-gray-100 duration-200"
+                      title="Edit"
+                    >
+                      <PencilIcon className="h-5 w-5" />
+                    </button>
+                  )}
+                </td>
               </tr>
             ))}
           </tbody>
         </table>
-
-        <div className="flex justify-between items-center p-4 border-t">
+      </div>
+      <div className="flex justify-between items-center p-4 border-t">
           <span className="text-sm">
             Showing <span className="font-medium">{startIndex + 1}</span> to{' '}
             <span className="font-medium">
@@ -289,7 +294,6 @@ const TableBuilder = <T extends { id: string }>({
             </button>
           </div>
         </div>
-      </div>
     </div>
   );
 };

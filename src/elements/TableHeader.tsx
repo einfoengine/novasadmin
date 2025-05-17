@@ -1,5 +1,5 @@
 import { ReactNode } from "react";
-import { MagnifyingGlassIcon, PencilIcon, TrashIcon } from "@heroicons/react/24/outline";
+import { MagnifyingGlassIcon, TrashIcon } from "@heroicons/react/24/outline";
 import Link from "next/link";
 
 interface TableHeaderProps {
@@ -12,7 +12,6 @@ interface TableHeaderProps {
   totalItems: number;
   selectedCount?: number;
   onDelete?: () => void;
-  onEdit?: () => void;
   actionButton?: {
     label: string;
     href: string;
@@ -30,7 +29,6 @@ export default function TableHeader({
   totalItems,
   selectedCount = 0,
   onDelete,
-  onEdit,
   actionButton
 }: TableHeaderProps) {
   return (
@@ -43,15 +41,6 @@ export default function TableHeader({
         <div className="flex items-center gap-4">
           {selectedCount > 0 && (
             <div className="flex items-center gap-2">
-              {onEdit && (
-                <button
-                  onClick={onEdit}
-                  className="p-2 rounded-md"
-                  title="Edit"
-                >
-                  <PencilIcon className="h-5 w-5" />
-                </button>
-              )}
               {onDelete && (
                 <button
                   onClick={onDelete}
