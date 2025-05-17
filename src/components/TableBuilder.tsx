@@ -2,7 +2,6 @@
 
 import React, { useState } from 'react';
 import TableHeader from '@/elements/TableHeader';
-import { PencilIcon, TrashIcon } from '@heroicons/react/24/outline';
 
 interface Column {
   key: string;
@@ -119,7 +118,7 @@ const TableBuilder = <T extends { id: string }>({
         return (
           <a
             href={column.linkHref?.(value) || '#'}
-            className="transition-colors duration-200"
+            className=" duration-200"
           >
             {String(value)}
           </a>
@@ -140,16 +139,16 @@ const TableBuilder = <T extends { id: string }>({
         onItemsPerPageChange={setItemsPerPage}
         totalItems={filteredData.length}
         selectedCount={selectedIds.length}
-        onEdit={selectedIds.length === 1 ? handleBulkEdit : undefined}
+        onEdit={selectedIds.length > 0 ? handleBulkEdit : undefined}
         onDelete={selectedIds.length > 0 ? handleBulkDelete : undefined}
         actionButton={actionButton}
       />
       <div className="rounded-lg shadow overflow-x-auto">
-        <table className="min-w-full divide-y divide-gray-200 dark:divide-gray-700">
+        <table className="min-w-full divide-y">
           <thead>
             <tr>
               {selectable && (
-                <th className="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider text-black dark:text-white">
+                <th className="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider">
                   <input
                     type="checkbox"
                     checked={selectedIds.length === data.length && data.length > 0}
@@ -161,29 +160,24 @@ const TableBuilder = <T extends { id: string }>({
               {columns.map((column) => (
                 <th
                   key={column.key}
-                  className="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider text-black dark:text-white"
+                  className="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider"
                 >
                   {column.label}
                 </th>
               ))}
-              {(onEdit || onDelete) && (
-                <th className="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider text-black dark:text-white">
-                  Actions
-                </th>
-              )}
             </tr>
           </thead>
-          <tbody className="divide-y divide-gray-200 dark:divide-gray-700">
+          <tbody className="divide-y">
             {paginatedData.map((item) => (
               <tr
                 key={item.id}
                 onClick={() => onRowClick && onRowClick(item)}
-                className={`${onRowClick ? 'cursor-pointer' : ''} transition-colors duration-200 group relative hover:bg-gray-50 dark:hover:bg-gray-800 ${
-                  selectedIds.includes(item.id) ? 'bg-gray-50 dark:bg-gray-800' : ''
+                className={`${onRowClick ? 'cursor-pointer' : ''}  duration-200 group relative ${
+                  selectedIds.includes(item.id) ? 'bg-opacity-50' : ''
                 }`}
               >
                 {selectable && (
-                  <td className="px-6 py-4 whitespace-nowrap text-black dark:text-white" onClick={(e) => e.stopPropagation()}>
+                  <td className="px-6 py-4 whitespace-nowrap" onClick={(e) => e.stopPropagation()}>
                     <input
                       type="checkbox"
                       checked={selectedIds.includes(item.id)}
@@ -195,40 +189,18 @@ const TableBuilder = <T extends { id: string }>({
                 {columns.map((column) => (
                   <td
                     key={column.key}
-                    className="px-6 py-4 whitespace-nowrap text-sm text-black dark:text-white transition-colors duration-200"
+                    className="px-6 py-4 whitespace-nowrap text-sm  duration-200"
                   >
                     {formatCellValue(column, item[column.key as keyof T])}
                   </td>
                 ))}
-                {(onEdit || onDelete) && (
-                  <td className="px-6 py-4 whitespace-nowrap text-sm text-black dark:text-white" onClick={(e) => e.stopPropagation()}>
-                    <div className="flex items-center space-x-3">
-                      {onEdit && (
-                        <button
-                          onClick={() => onEdit(item)}
-                          className="text-black hover:text-indigo-600 dark:text-gray-400 dark:hover:text-indigo-400 transition-colors duration-200"
-                        >
-                          <PencilIcon className="h-5 w-5" />
-                        </button>
-                      )}
-                      {onDelete && (
-                        <button
-                          onClick={() => onDelete(item)}
-                          className="text-black hover:text-red-600 dark:text-gray-400 dark:hover:text-red-400 transition-colors duration-200"
-                        >
-                          <TrashIcon className="h-5 w-5" />
-                        </button>
-                      )}
-                    </div>
-                  </td>
-                )}
               </tr>
             ))}
           </tbody>
         </table>
 
-        <div className="flex justify-between items-center p-4 border-t border-gray-200 dark:border-gray-700">
-          <span className="text-sm text-black dark:text-white">
+        <div className="flex justify-between items-center p-4 border-t">
+          <span className="text-sm">
             Showing <span className="font-medium">{startIndex + 1}</span> to{' '}
             <span className="font-medium">
               {Math.min(startIndex + itemsPerPage, filteredData.length)}
@@ -237,14 +209,14 @@ const TableBuilder = <T extends { id: string }>({
           </span>
           <div className="flex gap-2">
             <button
-              className="px-3 py-1 rounded border border-gray-300 dark:border-gray-700 text-black dark:text-white hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors duration-200 disabled:opacity-50 disabled:cursor-not-allowed"
+              className="px-3 py-1 rounded border  duration-200 disabled:opacity-50 disabled:cursor-not-allowed"
               onClick={() => setCurrentPage((p) => Math.max(1, p - 1))}
               disabled={currentPage === 1}
             >
               Previous
             </button>
             <button
-              className="px-3 py-1 rounded border border-gray-300 dark:border-gray-700 text-black dark:text-white hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors duration-200 disabled:opacity-50 disabled:cursor-not-allowed"
+              className="px-3 py-1 rounded border  duration-200 disabled:opacity-50 disabled:cursor-not-allowed"
               onClick={() => setCurrentPage((p) => Math.min(totalPages, p + 1))}
               disabled={currentPage === totalPages}
             >

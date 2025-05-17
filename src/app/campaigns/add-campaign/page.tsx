@@ -7,7 +7,6 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 import { toast } from "sonner";
 import { useDispatch } from 'react-redux';
-import { setCurrentCampaign } from '@/app/store/features/campaignSlice';
 
 interface Country {
   countryId: string;

@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import "./styles/globals.scss";
+import "../../public/styles/globals.scss";
 import FontProvider from "@/components/FontProvider";
 import Sidebar from "@/components/Sidebar";
 import Header from "@/components/Header";
@@ -22,11 +22,11 @@ export default function RootLayout({
       </head>
       <body suppressHydrationWarning className="antialiased">
         <Providers>
-          <div className="flex h-screen w-full overflow-hidden bg-white dark:bg-gray-900">
+          <div className="flex h-screen w-full overflow-hidden">
             <Sidebar />
             <div className="flex flex-col flex-1 overflow-hidden">
               <Header />
-              <main id="nt-main-content" className="flex-1 overflow-y-auto bg-gray-50 dark:bg-gray-900">
+              <main id="nt-main-content" className="flex-1 overflow-y-auto">
                 {children}
               </main>
             </div>

@@ -3,25 +3,12 @@
 import { useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { useSelector } from 'react-redux';
-import { RootState } from '@/app/store/store';
+import { RootState } from '@/store/store';
 import Image from 'next/image';
 
 interface SelectedProduct {
   productId: string;
   quantity: number;
-}
-
-interface Campaign {
-  id: string;
-  campaignName: string;
-  campaignDescription: string;
-  startDate: string;
-  endDate: string;
-  countries: string[];
-  storeCodes: string[];
-  selectedProducts: SelectedProduct[];
-  totalCost: number;
-  createdAt: string;
 }
 
 export default function CampaignSummaryPage() {

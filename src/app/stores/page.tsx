@@ -153,12 +153,6 @@ export default function StoresPage() {
 
   return (
     <main className={`p-6 ${theme === 'dark' ? 'bg-gray-900 text-white' : 'bg-white text-gray-900'}`}>
-      <div className="mb-6">
-        <h1 className="text-2xl font-bold flex items-center gap-2">
-          <BuildingStorefrontIcon className="h-6 w-6" />
-          Stores
-        </h1>
-      </div>
       <TableBuilder
         data={stores}
         columns={columns}
@@ -167,6 +161,10 @@ export default function StoresPage() {
         selectable
         title="Stores"
         icon={<BuildingStorefrontIcon className="h-6 w-6" />}
+        actionButton={{
+          label: 'Add Store',
+          href: '/stores/new',
+        }}
       />
     </main>
   );

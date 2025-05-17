@@ -65,72 +65,72 @@ export default function ProductsPage() {
     { 
       key: 'id', 
       label: 'ID',
-      className: 'text-gray-900 dark:text-white'
+      className: ''
     },
     { 
       key: 'name', 
       label: 'Product Name',
       type: 'link' as const,
       linkHref: (value: unknown) => `/products/${value}`,
-      className: 'text-gray-900 dark:text-white'
+      className: ''
     },
     { 
       key: 'size', 
       label: 'Size',
-      className: 'text-gray-900 dark:text-white'
+      className: ''
     },
     { 
       key: 'material', 
       label: 'Material',
-      className: 'text-gray-900 dark:text-white'
+      className: ''
     },
     { 
       key: 'channel', 
       label: 'Channel',
-      className: 'text-gray-900 dark:text-white'
+      className: ''
     },
     { 
       key: 'machine', 
       label: 'Machine',
-      className: 'text-gray-900 dark:text-white'
+      className: ''
     },
     { 
       key: 'surface', 
       label: 'Surface',
-      className: 'text-gray-900 dark:text-white'
+      className: ''
     },
     { 
       key: 'dieMood', 
       label: 'Die Mood',
-      className: 'text-gray-900 dark:text-white'
+      className: ''
     },
     { 
       key: 'gluing', 
       label: 'Gluing',
-      className: 'text-gray-900 dark:text-white'
+      className: ''
     },
     { 
       key: 'finishing', 
       label: 'Finishing',
-      className: 'text-gray-900 dark:text-white'
+      className: ''
     },
     { 
       key: 'price', 
       label: 'Price',
       type: 'currency' as const,
-      className: 'text-gray-900 dark:text-white'
+      className: ''
     },
     { 
       key: 'stock', 
       label: 'Stock',
       type: 'number' as const,
-      className: 'text-gray-900 dark:text-white'
+      className: ''
     },
     { 
       key: 'status', 
       label: 'Status',
       type: 'status' as const,
-      className: 'text-gray-900 dark:text-white'
+      className: ''
     },
   ];
 
@@ -145,7 +145,7 @@ export default function ProductsPage() {
   }
 
   return (
-    <div className={`min-h-screen p-6 ${theme === 'dark' ? 'bg-gray-900' : 'bg-gray-50'} text-gray-900 dark:text-white`}>
+    <div className={`min-h-screen p-6`}>
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-6">
         <StatsCard
           title="Total Products"
@@ -179,12 +179,12 @@ export default function ProductsPage() {
         />
       </div>
 
-      <div className={`${theme === 'dark' ? 'bg-gray-800' : 'bg-white'} rounded-lg shadow`}>
+      <div className={`rounded-lg shadow`}>
         <TableBuilder
           data={products}
           columns={columns}
           title="Products"
-          icon={<CubeIcon className={`h-6 w-6 ${theme === 'dark' ? 'text-white' : 'text-gray-900'}`} />}
+          icon={<CubeIcon className={`h-6 w-6 `} />}
           searchable
           selectable
           onRowClick={handleRowClick}

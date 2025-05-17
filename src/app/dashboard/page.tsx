@@ -160,8 +160,8 @@ export default function Dashboard() {
             <StatsCard
               title="Current Campaigns"
               value={campaigns.filter(c => c.status === 'Active').length.toString()}
-              icon={<UsersIcon className="w-6 h-6 text-gray-900 dark:text-white" />}
-              iconColor="text-gray-500 dark:text-gray-400"
+              icon={<UsersIcon className="w-6 h-6 " />}
+              iconColor=""
               iconBg="bg-gray-100 dark:bg-gray-800"
               percentage="12%"
               percentageColor="text-green-500"
@@ -171,8 +171,8 @@ export default function Dashboard() {
             <StatsCard
               title="Upcoming Campaigns"
               value={campaigns.filter(c => new Date(c.startDate) > new Date()).length.toString()}
-              icon={<UsersIcon className="w-6 h-6 text-gray-900 dark:text-white" />}
-              iconColor="text-gray-500 dark:text-gray-400"
+              icon={<UsersIcon className="w-6 h-6 " />}
+              iconColor=""
               iconBg="bg-gray-100 dark:bg-gray-800"
               percentage="12%"
               percentageColor="text-green-500"
@@ -181,8 +181,8 @@ export default function Dashboard() {
             <StatsCard 
               title="Invoice status" 
               value={campaigns.filter(c => c.invoiceStatus === 'Paid').length.toString()} 
-              icon={<ChartBarIcon className="w-6 h-6 text-gray-900 dark:text-white" />} 
-              iconColor="text-gray-500 dark:text-gray-400" 
+              icon={<ChartBarIcon className="w-6 h-6 " />} 
+              iconColor="" 
               iconBg="bg-gray-100 dark:bg-gray-800" 
               percentage="12%" 
               percentageColor="text-green-500" 
@@ -194,7 +194,7 @@ export default function Dashboard() {
           <div className="mt-8">
             <UsersTable 
               title="Users"
-              icon={<UsersIcon className="w-6 h-6 text-gray-900 dark:text-white" />}
+              icon={<UsersIcon className="w-6 h-6 " />}
               selectable={true}
               onRowClick={handleUserRowClick}
               onEdit={handleUserEdit}

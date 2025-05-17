@@ -17,7 +17,9 @@ import {
   EnvelopeIcon,
   FlagIcon,
   ViewColumnsIcon,
-  ClipboardDocumentCheckIcon
+  ClipboardDocumentCheckIcon,
+  StarIcon,
+  PaperAirplaneIcon
 } from '@heroicons/react/24/outline';
 
 const menuItems = [
@@ -28,19 +30,19 @@ const menuItems = [
     submenu: []
   },
   { 
-    name: 'Products', 
-    href: '/products', 
-    icon: ShoppingBagIcon,
-    submenu: [
-      { name: 'All Products', href: '/products', icon: ShoppingBagIcon },
-      { name: 'Categories', href: '/products/categories', icon: ViewColumnsIcon },
-      { name: 'Inventory', href: '/products/inventory', icon: ClipboardDocumentCheckIcon },
-    ]
-  },
-  { 
     name: 'Messages', 
     href: '/messages', 
     icon: EnvelopeIcon,
+    submenu: [
+      { name: 'All', href: '/messages', icon: ShoppingBagIcon },
+      { name: 'Inbox', href: '/messages/inbox', icon: ViewColumnsIcon },
+      { name: 'Sent', href: '/messages/sent', icon: ClipboardDocumentCheckIcon },
+    ]
+  },
+  { 
+    name: 'Products', 
+    href: '/products', 
+    icon: ShoppingBagIcon,
     submenu: []
   },
   { 
@@ -53,57 +55,44 @@ const menuItems = [
   },
   { 
     name: 'Stores', 
+    href: '/stores',
     icon: BuildingStorefrontIcon,
-    submenu: [
-      { name: 'List', href: '/stores', icon: BriefcaseIcon },
-      { name: 'Admin', href: '/store/admin', icon: BriefcaseIcon },
-      { name: 'Clients', href: '/store/clients', icon: UsersIcon },
-      { name: 'Country Manager', href: '/store/country-manager', icon: UsersIcon },
-      { name: 'Store Manager', href: '/store/store-manager', icon: UsersIcon },
-      { name: 'Production Manager', href: '/store/production-manager', icon: UsersIcon },
-    ]
+    submenu: []
   },
   { 
     name: 'Template', 
     href: '/template', 
     icon: ViewColumnsIcon,
-    submenu: [
-      { name: 'List', href: '/template', icon: BriefcaseIcon },
-      { name: 'Admin', href: '/template/admin', icon: BriefcaseIcon },
-      { name: 'Clients', href: '/template/clients', icon: UsersIcon },
-      { name: 'Country Manager', href: '/template/country-manager', icon: UsersIcon },
-      { name: 'Store Manager', href: '/template/store-manager', icon: UsersIcon },
-      { name: 'Production Manager', href: '/template/production-manager', icon: UsersIcon },
-    ]
+    submenu: []
   },
   { 
     name: 'Campaign', 
     href: '/campaigns', 
     icon: ClipboardDocumentCheckIcon,
-    submenu: [
-      { name: 'All Campaigns', href: '/campaigns', icon: ClipboardDocumentCheckIcon },
-      { name: 'Add Campaign', href: '/campaigns/add-campaign', icon: BriefcaseIcon },
-      { name: 'Campaign Summary', href: '/campaigns/campaign-summary', icon: BriefcaseIcon },
-      { name: 'Store Brief', href: '/campaigns/store-brief', icon: BriefcaseIcon },
-    ]
-  },
-  { 
-    name: 'Users', 
-    href: '/users', 
-    icon: UserIcon,
-    submenu: [
-      { name: 'List', href: '/users', icon: BriefcaseIcon },
-      { name: 'Admin', href: '/users/admin', icon: BriefcaseIcon },
-      { name: 'Clients', href: '/users/clients', icon: UsersIcon },
-      { name: 'Country Manager', href: '/users/country-manager', icon: UsersIcon },
-      { name: 'Store Manager', href: '/users/store-manager', icon: UsersIcon },
-      { name: 'Production Manager', href: '/users/production-manager', icon: UsersIcon },
-    ]
+    submenu: []
   },
   { 
     name: 'Currencies', 
     href: '/currencies', 
     icon: CurrencyEuroIcon,
+    submenu: []
+  },
+  { 
+    name: 'Users', 
+    href: '/users', 
+    icon: UserIcon,
+    submenu: []
+  },
+  { 
+    name: 'Materials', 
+    href: '/materials', 
+    icon: StarIcon,
+    submenu: []
+  },
+  { 
+    name: 'Invoice', 
+    href: '/invoice', 
+    icon: PaperAirplaneIcon,
     submenu: []
   },
 ];

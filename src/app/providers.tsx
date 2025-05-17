@@ -1,11 +1,6 @@
 'use client';
 
-import { Provider } from 'react-redux';
-import { store } from './store/store';
-import { createContext, useContext, useEffect } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { RootState } from './store/store';
-import { setTheme } from './store/themeSlice';
+import { createContext, useContext, useEffect, useState } from 'react';
 
 type Theme = 'light' | 'dark';
 
@@ -17,11 +12,10 @@ interface ThemeContextType {
 const ThemeContext = createContext<ThemeContextType | undefined>(undefined);
 
 export function ThemeProvider({ children }: { children: React.ReactNode }) {
-  const dispatch = useDispatch();
-  const theme = useSelector((state: RootState) => (state.theme as { theme: Theme }).theme);
+  const [theme, setTheme] = useState<Theme>('light');
 
   const toggleTheme = () => {
-    dispatch(setTheme(theme === 'light' ? 'dark' : 'light'));
+    setTheme(prevTheme => prevTheme === 'light' ? 'dark' : 'light');
   };
 
   useEffect(() => {
@@ -46,8 +40,6 @@ export function useTheme() {
 
 export function Providers({ children }: { children: React.ReactNode }) {
   return (
-    <Provider store={store}>
-      <ThemeProvider>{children}</ThemeProvider>
-    </Provider>
+    <ThemeProvider>{children}</ThemeProvider>
   );
 } 
