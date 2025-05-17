@@ -1,0 +1,15 @@
+{
+    "materials": [
+      {
+        "materialId": "CAMP001",
+        "materialName": "Summer Sale 2024",
+        "materialSegment": "roll",
+        "materialType": "Demo type",
+        "materialSize": "3200/5000",
+        "materialColor": "red",
+        "materialPrice": 100,
+        "materialDescription": "This is a description of the material",
+        "materialImage": "https://via.placeholder.com/150"
+      }      
+    ]
+  } 
