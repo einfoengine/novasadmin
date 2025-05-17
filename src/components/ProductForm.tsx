@@ -53,7 +53,7 @@ export default function ProductForm({
   useEffect(() => {
     const fetchMaterials = async () => {
       try {
-        const response = await fetch('/data/materisls.json');
+        const response = await fetch('/data/materials.json');
         const data = await response.json();
         setMaterials(data.materials || []);
       } catch (error) {
@@ -135,11 +135,11 @@ export default function ProductForm({
 
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-2">
-                Material
+                Roll/Sheer
               </label>
               <div className="space-y-2">
                 <select
-                  name="material"
+                  name="roll-sheet"
                   value=""
                   onChange={(e) => handleMultiSelect('material', e.target.value)}
                   className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent"
@@ -188,14 +188,70 @@ export default function ProductForm({
                 )}
               </div>
             </div>
-
+            {/*  */}
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-2">
-                Printing
+                Printer
               </label>
               <div className="space-y-2">
                 <select
-                  name="printing"
+                  name="printer"
+                  value=""
+                  onChange={(e) => handleMultiSelect('material', e.target.value)}
+                  className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent"
+                >
+                  <option value="">Select Material</option>
+                  {rollMaterials.map(material => (
+                    <option 
+                      key={material.id} 
+                      value={material.id}
+                      disabled={formData.material.includes(material.id)}
+                    >
+                      {material.name}
+                    </option>
+                  ))}
+                  {sheetMaterials.map(material => (
+                    <option 
+                      key={material.id} 
+                      value={material.id}
+                      disabled={formData.material.includes(material.id)}
+                    >
+                      {material.name}
+                    </option>
+                  ))}
+                </select>
+                {formData.material.length > 0 && (
+                  <div className="mt-2 space-y-2">
+                    {formData.material.map(materialId => {
+                      const material = materials.find(m => m.id === materialId);
+                      return material ? (
+                        <div 
+                          key={materialId}
+                          className="flex items-center justify-between bg-gray-50 px-3 py-2 rounded-md"
+                        >
+                          <span className="text-sm">{material.name}</span>
+                          <button
+                            type="button"
+                            onClick={() => removeSelectedItem('material', materialId)}
+                            className="text-red-500 hover:text-red-700"
+                          >
+                            ×
+                          </button>
+                        </div>
+                      ) : null;
+                    })}
+                  </div>
+                )}
+              </div>
+            </div>
+            {/*  */}
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-2">
+                Finisher
+              </label>
+              <div className="space-y-2">
+                <select
+                  name="finisher"
                   value=""
                   onChange={(e) => handleMultiSelect('printing', e.target.value)}
                   className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent"
@@ -235,54 +291,54 @@ export default function ProductForm({
                 )}
               </div>
             </div>
-
+            {/*  */}
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-2">
-                Surface
+                Others
               </label>
-              <input
-                type="text"
-                name="surface"
-                value={formData.surface}
-                onChange={handleInputChange}
-                className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent"
-                required
-              />
+              <div className="space-y-2">
+                <select
+                  name="others"
+                  value=""
+                  onChange={(e) => handleMultiSelect('printing', e.target.value)}
+                  className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent"
+                >
+                  <option value="">Select Printer</option>
+                  {printerMaterials.map(material => (
+                    <option 
+                      key={material.id} 
+                      value={material.id}
+                      disabled={formData.printing.includes(material.id)}
+                    >
+                      {material.name}
+                    </option>
+                  ))}
+                </select>
+                {formData.printing.length > 0 && (
+                  <div className="mt-2 space-y-2">
+                    {formData.printing.map(printerId => {
+                      const printer = materials.find(m => m.id === printerId);
+                      return printer ? (
+                        <div 
+                          key={printerId}
+                          className="flex items-center justify-between bg-gray-50 px-3 py-2 rounded-md"
+                        >
+                          <span className="text-sm">{printer.name}</span>
+                          <button
+                            type="button"
+                            onClick={() => removeSelectedItem('printing', printerId)}
+                            className="text-red-500 hover:text-red-700"
+                          >
+                            ×
+                          </button>
+                        </div>
+                      ) : null;
+                    })}
+                  </div>
+                )}
+              </div>
             </div>
-
-            <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">
-                Lamination
-              </label>
-              <input
-                type="text"
-                name="lamination"
-                value={formData.lamination}
-                onChange={handleInputChange}
-                className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent"
-                required
-              />
-            </div>
-
-            <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">
-                Finishing
-              </label>
-              <select
-                name="finishing"
-                value={formData.finishing}
-                onChange={handleInputChange}
-                className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent"
-                required
-              >
-                <option value="">Select Finishing</option>
-                {finisherMaterials.map(material => (
-                  <option key={material.id} value={material.id}>
-                    {material.name}
-                  </option>
-                ))}
-              </select>
-            </div>
+            {/*  */}
 
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-2">
