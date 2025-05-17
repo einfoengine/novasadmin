@@ -7,6 +7,7 @@ interface Material {
   id: string;
   name: string;
   materialSegment: string;
+  materialType: string | null;
   description: string;
 }
 
@@ -93,12 +94,6 @@ export default function ProductForm({
     onSubmit(formData);
   };
 
-  // Filter materials by segment
-  const rollMaterials = materials.filter(m => m.materialSegment === 'roll');
-  const sheetMaterials = materials.filter(m => m.materialSegment === 'sheet');
-  const printerMaterials = materials.filter(m => m.materialSegment === 'printer');
-  const finisherMaterials = materials.filter(m => m.materialSegment === 'finisher');
-
   return (
     <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
       {/* Form Section */}
@@ -145,24 +140,17 @@ export default function ProductForm({
                   className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent"
                 >
                   <option value="">Select Material</option>
-                  {rollMaterials.map(material => (
-                    <option 
-                      key={material.id} 
-                      value={material.id}
-                      disabled={formData.material.includes(material.id)}
-                    >
-                      {material.name}
-                    </option>
-                  ))}
-                  {sheetMaterials.map(material => (
-                    <option 
-                      key={material.id} 
-                      value={material.id}
-                      disabled={formData.material.includes(material.id)}
-                    >
-                      {material.name}
-                    </option>
-                  ))}
+                  {materials
+                    .filter(material => material.materialSegment === 'roll' || material.materialSegment === 'sheet')
+                    .map(material => (
+                      <option 
+                        key={material.id} 
+                        value={material.id}
+                        disabled={formData.material.includes(material.id)}
+                      >
+                        {material.name}
+                      </option>
+                    ))}
                 </select>
                 {formData.material.length > 0 && (
                   <div className="mt-2 space-y-2">
@@ -200,25 +188,18 @@ export default function ProductForm({
                   onChange={(e) => handleMultiSelect('material', e.target.value)}
                   className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent"
                 >
-                  <option value="">Select Material</option>
-                  {rollMaterials.map(material => (
-                    <option 
-                      key={material.id} 
-                      value={material.id}
-                      disabled={formData.material.includes(material.id)}
-                    >
-                      {material.name}
-                    </option>
-                  ))}
-                  {sheetMaterials.map(material => (
-                    <option 
-                      key={material.id} 
-                      value={material.id}
-                      disabled={formData.material.includes(material.id)}
-                    >
-                      {material.name}
-                    </option>
-                  ))}
+                  <option value="">Select Printer</option>
+                  {materials
+                    .filter(material => material.materialSegment === 'printer')
+                    .map(material => (
+                      <option 
+                        key={material.id} 
+                        value={material.id}
+                        disabled={formData.material.includes(material.id)}
+                      >
+                        {material.name}
+                      </option>
+                    ))}
                 </select>
                 {formData.material.length > 0 && (
                   <div className="mt-2 space-y-2">
@@ -256,16 +237,18 @@ export default function ProductForm({
                   onChange={(e) => handleMultiSelect('printing', e.target.value)}
                   className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent"
                 >
-                  <option value="">Select Printer</option>
-                  {printerMaterials.map(material => (
-                    <option 
-                      key={material.id} 
-                      value={material.id}
-                      disabled={formData.printing.includes(material.id)}
-                    >
-                      {material.name}
-                    </option>
-                  ))}
+                  <option value="">Select Finisher</option>
+                  {materials
+                    .filter(material => material.materialSegment === 'finisher')
+                    .map(material => (
+                      <option 
+                        key={material.id} 
+                        value={material.id}
+                        disabled={formData.printing.includes(material.id)}
+                      >
+                        {material.name}
+                      </option>
+                    ))}
                 </select>
                 {formData.printing.length > 0 && (
                   <div className="mt-2 space-y-2">
@@ -303,16 +286,18 @@ export default function ProductForm({
                   onChange={(e) => handleMultiSelect('printing', e.target.value)}
                   className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent"
                 >
-                  <option value="">Select Printer</option>
-                  {printerMaterials.map(material => (
-                    <option 
-                      key={material.id} 
-                      value={material.id}
-                      disabled={formData.printing.includes(material.id)}
-                    >
-                      {material.name}
-                    </option>
-                  ))}
+                  <option value="">Select Others</option>
+                  {materials
+                    .filter(material => material.materialSegment === 'others')
+                    .map(material => (
+                      <option 
+                        key={material.id} 
+                        value={material.id}
+                        disabled={formData.printing.includes(material.id)}
+                      >
+                        {material.name}
+                      </option>
+                    ))}
                 </select>
                 {formData.printing.length > 0 && (
                   <div className="mt-2 space-y-2">
