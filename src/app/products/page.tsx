@@ -99,11 +99,6 @@ export default function ProductsPage() {
       label: 'Pricing',
       type: 'currency' as const,
       className: ''
-    },
-    { 
-      key: 'description', 
-      label: 'Description',
-      className: 'max-w-xs truncate'
     }
   ];
 
