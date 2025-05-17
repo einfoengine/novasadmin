@@ -66,8 +66,9 @@ export default function ProductsPage() {
       className: ''
     },
     { 
-      key: 'img', 
+      key: 'image', 
       label: 'Image',
+      type: 'image' as const,
       className: ''
     },
     { 

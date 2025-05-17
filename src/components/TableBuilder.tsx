@@ -7,7 +7,7 @@ import { PencilIcon } from "@heroicons/react/24/outline";
 interface Column {
   key: string;
   label: string;
-  type?: 'text' | 'number' | 'currency' | 'date' | 'status' | 'link' | 'custom';
+  type?: 'text' | 'number' | 'currency' | 'date' | 'status' | 'link' | 'custom' | 'image';
   format?: (value: unknown) => string;
   className?: string;
   linkHref?: (value: unknown) => string;
@@ -163,6 +163,16 @@ const TableBuilder = <T extends { id: string }>({
           >
             {String(value)}
           </a>
+        );
+      case 'image':
+        return (
+          <div className="w-12 h-12 rounded-md overflow-hidden">
+            <img
+              src={String(value)}
+              alt="Product"
+              className="w-full h-full object-cover"
+            />
+          </div>
         );
       default:
         return String(value);
