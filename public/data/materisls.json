@@ -4,271 +4,496 @@
         "id": "MAT001",
         "name": "Premium Glossy Paper Roll",
         "materialSegment": "roll",
-        "description": "High-quality glossy paper roll for premium printing"
+        "materialType": "roll",
+        "description": "High-quality glossy paper roll for premium printing",
+        "size": "300, 50",
+        "color": "",
+        "price": "100",
+        "others": []
       },
       {
         "id": "MAT002",
         "name": "Matte Paper Roll",
         "materialSegment": "roll",
-        "description": "Professional matte finish paper roll"
+        "materialType": "roll",
+        "description": "Professional matte finish paper roll",
+        "size": "300, 50",
+        "color": "",
+        "price": "100",
+        "others": []
       },
       {
         "id": "MAT003",
         "name": "Vinyl Roll",
         "materialSegment": "roll",
-        "description": "Durable vinyl material for outdoor applications"
+        "materialType": "roll",
+        "description": "Durable vinyl material for outdoor applications",
+        "size": "300, 50",
+        "color": "",
+        "price": "100",
+        "others": []
       },
       {
         "id": "MAT004",
         "name": "Canvas Roll",
         "materialSegment": "roll",
-        "description": "Artist-grade canvas for fine art printing"
+        "materialType": "roll",
+        "description": "Artist-grade canvas for fine art printing",
+        "size": "300, 50",
+        "color": "",
+        "price": "100",
+        "others": []
       },
       {
         "id": "MAT005",
         "name": "Banner Material Roll",
         "materialSegment": "roll",
-        "description": "Heavy-duty banner material for large format printing"
+        "materialType": "roll",
+        "description": "Heavy-duty banner material for large format printing",
+        "size": "300, 50",
+        "color": "",
+        "price": "100",
+        "others": []
       },
       {
         "id": "MAT006",
         "name": "Backlit Film Roll",
         "materialSegment": "roll",
-        "description": "Translucent film for backlit displays"
+        "materialType": "roll",
+        "description": "Translucent film for backlit displays",
+        "size": "300, 50",
+        "color": "",
+        "price": "100",
+        "others": []
       },
       {
         "id": "MAT007",
         "name": "Self-Adhesive Vinyl Roll",
         "materialSegment": "roll",
-        "description": "Premium self-adhesive vinyl for vehicle wraps"
+        "materialType": "roll",
+        "description": "Premium self-adhesive vinyl for vehicle wraps",
+        "size": "300, 50",
+        "color": "",
+        "price": "100",
+        "others": []
       },
       {
         "id": "MAT008",
         "name": "Textile Roll",
         "materialSegment": "roll",
-        "description": "Fabric material for soft signage"
+        "materialType": "roll",
+        "description": "Fabric material for soft signage",
+        "size": "300, 50",
+        "color": "",
+        "price": "100",
+        "others": []
       },
       {
         "id": "MAT009",
         "name": "Photo Paper Roll",
         "materialSegment": "roll",
-        "description": "Professional photo paper for high-resolution printing"
+        "materialType": "roll",
+        "description": "Professional photo paper for high-resolution printing",
+        "size": "300, 50",
+        "color": "",
+        "price": "100",
+        "others": []
       },
       {
         "id": "MAT010",
         "name": "Wallpaper Roll",
         "materialSegment": "roll",
-        "description": "Custom wallpaper material for interior decoration"
+        "materialType": "roll",
+        "description": "Custom wallpaper material for interior decoration",
+        "size": "300, 50",
+        "color": "",
+        "price": "100",
+        "others": []
       },
       {
         "id": "MAT011",
         "name": "Premium Card Stock Sheet",
         "materialSegment": "sheet",
-        "description": "High-quality card stock for business cards"
+        "materialType": "roll",
+        "description": "High-quality card stock for business cards",
+        "size": "300, 50",
+        "color": "",
+        "price": "100",
+        "others": []
       },
       {
         "id": "MAT012",
         "name": "Photo Paper Sheet",
         "materialSegment": "sheet",
-        "description": "Professional photo paper sheets"
+        "materialType": "roll",
+        "description": "Professional photo paper sheets",
+        "size": "300, 50",
+        "color": "",
+        "price": "100",
+        "others": []
       },
       {
         "id": "MAT013",
         "name": "Vinyl Sheet",
         "materialSegment": "sheet",
-        "description": "Premium vinyl sheets for decals"
+        "materialType": "roll",
+        "description": "Premium vinyl sheets for decals",
+        "size": "300, 50",
+        "color": "",
+        "price": "100",
+        "others": []
       },
       {
         "id": "MAT014",
         "name": "Canvas Sheet",
         "materialSegment": "sheet",
-        "description": "Artist canvas sheets for fine art"
+        "materialType": "roll",
+        "description": "Artist canvas sheets for fine art",
+        "size": "300, 50",
+        "color": "",
+        "price": "100",
+        "others": []
       },
       {
         "id": "MAT015",
         "name": "Transparency Sheet",
         "materialSegment": "sheet",
-        "description": "Clear transparency sheets for overhead projection"
+        "materialType": "roll",
+        "description": "Clear transparency sheets for overhead projection",
+        "size": "300, 50",
+        "color": "",
+        "price": "100",
+        "others": []
       },
       {
         "id": "MAT016",
         "name": "Label Sheet",
         "materialSegment": "sheet",
-        "description": "Professional label sheets for product labeling"
+        "materialType": "roll",
+        "description": "Professional label sheets for product labeling",
+        "size": "300, 50",
+        "color": "",
+        "price": "100",
+        "others": []
       },
       {
         "id": "MAT017",
         "name": "Sticker Sheet",
         "materialSegment": "sheet",
-        "description": "Premium sticker sheets for custom stickers"
+        "materialType": "roll",
+        "description": "Premium sticker sheets for custom stickers",
+        "size": "300, 50",
+        "color": "",
+        "price": "100",
+        "others": []
       },
       {
         "id": "MAT018",
         "name": "Foil Sheet",
         "materialSegment": "sheet",
-        "description": "Metallic foil sheets for special effects"
+        "materialType": "roll",
+        "description": "Metallic foil sheets for special effects",
+        "size": "300, 50",
+        "color": "",
+        "price": "100",
+        "others": []
       },
       {
         "id": "MAT019",
         "name": "Magnetic Sheet",
         "materialSegment": "sheet",
-        "description": "Magnetic material for magnetic signs"
+        "materialType": "roll",
+        "description": "Magnetic material for magnetic signs",
+        "size": "300, 50",
+        "color": "",
+        "price": "100",
+        "others": []
       },
       {
         "id": "MAT020",
         "name": "Acrylic Sheet",
         "materialSegment": "sheet",
-        "description": "Clear acrylic sheets for signage"
+        "materialType": "roll",
+        "description": "Clear acrylic sheets for signage",
+        "size": "300, 50",
+        "color": "",
+        "price": "100",
+        "others": []
       },
       {
         "id": "MAT021",
         "name": "UV Flatbed Printer",
         "materialSegment": "printer",
-        "description": "Industrial UV flatbed printer for rigid materials"
+        "materialType": "roll",
+        "description": "Industrial UV flatbed printer for rigid materials",
+        "size": "300, 50",
+        "color": "",
+        "price": "100",
+        "others": []
       },
       {
         "id": "MAT022",
         "name": "Roll-to-Roll Printer",
         "materialSegment": "printer",
-        "description": "High-speed roll-to-roll printer for flexible materials"
+        "materialType": "roll",
+        "description": "High-speed roll-to-roll printer for flexible materials",
+        "size": "300, 50",
+        "color": "",
+        "price": "100",
+        "others": []
       },
       {
         "id": "MAT023",
         "name": "Dye Sublimation Printer",
         "materialSegment": "printer",
-        "description": "Professional dye sublimation printer for textiles"
+        "materialType": "roll",
+        "description": "Professional dye sublimation printer for textiles",
+        "size": "300, 50",
+        "color": "",
+        "price": "100",
+        "others": []
       },
       {
         "id": "MAT024",
         "name": "Latex Printer",
         "materialSegment": "printer",
-        "description": "Eco-friendly latex printer for indoor applications"
+        "materialType": "roll",
+        "description": "Eco-friendly latex printer for indoor applications",
+        "size": "300, 50",
+        "color": "",
+        "price": "100",
+        "others": []
       },
       {
         "id": "MAT025",
         "name": "Solvent Printer",
         "materialSegment": "printer",
-        "description": "Industrial solvent printer for outdoor applications"
+        "materialType": "roll",
+        "description": "Industrial solvent printer for outdoor applications",
+        "size": "300, 50",
+        "color": "",
+        "price": "100",
+        "others": []
       },
       {
         "id": "MAT026",
         "name": "Eco-Solvent Printer",
         "materialSegment": "printer",
-        "description": "Environmentally friendly eco-solvent printer"
+        "materialType": "roll",
+        "description": "Environmentally friendly eco-solvent printer",
+        "size": "300, 50",
+        "color": "",
+        "price": "100",
+        "others": []
       },
       {
         "id": "MAT027",
         "name": "UV LED Printer",
         "materialSegment": "printer",
-        "description": "Energy-efficient UV LED printer"
+        "materialType": "roll",
+        "description": "Energy-efficient UV LED printer",
+        "size": "300, 50",
+        "color": "",
+        "price": "100",
+        "others": []
       },
       {
         "id": "MAT028",
         "name": "Textile Printer",
         "materialSegment": "printer",
-        "description": "Specialized printer for fabric materials"
+        "materialType": "roll",
+        "description": "Specialized printer for fabric materials",
+        "size": "300, 50",
+        "color": "",
+        "price": "100",
+        "others": []
       },
       {
         "id": "MAT029",
         "name": "Direct-to-Garment Printer",
         "materialSegment": "printer",
-        "description": "Printer for custom apparel printing"
+        "materialType": "roll",
+        "description": "Printer for custom apparel printing",
+        "size": "300, 50",
+        "color": "",
+        "price": "100",
+        "others": []
       },
       {
         "id": "MAT030",
         "name": "3D Printer",
         "materialSegment": "printer",
-        "description": "Advanced 3D printer for prototyping"
+        "materialType": "roll",
+        "description": "Advanced 3D printer for prototyping",
+        "size": "300, 50",
+        "color": "",
+        "price": "100",
+        "others": []
       },
       {
         "id": "MAT031",
         "name": "Laminator",
         "materialSegment": "finisher",
-        "description": "Professional laminating machine"
+        "materialType": "roll",
+        "description": "Professional laminating machine",
+        "size": "300, 50",
+        "color": "",
+        "price": "100",
+        "others": []
       },
       {
         "id": "MAT032",
         "name": "Die Cutter",
         "materialSegment": "finisher",
-        "description": "Precision die cutting machine"
+        "materialType": "roll",
+        "description": "Precision die cutting machine",
+        "size": "300, 50",
+        "color": "",
+        "price": "100",
+        "others": []
       },
       {
         "id": "MAT033",
         "name": "UV Coater",
         "materialSegment": "finisher",
-        "description": "UV coating machine for glossy finish"
+        "materialType": "roll",
+        "description": "UV coating machine for glossy finish",
+        "size": "300, 50",
+        "color": "",
+        "price": "100",
+        "others": []
       },
       {
         "id": "MAT034",
         "name": "Foil Stamping Machine",
         "materialSegment": "finisher",
-        "description": "Hot foil stamping machine for metallic effects"
+        "materialType": "roll",
+        "description": "Hot foil stamping machine for metallic effects",
+        "size": "300, 50",
+        "color": "",
+        "price": "100",
+        "others": []
       },
       {
         "id": "MAT035",
         "name": "Embossing Machine",
         "materialSegment": "finisher",
-        "description": "Professional embossing machine"
+        "materialType": "roll",
+        "description": "Professional embossing machine",
+        "size": "300, 50",
+        "color": "",
+        "price": "100",
+        "others": []
       },
       {
         "id": "MAT036",
         "name": "Spot UV Machine",
         "materialSegment": "finisher",
-        "description": "Precision spot UV coating machine"
+        "materialType": "roll",
+        "description": "Precision spot UV coating machine",
+        "size": "300, 50",
+        "color": "",
+        "price": "100",
+        "others": []
       },
       {
         "id": "MAT037",
         "name": "Binding Machine",
         "materialSegment": "finisher",
-        "description": "Professional document binding machine"
+        "materialType": "roll",
+        "description": "Professional document binding machine",
+        "size": "300, 50",
+        "color": "",
+        "price": "100",
+        "others": []
       },
       {
         "id": "MAT038",
         "name": "Folding Machine",
         "materialSegment": "finisher",
-        "description": "Automatic paper folding machine"
+        "materialType": "roll",
+        "description": "Automatic paper folding machine",
+        "size": "300, 50",
+        "color": "",
+        "price": "100",
+        "others": []
       },
       {
         "id": "MAT039",
         "name": "Creasing Machine",
         "materialSegment": "finisher",
-        "description": "Precision creasing machine for packaging"
+        "materialType": "roll",
+        "description": "Precision creasing machine for packaging",
+        "size": "300, 50",
+        "color": "",
+        "price": "100",
+        "others": []
       },
       {
         "id": "MAT040",
         "name": "Cutting Plotter",
         "materialSegment": "finisher",
-        "description": "Computer-controlled cutting plotter"
+        "materialType": "roll",
+        "description": "Computer-controlled cutting plotter",
+        "size": "300, 50",
+        "color": "",
+        "price": "100",
+        "others": []
       },
       {
         "id": "MAT041",
         "name": "Banner Stand",
         "materialSegment": "finisher",
-        "description": "Professional banner stand system"
+        "materialType": "roll",
+        "description": "Professional banner stand system",
+        "size": "300, 50",
+        "color": "",
+        "price": "100",
+        "others": []
       },
       {
         "id": "MAT042",
         "name": "Mounting Press",
         "materialSegment": "finisher",
-        "description": "Heat mounting press for rigid materials"
+        "materialType": "roll",
+        "description": "Heat mounting press for rigid materials",
+        "size": "300, 50",
+        "color": "",
+        "price": "100",
+        "others": []
       },
       {
         "id": "MAT043",
         "name": "Digital Finishing System",
         "materialSegment": "finisher",
-        "description": "Complete digital finishing solution"
+        "materialType": "roll",
+        "description": "Complete digital finishing solution",
+        "size": "300, 50",
+        "color": "",
+        "price": "100",
+        "others": []
       },
       {
         "id": "MAT044",
         "name": "Packaging Machine",
         "materialSegment": "finisher",
-        "description": "Automated packaging system"
+        "materialType": "roll",
+        "description": "Automated packaging system",
+        "size": "300, 50",
+        "color": "",
+        "price": "100",
+        "others": []
       },
       {
         "id": "MAT045",
         "name": "Quality Control System",
         "materialSegment": "finisher",
-        "description": "Automated quality control system"
+        "materialType": "roll",
+        "description": "Automated quality control system",
+        "size": "300, 50",
+        "color": "",
+        "price": "100",
+        "others": []
       }
     ]
   } 

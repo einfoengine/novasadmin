@@ -1,0 +1,324 @@
+{
+    "materials": [
+      {
+        "id": "OTH001",
+        "name": "Magnet",
+        "size": "300, 50",
+        "description": "High-quality magnetic material for signage",
+        "color": "Black",
+        "price": "100"
+      },
+      {
+        "id": "OTH002",
+        "name": "Acrylic Sheet",
+        "size": "600, 400",
+        "description": "Clear acrylic sheet for display purposes",
+        "color": "Transparent",
+        "price": "250"
+      },
+      {
+        "id": "OTH003",
+        "name": "PVC Board",
+        "size": "1220, 2440",
+        "description": "Rigid PVC board for outdoor signage",
+        "color": "White",
+        "price": "180"
+      },
+      {
+        "id": "OTH004",
+        "name": "Canvas Roll",
+        "size": "1520, 10000",
+        "description": "Premium canvas for fine art printing",
+        "color": "Natural",
+        "price": "320"
+      },
+      {
+        "id": "OTH005",
+        "name": "Vinyl Sticker",
+        "size": "1000, 500",
+        "description": "Self-adhesive vinyl for vehicle graphics",
+        "color": "Various",
+        "price": "75"
+      },
+      {
+        "id": "OTH006",
+        "name": "Aluminum Composite",
+        "size": "1220, 2440",
+        "description": "Aluminum composite panel for exterior signage",
+        "color": "Silver",
+        "price": "450"
+      },
+      {
+        "id": "OTH007",
+        "name": "Foam Board",
+        "size": "1000, 700",
+        "description": "Lightweight foam board for indoor displays",
+        "color": "White",
+        "price": "90"
+      },
+      {
+        "id": "OTH008",
+        "name": "Banner Material",
+        "size": "3000, 1000",
+        "description": "Durable banner material for outdoor advertising",
+        "color": "White",
+        "price": "150"
+      },
+      {
+        "id": "OTH009",
+        "name": "Backlit Film",
+        "size": "1000, 1000",
+        "description": "Translucent film for lightbox displays",
+        "color": "White",
+        "price": "200"
+      },
+      {
+        "id": "OTH010",
+        "name": "Corrugated Plastic",
+        "size": "1220, 2440",
+        "description": "Weather-resistant plastic for outdoor signs",
+        "color": "White",
+        "price": "120"
+      },
+      {
+        "id": "OTH011",
+        "name": "Fabric Banner",
+        "size": "2000, 1000",
+        "description": "Premium fabric for indoor displays",
+        "color": "White",
+        "price": "280"
+      },
+      {
+        "id": "OTH012",
+        "name": "Glass Panel",
+        "size": "1000, 1000",
+        "description": "Tempered glass for premium displays",
+        "color": "Clear",
+        "price": "350"
+      },
+      {
+        "id": "OTH013",
+        "name": "Metal Sheet",
+        "size": "1000, 2000",
+        "description": "Brushed metal for premium signage",
+        "color": "Silver",
+        "price": "400"
+      },
+      {
+        "id": "OTH014",
+        "name": "Wood Panel",
+        "size": "1220, 2440",
+        "description": "Premium wood for rustic displays",
+        "color": "Natural",
+        "price": "220"
+      },
+      {
+        "id": "OTH015",
+        "name": "Reflective Vinyl",
+        "size": "1000, 500",
+        "description": "High-visibility reflective material",
+        "color": "Silver",
+        "price": "180"
+      },
+      {
+        "id": "OTH016",
+        "name": "Mesh Banner",
+        "size": "3000, 1000",
+        "description": "Wind-permeable outdoor banner material",
+        "color": "White",
+        "price": "160"
+      },
+      {
+        "id": "OTH017",
+        "name": "Acrylic Block",
+        "size": "300, 300",
+        "description": "Solid acrylic block for premium displays",
+        "color": "Clear",
+        "price": "280"
+      },
+      {
+        "id": "OTH018",
+        "name": "Frosted Film",
+        "size": "1000, 1000",
+        "description": "Privacy film for glass surfaces",
+        "color": "White",
+        "price": "120"
+      },
+      {
+        "id": "OTH019",
+        "name": "LED Panel",
+        "size": "500, 500",
+        "description": "LED light panel for illuminated displays",
+        "color": "White",
+        "price": "600"
+      },
+      {
+        "id": "OTH020",
+        "name": "Magnetic Sheet",
+        "size": "1000, 500",
+        "description": "Flexible magnetic material for signs",
+        "color": "Black",
+        "price": "150"
+      },
+      {
+        "id": "OTH021",
+        "name": "Perforated Vinyl",
+        "size": "1000, 500",
+        "description": "Window perforated vinyl for vehicle graphics",
+        "color": "Black",
+        "price": "130"
+      },
+      {
+        "id": "OTH022",
+        "name": "Dibond Panel",
+        "size": "1220, 2440",
+        "description": "Aluminum composite for premium signage",
+        "color": "White",
+        "price": "380"
+      },
+      {
+        "id": "OTH023",
+        "name": "Canvas Panel",
+        "size": "500, 500",
+        "description": "Stretched canvas for art prints",
+        "color": "White",
+        "price": "95"
+      },
+      {
+        "id": "OTH024",
+        "name": "Acrylic Rod",
+        "size": "1000, 20",
+        "description": "Solid acrylic rod for structural elements",
+        "color": "Clear",
+        "price": "75"
+      },
+      {
+        "id": "OTH025",
+        "name": "Fabric Panel",
+        "size": "1000, 1000",
+        "description": "Premium fabric for wall displays",
+        "color": "White",
+        "price": "180"
+      },
+      {
+        "id": "OTH026",
+        "name": "Metal Mesh",
+        "size": "1000, 1000",
+        "description": "Decorative metal mesh for displays",
+        "color": "Silver",
+        "price": "220"
+      },
+      {
+        "id": "OTH027",
+        "name": "Glass Tile",
+        "size": "300, 300",
+        "description": "Decorative glass tile for displays",
+        "color": "Clear",
+        "price": "85"
+      },
+      {
+        "id": "OTH028",
+        "name": "Wood Veneer",
+        "size": "1000, 500",
+        "description": "Premium wood veneer for displays",
+        "color": "Natural",
+        "price": "160"
+      },
+      {
+        "id": "OTH029",
+        "name": "Acrylic Tube",
+        "size": "1000, 50",
+        "description": "Hollow acrylic tube for displays",
+        "color": "Clear",
+        "price": "120"
+      },
+      {
+        "id": "OTH030",
+        "name": "Metal Plate",
+        "size": "500, 500",
+        "description": "Engraved metal plate for signage",
+        "color": "Brass",
+        "price": "280"
+      },
+      {
+        "id": "OTH031",
+        "name": "Fabric Roll",
+        "size": "1500, 10000",
+        "description": "Premium fabric for large displays",
+        "color": "White",
+        "price": "420"
+      },
+      {
+        "id": "OTH032",
+        "name": "Acrylic Stand",
+        "size": "300, 300",
+        "description": "Display stand for retail items",
+        "color": "Clear",
+        "price": "95"
+      },
+      {
+        "id": "OTH033",
+        "name": "Metal Frame",
+        "size": "1000, 1000",
+        "description": "Aluminum frame for displays",
+        "color": "Black",
+        "price": "180"
+      },
+      {
+        "id": "OTH034",
+        "name": "Glass Panel",
+        "size": "800, 800",
+        "description": "Frosted glass panel for displays",
+        "color": "White",
+        "price": "250"
+      },
+      {
+        "id": "OTH035",
+        "name": "Wood Block",
+        "size": "300, 300",
+        "description": "Solid wood block for displays",
+        "color": "Natural",
+        "price": "120"
+      },
+      {
+        "id": "OTH036",
+        "name": "Acrylic Sheet",
+        "size": "500, 500",
+        "description": "Mirrored acrylic sheet",
+        "color": "Silver",
+        "price": "200"
+      },
+      {
+        "id": "OTH037",
+        "name": "Metal Tube",
+        "size": "1000, 50",
+        "description": "Aluminum tube for structures",
+        "color": "Silver",
+        "price": "85"
+      },
+      {
+        "id": "OTH038",
+        "name": "Fabric Panel",
+        "size": "800, 800",
+        "description": "Backlit fabric panel",
+        "color": "White",
+        "price": "220"
+      },
+      {
+        "id": "OTH039",
+        "name": "Glass Block",
+        "size": "200, 200",
+        "description": "Decorative glass block",
+        "color": "Clear",
+        "price": "75"
+      },
+      {
+        "id": "OTH040",
+        "name": "Wood Panel",
+        "size": "600, 600",
+        "description": "Engraved wood panel",
+        "color": "Natural",
+        "price": "150"
+      }
+    ]
+  } 
