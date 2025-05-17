@@ -1,9 +1,8 @@
 "use client";
 
-import { useState, useEffect } from "react";
-import { useRouter } from "next/navigation";
-import { ArrowLeftIcon, PencilIcon, TrashIcon } from "@heroicons/react/24/outline";
-import Image from "next/image";
+import React, { useState, useEffect } from 'react';
+import { ArrowLeftIcon, PencilIcon } from '@heroicons/react/24/outline';
+import Link from 'next/link';
 
 interface Product {
   id: string;
@@ -11,51 +10,35 @@ interface Product {
   image: string;
   size: string;
   material: string;
-  channel: string;
-  machine: string;
+  printing: string;
   surface: string;
-  dieMood: string;
-  gluing: string;
+  lamination: string;
   finishing: string;
-  price: number;
-  stock: number;
-  status: string;
+  pricing: number;
+  description: string;
 }
 
 export default function ProductDetailsPage({ params }: { params: { id: string } }) {
   const [product, setProduct] = useState<Product | null>(null);
   const [loading, setLoading] = useState(true);
-  const router = useRouter();
 
   useEffect(() => {
     const fetchProduct = async () => {
       try {
-        const response = await fetch('/products.json');
+        const response = await fetch('/data/products.json');
         const data = await response.json();
-        const products = Array.isArray(data) ? data : data.products || [];
-        const foundProduct = products.find((p: Product) => p.id === params.id);
+        const foundProduct = data.products.find((p: Product) => p.id === params.id);
         setProduct(foundProduct || null);
-        setLoading(false);
       } catch (error) {
         console.error('Error fetching product:', error);
         setProduct(null);
+      } finally {
         setLoading(false);
       }
     };
 
     fetchProduct();
   }, [params.id]);
-
-  const handleDelete = () => {
-    if (window.confirm('Are you sure you want to delete this product?')) {
-      // In a real app, this would make an API call to delete the product
-      router.push('/products');
-    }
-  };
-
-  const handleEdit = () => {
-    router.push(`/products/${params.id}/edit`);
-  };
 
   if (loading) {
     return (
@@ -78,118 +61,77 @@ export default function ProductDetailsPage({ params }: { params: { id: string } 
   }
 
   return (
-    <div className="p-6">
+    <div className="min-h-screen p-6">
+      {/* Header */}
       <div className="flex items-center justify-between mb-6">
-        <button
-          onClick={() => router.back()}
-          className="inline-flex items-center text-gray-600 hover:text-gray-900"
-        >
-          <ArrowLeftIcon className="h-5 w-5 mr-2" />
-          Back to Products
-        </button>
-        <div className="flex items-center space-x-4">
-          <button
-            onClick={handleEdit}
-            className="inline-flex items-center px-4 py-2 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+        <div className="flex items-center gap-4">
+          <Link
+            href="/products"
+            className="p-2 rounded-md hover:bg-gray-100 duration-200"
           >
-            <PencilIcon className="h-5 w-5 mr-2 text-gray-500" />
-            Edit
-          </button>
-          <button
-            onClick={handleDelete}
-            className="inline-flex items-center px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-red-600 hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500"
-          >
-            <TrashIcon className="h-5 w-5 mr-2" />
-            Delete
-          </button>
+            <ArrowLeftIcon className="h-6 w-6" />
+          </Link>
+          <h1 className="text-2xl font-bold">{product.name}</h1>
         </div>
+        <Link
+          href={`/products/${product.id}/edit`}
+          className="inline-flex items-center gap-2 px-4 py-2 rounded-md bg-primary text-white hover:bg-primary-dark duration-200"
+        >
+          <PencilIcon className="h-5 w-5" />
+          Edit Product
+        </Link>
       </div>
 
-      <div className="bg-white rounded-lg shadow overflow-hidden">
-        <div className="p-6">
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-            {/* Product Image */}
-            <div className="relative h-96 rounded-lg overflow-hidden">
-              <Image
-                src={product.image}
-                alt={product.name}
-                fill
-                className="object-cover"
-              />
-            </div>
+      {/* Product Details */}
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+        {/* Product Image */}
+        <div className="rounded-lg overflow-hidden bg-white shadow">
+          <img
+            src={product.image}
+            alt={product.name}
+            className="w-full h-[400px] object-cover"
+          />
+        </div>
 
-            {/* Product Details */}
-            <div className="space-y-6">
+        {/* Product Information */}
+        <div className="space-y-6">
+          <div className="bg-white rounded-lg shadow p-6">
+            <h2 className="text-lg font-semibold mb-4">Product Information</h2>
+            <div className="grid grid-cols-2 gap-4">
               <div>
-                <h1 className="text-3xl font-bold text-gray-900">{product.name}</h1>
-                <p className="mt-2 text-2xl text-indigo-600">${product.price.toFixed(2)}</p>
+                <p className="text-sm text-gray-500">Size</p>
+                <p className="font-medium">{product.size}</p>
               </div>
-
-              <div className="flex items-center">
-                <span className={`px-3 py-1 rounded-full text-sm font-semibold ${
-                  product.status === "In Stock" 
-                    ? "bg-green-100 text-green-800" 
-                    : product.status === "Low Stock"
-                    ? "bg-yellow-100 text-yellow-800"
-                    : "bg-red-100 text-red-800"
-                }`}>
-                  {product.status}
-                </span>
-                <span className="ml-4 text-gray-600">Stock: {product.stock}</span>
+              <div>
+                <p className="text-sm text-gray-500">Material</p>
+                <p className="font-medium">{product.material}</p>
               </div>
-
-              <div className="grid grid-cols-2 gap-4">
-                <div>
-                  <h3 className="text-sm font-medium text-gray-500">Size</h3>
-                  <p className="mt-1 text-sm text-gray-900">{product.size}</p>
-                </div>
-                <div>
-                  <h3 className="text-sm font-medium text-gray-500">Material</h3>
-                  <p className="mt-1 text-sm text-gray-900">{product.material}</p>
-                </div>
-                <div>
-                  <h3 className="text-sm font-medium text-gray-500">Channel</h3>
-                  <p className="mt-1 text-sm text-gray-900">{product.channel}</p>
-                </div>
-                <div>
-                  <h3 className="text-sm font-medium text-gray-500">Machine</h3>
-                  <p className="mt-1 text-sm text-gray-900">{product.machine}</p>
-                </div>
-                <div>
-                  <h3 className="text-sm font-medium text-gray-500">Surface</h3>
-                  <p className="mt-1 text-sm text-gray-900">{product.surface}</p>
-                </div>
-                <div>
-                  <h3 className="text-sm font-medium text-gray-500">Die Mood</h3>
-                  <p className="mt-1 text-sm text-gray-900">{product.dieMood}</p>
-                </div>
-                <div>
-                  <h3 className="text-sm font-medium text-gray-500">Gluing</h3>
-                  <p className="mt-1 text-sm text-gray-900">{product.gluing}</p>
-                </div>
-                <div>
-                  <h3 className="text-sm font-medium text-gray-500">Finishing</h3>
-                  <p className="mt-1 text-sm text-gray-900">{product.finishing}</p>
-                </div>
+              <div>
+                <p className="text-sm text-gray-500">Printing</p>
+                <p className="font-medium">{product.printing}</p>
               </div>
-
-              <div className="border-t border-gray-200 pt-6">
-                <h3 className="text-lg font-medium text-gray-900">Product Description</h3>
-                <div className="mt-4 prose prose-sm text-gray-500">
-                  <p>
-                    This {product.name} is crafted with premium {product.material} and features a {product.surface} surface finish. 
-                    The product is manufactured using {product.machine} with {product.channel} channel technology, 
-                    ensuring high-quality output. The {product.dieMood} die mood and {product.gluing} gluing process 
-                    provide excellent durability and structural integrity. The {product.finishing} finishing adds 
-                    a professional touch to the final product.
-                  </p>
-                  <p className="mt-4">
-                    Perfect for various applications, this product offers exceptional value at ${product.price.toFixed(2)}. 
-                    With dimensions of {product.size}, it provides an optimal balance of size and functionality.
-                  </p>
-                </div>
+              <div>
+                <p className="text-sm text-gray-500">Surface</p>
+                <p className="font-medium">{product.surface}</p>
+              </div>
+              <div>
+                <p className="text-sm text-gray-500">Lamination</p>
+                <p className="font-medium">{product.lamination}</p>
+              </div>
+              <div>
+                <p className="text-sm text-gray-500">Finishing</p>
+                <p className="font-medium">{product.finishing}</p>
+              </div>
+              <div>
+                <p className="text-sm text-gray-500">Pricing</p>
+                <p className="font-medium">${product.pricing.toFixed(2)}</p>
               </div>
             </div>
+          </div>
+
+          <div className="bg-white rounded-lg shadow p-6">
+            <h2 className="text-lg font-semibold mb-4">Description</h2>
+            <p className="text-gray-600">{product.description}</p>
           </div>
         </div>
       </div>

@@ -42,10 +42,6 @@ export default function ProductsPage() {
     fetchProducts();
   }, []);
 
-  const handleRowClick = (product: Product) => {
-    router.push(`/products/${product.id}`);
-  };
-
   const handleEdit = (product: Product) => {
     router.push(`/products/${product.id}/edit`);
   };
@@ -60,9 +56,7 @@ export default function ProductsPage() {
     { 
       key: 'name', 
       label: 'Name',
-      type: 'link' as const,
-      linkHref: (value: unknown) => `/products/${value}`,
-      className: ''
+      className: 'font-medium hover:text-primary cursor-pointer'
     },
     { 
       key: 'image', 
@@ -166,7 +160,7 @@ export default function ProductsPage() {
           icon={<CubeIcon className={`h-6 w-6 `} />}
           searchable
           selectable
-          onRowClick={handleRowClick}
+          onRowClick={(product) => router.push(`/products/${product.id}`)}
           onEdit={handleEdit}
           onDelete={handleDelete}
           actionButton={{
