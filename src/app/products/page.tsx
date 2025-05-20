@@ -59,13 +59,23 @@ export default function ProductsPage() {
     fetchData();
   }, []);
 
-  const getMaterialName = (materialId: string) => {
-    const material = materials.find(m => m.id === materialId);
-    return material ? material.name : materialId;
-  };
 
-  const getMaterialNames = (materialIds: string[]) => {
-    return materialIds.map(id => getMaterialName(id)).join(', ');
+  const getMaterialNames = (materialIds: string[]): React.ReactNode => {
+    return (
+      <div className="flex flex-wrap gap-1">
+        {materialIds.map(id => {
+          const material = materials.find(m => m.id === id);
+          return (
+            <span 
+              key={id}
+              className="px-2 py-1 text-xs font-medium bg-gray-100 text-gray-800 rounded-full"
+            >
+              {material ? material.name : id}
+            </span>
+          );
+        })}
+      </div>
+    );
   };
 
   const handleEdit = (product: Product) => {
@@ -93,27 +103,27 @@ export default function ProductsPage() {
     { 
       key: 'size', 
       label: 'Size',
-      render: (product: Product) => `${product.size[0]} x ${product.size[1]}`
+      render: (item: any): React.ReactNode => `${item.size[0]} x ${item.size[1]}`
     },
     { 
       key: 'materials', 
       label: 'Material',
-      render: (product: Product) => getMaterialNames(product.materials)
+      render: (item: any): React.ReactNode => getMaterialNames(item.materials)
     },
     { 
       key: 'printer-ids', 
       label: 'Printing',
-      render: (product: Product) => getMaterialNames(product["printer-ids"])
+      render: (item: any): React.ReactNode => getMaterialNames(item["printer-ids"])
     },
     { 
       key: 'finisher-ids', 
       label: 'Finishing',
-      render: (product: Product) => getMaterialNames(product["finisher-ids"])
+      render: (item: any): React.ReactNode => getMaterialNames(item["finisher-ids"])
     },
     { 
       key: 'others-ids', 
       label: 'Others',
-      render: (product: Product) => getMaterialNames(product["others-ids"])
+      render: (item: any): React.ReactNode => getMaterialNames(item["others-ids"])
     },
     { 
       key: 'pricing', 

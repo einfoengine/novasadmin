@@ -203,7 +203,7 @@ const TableBuilder = <T extends { id: string }>({
           <thead>
             <tr>
               {selectable && (
-                <th className="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider">
+                <th className="px-3 py-3 text-left text-xs font-medium uppercase tracking-wider">
                   <input
                     type="checkbox"
                     checked={selectedIds.length === data.length && data.length > 0}
@@ -215,12 +215,12 @@ const TableBuilder = <T extends { id: string }>({
               {columns.map((column) => (
                 <th
                   key={column.key}
-                  className="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider"
+                  className="px-3 py-3 text-left text-xs font-medium uppercase tracking-wider"
                 >
                   {column.label}
                 </th>
               ))}
-              <th className="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider">
+              <th className="px-3 py-3 text-left text-xs font-medium uppercase tracking-wider">
                 Actions
               </th>
             </tr>
@@ -235,7 +235,7 @@ const TableBuilder = <T extends { id: string }>({
                 }`}
               >
                 {selectable && (
-                  <td className="px-6 py-4 whitespace-nowrap" onClick={(e) => e.stopPropagation()}>
+                  <td className="px-3 py-3 whitespace-nowrap" onClick={(e) => e.stopPropagation()}>
                     <input
                       type="checkbox"
                       checked={selectedIds.includes(item.id)}
@@ -247,12 +247,12 @@ const TableBuilder = <T extends { id: string }>({
                 {columns.map((column) => (
                   <td
                     key={column.key}
-                    className="px-6 py-4 whitespace-nowrap text-sm  duration-200"
+                    className="px-3 py-3 whitespace-nowrap text-sm  duration-200"
                   >
                     {formatCellValue(column, item[column.key as keyof T], item)}
                   </td>
                 ))}
-                <td className="px-6 py-4 whitespace-nowrap text-sm" onClick={(e) => e.stopPropagation()}>
+                <td className="px-6 py-3 whitespace-nowrap text-sm" onClick={(e) => e.stopPropagation()}>
                   {onEdit && (
                     <button
                       onClick={() => onEdit(item)}
