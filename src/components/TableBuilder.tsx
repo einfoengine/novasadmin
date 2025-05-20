@@ -9,6 +9,7 @@ interface Column {
   label: string;
   type?: 'text' | 'number' | 'currency' | 'date' | 'status' | 'link' | 'custom' | 'image';
   format?: (value: unknown) => string;
+  render?: <T>(item: T) => React.ReactNode;
   className?: string;
   linkHref?: (value: unknown) => string;
 }
@@ -137,7 +138,11 @@ const TableBuilder = <T extends { id: string }>({
   };
 
   // Format cell value based on column type
-  const formatCellValue = (column: Column, value: unknown) => {
+  const formatCellValue = <T extends { id: string }>(column: Column, value: unknown, item: T) => {
+    if (column.render) {
+      return column.render(item);
+    }
+    
     if (column.format) {
       return column.format(value);
     }
@@ -244,7 +249,7 @@ const TableBuilder = <T extends { id: string }>({
                     key={column.key}
                     className="px-6 py-4 whitespace-nowrap text-sm  duration-200"
                   >
-                    {formatCellValue(column, item[column.key as keyof T])}
+                    {formatCellValue(column, item[column.key as keyof T], item)}
                   </td>
                 ))}
                 <td className="px-6 py-4 whitespace-nowrap text-sm" onClick={(e) => e.stopPropagation()}>

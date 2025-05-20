@@ -10,37 +10,63 @@ interface Product {
   id: string;
   name: string;
   image: string;
-  size: string;
-  material: string;
-  printing: string;
-  surface: string;
-  lamination: string;
-  finishing: string;
+  size: number[];
+  materials: string[];
+  "printer-ids": string[];
+  "finisher-ids": string[];
+  "others-ids": string[];
   pricing: number;
   description: string;
+}
+
+interface Material {
+  id: string;
+  name: string;
+  materialSegment: string;
+  materialType: string;
+  description: string;
+  size: string;
+  color: string;
+  price: string;
 }
 
 export default function ProductsPage() {
   const router = useRouter();
   const [products, setProducts] = useState<Product[]>([]);
+  const [materials, setMaterials] = useState<Material[]>([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    const fetchProducts = async () => {
+    const fetchData = async () => {
       try {
-        const response = await fetch('/data/products.json');
-        const data = await response.json();
-        setProducts(data.products || []);
+        const [productsResponse, materialsResponse] = await Promise.all([
+          fetch('/data/products.json'),
+          fetch('/data/materials.json')
+        ]);
+        const productsData = await productsResponse.json();
+        const materialsData = await materialsResponse.json();
+        setProducts(productsData.products || []);
+        setMaterials(materialsData.materials || []);
       } catch (error) {
-        console.error('Error fetching products:', error);
+        console.error('Error fetching data:', error);
         setProducts([]);
+        setMaterials([]);
       } finally {
         setLoading(false);
       }
     };
 
-    fetchProducts();
+    fetchData();
   }, []);
+
+  const getMaterialName = (materialId: string) => {
+    const material = materials.find(m => m.id === materialId);
+    return material ? material.name : materialId;
+  };
+
+  const getMaterialNames = (materialIds: string[]) => {
+    return materialIds.map(id => getMaterialName(id)).join(', ');
+  };
 
   const handleEdit = (product: Product) => {
     router.push(`/products/${product.id}/edit`);
@@ -54,45 +80,40 @@ export default function ProductsPage() {
 
   const columns = [
     { 
-      key: 'name', 
-      label: 'Name',
-      className: 'font-medium hover:text-primary cursor-pointer'
-    },
-    { 
       key: 'image', 
       label: 'Image',
       type: 'image' as const,
       className: ''
     },
     { 
+      key: 'name', 
+      label: 'Name',
+      className: 'font-medium hover:text-primary cursor-pointer'
+    },
+    { 
       key: 'size', 
       label: 'Size',
-      className: ''
+      render: (product: Product) => `${product.size[0]} x ${product.size[1]}`
     },
     { 
-      key: 'material', 
+      key: 'materials', 
       label: 'Material',
-      className: ''
+      render: (product: Product) => getMaterialNames(product.materials)
     },
     { 
-      key: 'printing', 
+      key: 'printer-ids', 
       label: 'Printing',
-      className: ''
+      render: (product: Product) => getMaterialNames(product["printer-ids"])
     },
     { 
-      key: 'surface', 
-      label: 'Surface',
-      className: ''
-    },
-    { 
-      key: 'lamination', 
-      label: 'Lamination',
-      className: ''
-    },
-    { 
-      key: 'finishing', 
+      key: 'finisher-ids', 
       label: 'Finishing',
-      className: ''
+      render: (product: Product) => getMaterialNames(product["finisher-ids"])
+    },
+    { 
+      key: 'others-ids', 
+      label: 'Others',
+      render: (product: Product) => getMaterialNames(product["others-ids"])
     },
     { 
       key: 'pricing', 
