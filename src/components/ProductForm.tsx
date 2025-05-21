@@ -13,9 +13,10 @@ interface Material {
 
 interface ProductFormData {
   name: string;
-  size: string;
+  size: string[];
   material: string[];
   printing: string[];
+  storeType: string[];
   surface: string;
   lamination: string;
   finishing: string;
@@ -39,11 +40,13 @@ export default function ProductForm({
   submitLabel = 'Create Product'
 }: ProductFormProps) {
   const [materials, setMaterials] = useState<Material[]>([]);
+  const [sizeInput, setSizeInput] = useState('');
   const [formData, setFormData] = useState<ProductFormData>(() => ({
     name: initialData.name || '',
-    size: initialData.size || '',
+    size: Array.isArray(initialData.size) ? initialData.size : [],
     material: Array.isArray(initialData.material) ? initialData.material : [],
     printing: Array.isArray(initialData.printing) ? initialData.printing : [],
+    storeType: Array.isArray(initialData.storeType) ? initialData.storeType : ['Null'],
     surface: initialData.surface || '',
     lamination: initialData.lamination || '',
     finishing: initialData.finishing || '',
@@ -91,6 +94,40 @@ export default function ProductForm({
     }));
   };
 
+  const handleSizeKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === 'Enter' && sizeInput.trim()) {
+      e.preventDefault();
+      setFormData(prev => ({
+        ...prev,
+        size: [...prev.size, sizeInput.trim()]
+      }));
+      setSizeInput('');
+    }
+  };
+
+  const removeSize = (index: number) => {
+    setFormData(prev => ({
+      ...prev,
+      size: prev.size.filter((_, i) => i !== index)
+    }));
+  };
+
+  const handleStoreTypeSelect = (value: string) => {
+    if (value === 'All') {
+      setFormData(prev => ({
+        ...prev,
+        storeType: ['Null', 'A', 'B', 'C']
+      }));
+    } else {
+      setFormData(prev => ({
+        ...prev,
+        storeType: prev.storeType.includes(value)
+          ? prev.storeType.filter(type => type !== value)
+          : [...prev.storeType, value]
+      }));
+    }
+  };
+
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     onSubmit(formData);
@@ -118,18 +155,39 @@ export default function ProductForm({
 
             <div>
               <div className='flex gap-2'>
-                <div>
+                <div className="flex-1">
                   <label className="block text-sm font-medium text-gray-700 mb-2">
                     Size
                   </label>
-                  <input
-                    type="text"
-                    name="size"
-                    value={formData.size}
-                    onChange={handleInputChange}
-                    className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent"
-                    required
-                  />
+                  <div className="space-y-2">
+                    <input
+                      type="text"
+                      value={sizeInput}
+                      onChange={(e) => setSizeInput(e.target.value)}
+                      onKeyDown={handleSizeKeyDown}
+                      placeholder="Enter size and press Enter"
+                      className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent"
+                    />
+                    {formData.size.length > 0 && (
+                      <div className="flex flex-wrap gap-2 mt-2">
+                        {formData.size.map((size, index) => (
+                          <div
+                            key={index}
+                            className="flex items-center gap-1 px-3 py-1 bg-gray-100 text-gray-800 rounded-full text-sm"
+                          >
+                            <span>{size}</span>
+                            <button
+                              type="button"
+                              onClick={() => removeSize(index)}
+                              className="text-gray-500 hover:text-gray-700"
+                            >
+                              ×
+                            </button>
+                          </div>
+                        ))}
+                      </div>
+                    )}
+                  </div>
                 </div>
                 <div>
                   <label className="block text-sm font-medium text-gray-700 mb-2">
@@ -150,11 +208,11 @@ export default function ProductForm({
 
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-2">
-                Material
+                Materials
               </label>
               <div className="space-y-2">
                 <select
-                  name="roll-sheet"
+                  name="material"
                   value=""
                   onChange={(e) => handleMultiSelect('material', e.target.value)}
                   className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent"
@@ -196,16 +254,16 @@ export default function ProductForm({
                 )}
               </div>
             </div>
-            {/*  */}
+
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-2">
-                Printer
+                Printers
               </label>
               <div className="space-y-2">
                 <select
                   name="printer"
                   value=""
-                  onChange={(e) => handleMultiSelect('material', e.target.value)}
+                  onChange={(e) => handleMultiSelect('printing', e.target.value)}
                   className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent"
                 >
                   <option value="">Select Printer</option>
@@ -215,25 +273,25 @@ export default function ProductForm({
                       <option 
                         key={material.id} 
                         value={material.id}
-                        disabled={formData.material.includes(material.id)}
+                        disabled={formData.printing.includes(material.id)}
                       >
                         {material.name}
                       </option>
                     ))}
                 </select>
-                {formData.material.length > 0 && (
+                {formData.printing.length > 0 && (
                   <div className="mt-2 space-y-2">
-                    {formData.material.map(materialId => {
-                      const material = materials.find(m => m.id === materialId);
-                      return material ? (
+                    {formData.printing.map(printerId => {
+                      const printer = materials.find(m => m.id === printerId);
+                      return printer ? (
                         <div 
-                          key={materialId}
+                          key={printerId}
                           className="flex items-center justify-between bg-gray-50 px-3 py-2 rounded-md"
                         >
-                          <span className="text-sm">{material.name}</span>
+                          <span className="text-sm">{printer.name}</span>
                           <button
                             type="button"
-                            onClick={() => removeSelectedItem('material', materialId)}
+                            onClick={() => removeSelectedItem('printing', printerId)}
                             className="text-red-500 hover:text-red-700"
                           >
                             ×
@@ -245,7 +303,79 @@ export default function ProductForm({
                 )}
               </div>
             </div>
-            {/*  */}
+
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-2">
+                Store Type
+              </label>
+              <div className="space-y-2">
+                <select
+                  name="storeType"
+                  value=""
+                  onChange={(e) => handleStoreTypeSelect(e.target.value)}
+                  className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent"
+                >
+                  <option value="">Select Store Type</option>
+                  {['Null', 'A', 'B', 'C', 'All'].map((type) => (
+                    <option 
+                      key={type} 
+                      value={type}
+                      disabled={formData.storeType.includes(type)}
+                    >
+                      {type}
+                    </option>
+                  ))}
+                </select>
+                {formData.storeType.length > 0 && (
+                  <div className="mt-2 space-y-2">
+                    {formData.storeType.map((type) => (
+                      <div 
+                        key={type}
+                        className="flex items-center justify-between bg-gray-50 px-3 py-2 rounded-md"
+                      >
+                        <span className="text-sm">{type}</span>
+                        <button
+                          type="button"
+                          onClick={() => handleStoreTypeSelect(type)}
+                          className="text-red-500 hover:text-red-700"
+                        >
+                          ×
+                        </button>
+                      </div>
+                    ))}
+                  </div>
+                )}
+              </div>
+            </div>
+
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-2">
+                Surface
+              </label>
+              <input
+                type="text"
+                name="surface"
+                value={formData.surface}
+                onChange={handleInputChange}
+                className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent"
+                required
+              />
+            </div>
+
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-2">
+                Lamination
+              </label>
+              <input
+                type="text"
+                name="lamination"
+                value={formData.lamination}
+                onChange={handleInputChange}
+                className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent"
+                required
+              />
+            </div>
+
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-2">
                 Finisher
@@ -294,56 +424,6 @@ export default function ProductForm({
                 )}
               </div>
             </div>
-            {/*  */}
-            <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">
-                Others
-              </label>
-              <div className="space-y-2">
-                <select
-                  name="others"
-                  value=""
-                  onChange={(e) => handleMultiSelect('printing', e.target.value)}
-                  className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent"
-                >
-                  <option value="">Select Others</option>
-                  {materials
-                    .filter(material => material.materialSegment === 'others')
-                    .map(material => (
-                      <option 
-                        key={material.id} 
-                        value={material.id}
-                        disabled={formData.printing.includes(material.id)}
-                      >
-                        {material.name}
-                      </option>
-                    ))}
-                </select>
-                {formData.printing.length > 0 && (
-                  <div className="mt-2 space-y-2">
-                    {formData.printing.map(printerId => {
-                      const printer = materials.find(m => m.id === printerId);
-                      return printer ? (
-                        <div 
-                          key={printerId}
-                          className="flex items-center justify-between bg-gray-50 px-3 py-2 rounded-md"
-                        >
-                          <span className="text-sm">{printer.name}</span>
-                          <button
-                            type="button"
-                            onClick={() => removeSelectedItem('printing', printerId)}
-                            className="text-red-500 hover:text-red-700"
-                          >
-                            ×
-                          </button>
-                        </div>
-                      ) : null;
-                    })}
-                  </div>
-                )}
-              </div>
-            </div>
-            {/*  */}
 
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-2">
