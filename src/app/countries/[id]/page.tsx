@@ -165,9 +165,18 @@ export default function CountryStoresPage() {
           title={`Stores in ${country.name} (${stores.length} stores)`}
           icon={<BuildingStorefrontIcon className="h-6 w-6 text-gray-600" />}
           searchable={true}
+          selectable={true}
           onEdit={(store) => {
             // TODO: Implement store edit functionality
             console.log('Edit store:', store.id);
+          }}
+          onDelete={(store) => {
+            // TODO: Implement store delete functionality
+            console.log('Delete store:', store.id);
+          }}
+          actionButton={{
+            label: 'Add New Store',
+            href: `/stores/new?countryId=${country.id}`
           }}
         />
       </div>
