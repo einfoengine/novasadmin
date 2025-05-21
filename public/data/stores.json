@@ -1,6 +1,45 @@
 {
   "stores": [
     {
+      "id": "ST001",
+      "name": "Downtown Flagship",
+      "country": "United States",
+      "contactNumber": "+1 (555) 123-4567",
+      "type": "A",
+      "securityGauge": "High",
+      "storeSize": "2500 sq ft",
+      "address": "123 Main Street, New York, NY 10001",
+      "openingHours": "9:00 AM - 9:00 PM",
+      "manager": "John Smith",
+      "status": "Active"
+    },
+    {
+      "id": "ST002",
+      "name": "Westside Mall",
+      "country": "Canada",
+      "contactNumber": "+1 (416) 555-7890",
+      "type": "B",
+      "securityGauge": "Medium",
+      "storeSize": "1800 sq ft",
+      "address": "456 West Avenue, Toronto, ON M5V 2N1",
+      "openingHours": "10:00 AM - 8:00 PM",
+      "manager": "Sarah Johnson",
+      "status": "Active"
+    },
+    {
+      "id": "ST003",
+      "name": "Eastside Plaza",
+      "country": "United Kingdom",
+      "contactNumber": "+44 20 7123 4567",
+      "type": "C",
+      "securityGauge": "Low",
+      "storeSize": "1200 sq ft",
+      "address": "789 East Road, London, UK EC1A 1BB",
+      "openingHours": "9:30 AM - 7:30 PM",
+      "manager": "Michael Brown",
+      "status": "Active"
+    },
+    {
       "store_id": 1,
       "store_name": "Paris Central",
       "zip_code": "75008",

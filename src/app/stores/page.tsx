@@ -2,52 +2,26 @@
 
 import React, { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
-import { useTheme } from '../providers';
+import { BuildingStorefrontIcon, MapPinIcon, PhoneIcon, ShieldCheckIcon, ArrowsPointingOutIcon } from '@heroicons/react/24/outline';
 import TableBuilder from '@/components/TableBuilder';
-import { BuildingStorefrontIcon } from '@heroicons/react/24/outline';
+import StatsCard from "@/components/StatsCard";
 
 interface Store {
   id: string;
-  store_id?: number;
-  storeId?: string;
-  store_name?: string;
-  storeName?: string;
-  zip_code?: string;
-  country?: string;
-  countryName?: string;
-  store_code?: string;
+  name: string;
+  country: string;
+  contactNumber: string;
+  type: string;
+  securityGauge: string;
+  storeSize: string;
   address: string;
-  type_of_store?: string;
-  quantity?: number;
-  security_gate_count?: number;
-  size?: string;
-  comment?: string;
-  storeManagerId?: string;
-  storeContact?: string;
-}
-
-interface RawStore {
-  store_id?: number;
-  storeId?: string;
-  store_name?: string;
-  storeName?: string;
-  zip_code?: string;
-  country?: string;
-  countryName?: string;
-  store_code?: string;
-  address: string;
-  type_of_store?: string;
-  quantity?: number;
-  security_gate_count?: number;
-  size?: string;
-  comment?: string;
-  storeManagerId?: string;
-  storeContact?: string;
+  openingHours: string;
+  manager: string;
+  status: string;
 }
 
 export default function StoresPage() {
   const router = useRouter();
-  const { theme } = useTheme();
   const [stores, setStores] = useState<Store[]>([]);
   const [loading, setLoading] = useState(true);
 
@@ -56,27 +30,7 @@ export default function StoresPage() {
       try {
         const response = await fetch('/data/stores.json');
         const data = await response.json();
-        // Transform the data to ensure consistent structure
-        const transformedStores = (data.stores || []).map((store: RawStore) => ({
-          id: store.store_id?.toString() || store.storeId || '',
-          store_id: store.store_id,
-          storeId: store.storeId,
-          store_name: store.store_name || store.storeName,
-          storeName: store.storeName,
-          zip_code: store.zip_code,
-          country: store.country || store.countryName,
-          countryName: store.countryName,
-          store_code: store.store_code,
-          address: store.address,
-          type_of_store: store.type_of_store,
-          quantity: store.quantity,
-          security_gate_count: store.security_gate_count,
-          size: store.size,
-          comment: store.comment,
-          storeManagerId: store.storeManagerId,
-          storeContact: store.storeContact,
-        }));
-        setStores(transformedStores);
+        setStores(data.stores || []);
       } catch (error) {
         console.error('Error fetching stores:', error);
         setStores([]);
@@ -88,84 +42,138 @@ export default function StoresPage() {
     fetchStores();
   }, []);
 
-  const handleRowClick = (item: { id: string }) => {
-    router.push(`/stores/${item.id}`);
+  const handleEdit = (store: Store) => {
+    router.push(`/stores/${store.id}/edit`);
+  };
+
+  const handleDelete = (store: Store) => {
+    if (window.confirm('Are you sure you want to delete this store?')) {
+      setStores(prev => prev.filter(s => s.id !== store.id));
+    }
   };
 
   const columns = [
-    {
-      key: 'store_name',
+    { 
+      key: 'name', 
       label: 'Store Name',
-      type: 'text' as const,
+      className: 'font-medium hover:text-primary cursor-pointer'
     },
-    {
-      key: 'store_code',
-      label: 'Store Code',
-      type: 'text' as const,
-    },
-    {
-      key: 'country',
+    { 
+      key: 'country', 
       label: 'Country',
-      type: 'text' as const,
+      render: (item: Store) => (
+        <div className="flex items-center gap-2">
+          <MapPinIcon className="w-4 h-4 text-gray-500" />
+          <span>{item.country}</span>
+        </div>
+      )
     },
-    {
-      key: 'type_of_store',
+    { 
+      key: 'contactNumber', 
+      label: 'Contact',
+      render: (item: Store) => (
+        <div className="flex items-center gap-2">
+          <PhoneIcon className="w-4 h-4 text-gray-500" />
+          <span>{item.contactNumber}</span>
+        </div>
+      )
+    },
+    { 
+      key: 'type', 
       label: 'Type',
-      type: 'text' as const,
+      render: (item: Store) => (
+        <span className="px-2 py-1 text-xs font-medium bg-gray-100 text-gray-800 rounded-full">
+          {item.type}
+        </span>
+      )
     },
-    {
-      key: 'quantity',
-      label: 'Quantity',
-      type: 'number' as const,
-      format: (value: unknown) => {
-        if (value === undefined || value === null) return '-';
-        return (value as number).toLocaleString();
-      },
+    { 
+      key: 'securityGauge', 
+      label: 'Security',
+      render: (item: Store) => (
+        <div className="flex items-center gap-2">
+          <ShieldCheckIcon className="w-4 h-4 text-gray-500" />
+          <span>{item.securityGauge}</span>
+        </div>
+      )
     },
-    {
-      key: 'security_gate_count',
-      label: 'Security Gates',
-      type: 'number' as const,
-      format: (value: unknown) => {
-        if (value === undefined || value === null) return '-';
-        return value.toString();
-      },
-    },
-    {
-      key: 'size',
+    { 
+      key: 'storeSize', 
       label: 'Size',
-      type: 'text' as const,
-    },
-    {
-      key: 'zip_code',
-      label: 'ZIP Code',
-      type: 'text' as const,
-    },
+      render: (item: Store) => (
+        <div className="flex items-center gap-2">
+          <ArrowsPointingOutIcon className="w-4 h-4 text-gray-500" />
+          <span>{item.storeSize}</span>
+        </div>
+      )
+    }
   ];
 
   if (loading) {
     return (
-      <div className="flex items-center justify-center min-h-screen">
-        <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-primary"></div>
+      <div className="p-6">
+        <div className="flex items-center justify-center h-64">
+          <div className="text-gray-500">Loading stores...</div>
+        </div>
       </div>
     );
   }
 
   return (
-    <main className={`p-6 ${theme === 'dark' ? 'bg-gray-900 text-white' : 'bg-white text-gray-900'}`}>
-      <TableBuilder
-        data={stores}
-        columns={columns}
-        onRowClick={handleRowClick}
-        searchable
-        selectable
-        title="Stores"
-        icon={<BuildingStorefrontIcon className="h-6 w-6" />}
-        actionButton={{
-          label: 'Add Store',
-          href: '/stores/new',
-        }}
-      />
-    </main>
+    <div className="min-h-screen p-6">
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-6">
+        <StatsCard
+          title="Total Stores"
+          value={stores.length.toString()}
+          icon={<BuildingStorefrontIcon className="w-6 h-6" />}
+          iconColor="#6366f1"
+          iconBg="#eef2ff"
+          percentage=""
+          percentageColor="#6b7280"
+          trend="+2"
+        />
+        <StatsCard
+          title="Active Stores"
+          value={stores.filter(store => store.status === 'Active').length.toString()}
+          icon={<BuildingStorefrontIcon className="w-6 h-6" />}
+          iconColor="#10b981"
+          iconBg="#ecfdf5"
+          percentage=""
+          percentageColor="#6b7280"
+          trend="+1"
+        />
+        <StatsCard
+          title="Average Store Size"
+          value={`${stores.reduce((acc, store) => {
+            const size = parseInt(store.storeSize);
+            return acc + (isNaN(size) ? 0 : size);
+          }, 0) / stores.length} sq ft`}
+          icon={<ArrowsPointingOutIcon className="w-6 h-6" />}
+          iconColor="#f59e42"
+          iconBg="#fff7ed"
+          percentage=""
+          percentageColor="#6b7280"
+          trend="+5%"
+        />
+      </div>
+
+      <div className="rounded-lg shadow">
+        <TableBuilder
+          data={stores}
+          columns={columns}
+          title="Stores"
+          icon={<BuildingStorefrontIcon className="h-6 w-6" />}
+          searchable
+          selectable
+          onRowClick={(store) => router.push(`/stores/${store.id}`)}
+          onEdit={handleEdit}
+          onDelete={handleDelete}
+          actionButton={{
+            label: 'Add Store',
+            href: '/stores/new',
+          }}
+        />
+      </div>
+    </div>
   );
 } 
