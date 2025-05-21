@@ -70,34 +70,39 @@ export default function EditStorePage({ params }: { params: { id: string } }) {
   const [formData, setFormData] = useState<StoreFormData>(initialFormData);
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
+  const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
     const fetchStoreData = async () => {
       try {
-        const response = await fetch('/api/stores');
+        const response = await fetch('/data/stores.json');
         if (!response.ok) throw new Error('Failed to fetch stores');
         
         const data = await response.json();
         const store = data.stores.find((s: Store) => s.id === params.id);
         
-        if (store) {
-          setFormData({
-            name: store.name || '',
-            storeCode: store.storeCode || '',
-            country: store.country || '',
-            countryId: store.countryId || '',
-            contact: store.contact || '',
-            contactPerson: store.contactPerson || '',
-            type: store.type || '',
-            size: store.size || '',
-            securityGate: store.securityGate || '',
-            address: store.address || '',
-            status: store.status || 'Active',
-            description: store.description || ''
-          });
+        if (!store) {
+          throw new Error('Store not found');
         }
+
+        setFormData({
+          name: store.name || '',
+          storeCode: store.storeCode || '',
+          country: store.country || '',
+          countryId: store.countryId || '',
+          contact: store.contact || '',
+          contactPerson: store.contactPerson || '',
+          type: store.type || '',
+          size: store.size || '',
+          securityGate: store.securityGate || '',
+          address: store.address || '',
+          status: store.status || 'Active',
+          description: store.description || ''
+        });
+        setError(null);
       } catch (error) {
         console.error('Error fetching store:', error);
+        setError(error instanceof Error ? error.message : 'Failed to load store data');
       } finally {
         setLoading(false);
       }
@@ -126,6 +131,7 @@ export default function EditStorePage({ params }: { params: { id: string } }) {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setSaving(true);
+    setError(null);
 
     try {
       const response = await fetch(`/api/stores/${params.id}`, {
@@ -146,7 +152,7 @@ export default function EditStorePage({ params }: { params: { id: string } }) {
       router.push('/stores');
     } catch (error) {
       console.error('Error updating store:', error);
-      // Handle error (you might want to show an error message to the user)
+      setError(error instanceof Error ? error.message : 'Failed to update store');
     } finally {
       setSaving(false);
     }
@@ -156,6 +162,14 @@ export default function EditStorePage({ params }: { params: { id: string } }) {
     return (
       <div className="min-h-screen bg-gray-50 flex items-center justify-center">
         <div className="text-gray-500">Loading...</div>
+      </div>
+    );
+  }
+
+  if (error) {
+    return (
+      <div className="min-h-screen bg-gray-50 flex items-center justify-center">
+        <div className="text-red-500">{error}</div>
       </div>
     );
   }
