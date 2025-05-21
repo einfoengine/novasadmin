@@ -2,19 +2,17 @@
 
 import React, { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
-import { BuildingStorefrontIcon, MapPinIcon, PhoneIcon, ShieldCheckIcon, ArrowsPointingOutIcon, ClockIcon, UserIcon } from '@heroicons/react/24/outline';
+import { BuildingStorefrontIcon, MapPinIcon, PhoneIcon, ArrowsPointingOutIcon } from '@heroicons/react/24/outline';
 
 interface Store {
   id: string;
   name: string;
   country: string;
-  contactNumber: string;
+  countryId: string;
+  contact: string;
   type: string;
-  securityGauge: string;
-  storeSize: string;
+  size: string;
   address: string;
-  openingHours: string;
-  manager: string;
   status: string;
 }
 
@@ -92,16 +90,8 @@ export default function StoreDetailsPage({ params }: { params: { id: string } })
               <div className="flex items-start gap-3">
                 <PhoneIcon className="w-5 h-5 text-gray-500 mt-1" />
                 <div>
-                  <h3 className="text-sm font-medium text-gray-500">Contact Number</h3>
-                  <p className="mt-1 text-gray-900">{store.contactNumber}</p>
-                </div>
-              </div>
-
-              <div className="flex items-start gap-3">
-                <ClockIcon className="w-5 h-5 text-gray-500 mt-1" />
-                <div>
-                  <h3 className="text-sm font-medium text-gray-500">Opening Hours</h3>
-                  <p className="mt-1 text-gray-900">{store.openingHours}</p>
+                  <h3 className="text-sm font-medium text-gray-500">Contact</h3>
+                  <p className="mt-1 text-gray-900">{store.contact}</p>
                 </div>
               </div>
             </div>
@@ -112,7 +102,11 @@ export default function StoreDetailsPage({ params }: { params: { id: string } })
                 <div>
                   <h3 className="text-sm font-medium text-gray-500">Store Type</h3>
                   <p className="mt-1">
-                    <span className="px-2 py-1 text-xs font-medium bg-gray-100 text-gray-800 rounded-full">
+                    <span className={`px-2 py-1 text-xs font-medium rounded-full ${
+                      store.type === 'A' ? 'bg-blue-100 text-blue-800' :
+                      store.type === 'B' ? 'bg-green-100 text-green-800' :
+                      'bg-gray-100 text-gray-800'
+                    }`}>
                       {store.type}
                     </span>
                   </p>
@@ -120,26 +114,10 @@ export default function StoreDetailsPage({ params }: { params: { id: string } })
               </div>
 
               <div className="flex items-start gap-3">
-                <ShieldCheckIcon className="w-5 h-5 text-gray-500 mt-1" />
-                <div>
-                  <h3 className="text-sm font-medium text-gray-500">Security Gauge</h3>
-                  <p className="mt-1 text-gray-900">{store.securityGauge}</p>
-                </div>
-              </div>
-
-              <div className="flex items-start gap-3">
                 <ArrowsPointingOutIcon className="w-5 h-5 text-gray-500 mt-1" />
                 <div>
                   <h3 className="text-sm font-medium text-gray-500">Store Size</h3>
-                  <p className="mt-1 text-gray-900">{store.storeSize}</p>
-                </div>
-              </div>
-
-              <div className="flex items-start gap-3">
-                <UserIcon className="w-5 h-5 text-gray-500 mt-1" />
-                <div>
-                  <h3 className="text-sm font-medium text-gray-500">Store Manager</h3>
-                  <p className="mt-1 text-gray-900">{store.manager}</p>
+                  <p className="mt-1 text-gray-900">{store.size}</p>
                 </div>
               </div>
             </div>

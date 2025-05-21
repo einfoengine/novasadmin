@@ -2,7 +2,7 @@
 
 import React, { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
-import { BuildingStorefrontIcon, MapPinIcon, PhoneIcon, ShieldCheckIcon, ArrowsPointingOutIcon } from '@heroicons/react/24/outline';
+import { BuildingStorefrontIcon } from '@heroicons/react/24/outline';
 import TableBuilder from '@/components/TableBuilder';
 import StatsCard from "@/components/StatsCard";
 
@@ -10,13 +10,11 @@ interface Store {
   id: string;
   name: string;
   country: string;
-  contactNumber: string;
+  countryId: string;
+  contact: string;
   type: string;
-  securityGauge: string;
-  storeSize: string;
+  size: string;
   address: string;
-  openingHours: string;
-  manager: string;
   status: string;
 }
 
@@ -56,56 +54,38 @@ export default function StoresPage() {
     { 
       key: 'name', 
       label: 'Store Name',
+      type: 'text' as const,
       className: 'font-medium hover:text-primary cursor-pointer'
     },
     { 
       key: 'country', 
       label: 'Country',
-      render: (item: Store) => (
-        <div className="flex items-center gap-2">
-          <MapPinIcon className="w-4 h-4 text-gray-500" />
-          <span>{item.country}</span>
-        </div>
-      )
+      type: 'text' as const,
+      className: 'flex items-center gap-2'
     },
     { 
-      key: 'contactNumber', 
+      key: 'contact', 
       label: 'Contact',
-      render: (item: Store) => (
-        <div className="flex items-center gap-2">
-          <PhoneIcon className="w-4 h-4 text-gray-500" />
-          <span>{item.contactNumber}</span>
-        </div>
-      )
+      type: 'text' as const,
+      className: 'flex items-center gap-2'
     },
     { 
       key: 'type', 
       label: 'Type',
-      render: (item: Store) => (
-        <span className="px-2 py-1 text-xs font-medium bg-gray-100 text-gray-800 rounded-full">
-          {item.type}
-        </span>
-      )
+      type: 'status' as const,
+      className: 'px-2 py-1 text-xs font-medium rounded-full'
     },
     { 
-      key: 'securityGauge', 
-      label: 'Security',
-      render: (item: Store) => (
-        <div className="flex items-center gap-2">
-          <ShieldCheckIcon className="w-4 h-4 text-gray-500" />
-          <span>{item.securityGauge}</span>
-        </div>
-      )
-    },
-    { 
-      key: 'storeSize', 
+      key: 'size', 
       label: 'Size',
-      render: (item: Store) => (
-        <div className="flex items-center gap-2">
-          <ArrowsPointingOutIcon className="w-4 h-4 text-gray-500" />
-          <span>{item.storeSize}</span>
-        </div>
-      )
+      type: 'text' as const,
+      className: 'flex items-center gap-2'
+    },
+    {
+      key: 'status',
+      label: 'Status',
+      type: 'status' as const,
+      className: 'px-2 py-1 text-xs font-medium rounded-full'
     }
   ];
 
@@ -119,9 +99,14 @@ export default function StoresPage() {
     );
   }
 
+  const activeStores = stores.filter(store => store.status === 'Active').length;
+  const typeAStores = stores.filter(store => store.type === 'A').length;
+  const typeBStores = stores.filter(store => store.type === 'B').length;
+  const typeCStores = stores.filter(store => store.type === 'C').length;
+
   return (
     <div className="min-h-screen p-6">
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-6">
+      <div className="grid grid-cols-1 md:grid-cols-4 gap-6 mb-6">
         <StatsCard
           title="Total Stores"
           value={stores.length.toString()}
@@ -130,30 +115,37 @@ export default function StoresPage() {
           iconBg="#eef2ff"
           percentage=""
           percentageColor="#6b7280"
-          trend="+2"
+          trend=""
         />
         <StatsCard
           title="Active Stores"
-          value={stores.filter(store => store.status === 'Active').length.toString()}
+          value={activeStores.toString()}
           icon={<BuildingStorefrontIcon className="w-6 h-6" />}
           iconColor="#10b981"
           iconBg="#ecfdf5"
           percentage=""
           percentageColor="#6b7280"
-          trend="+1"
+          trend=""
         />
         <StatsCard
-          title="Average Store Size"
-          value={`${stores.reduce((acc, store) => {
-            const size = parseInt(store.storeSize);
-            return acc + (isNaN(size) ? 0 : size);
-          }, 0) / stores.length} sq ft`}
-          icon={<ArrowsPointingOutIcon className="w-6 h-6" />}
-          iconColor="#f59e42"
-          iconBg="#fff7ed"
+          title="Type A Stores"
+          value={typeAStores.toString()}
+          icon={<BuildingStorefrontIcon className="w-6 h-6" />}
+          iconColor="#3b82f6"
+          iconBg="#eff6ff"
           percentage=""
           percentageColor="#6b7280"
-          trend="+5%"
+          trend=""
+        />
+        <StatsCard
+          title="Type B & C Stores"
+          value={`${typeBStores + typeCStores}`}
+          icon={<BuildingStorefrontIcon className="w-6 h-6" />}
+          iconColor="#f59e0b"
+          iconBg="#fffbeb"
+          percentage=""
+          percentageColor="#6b7280"
+          trend=""
         />
       </div>
 
