@@ -3,7 +3,7 @@
 import { useEffect, useState } from 'react';
 import { useParams } from 'next/navigation';
 import TableBuilder from '@/components/TableBuilder';
-import { PencilIcon } from '@heroicons/react/24/outline';
+import { PencilIcon, BuildingStorefrontIcon } from '@heroicons/react/24/outline';
 
 interface Store {
   id: string;
@@ -162,8 +162,13 @@ export default function CountryStoresPage() {
         <TableBuilder
           data={stores}
           columns={columns}
-          title={`Stores in ${country.name}`}
+          title={`Stores in ${country.name} (${stores.length} stores)`}
+          icon={<BuildingStorefrontIcon className="h-6 w-6 text-gray-600" />}
           searchable={true}
+          onEdit={(store) => {
+            // TODO: Implement store edit functionality
+            console.log('Edit store:', store.id);
+          }}
         />
       </div>
     </div>
