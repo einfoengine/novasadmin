@@ -1,0 +1,15 @@
+{
+    "printers": [
+      {
+        "id": "MAT002",
+        "name": "Matte Paper Roll",
+        "dependency": ["materials"],
+        "dependency_field": ["materialType"],
+        "dependencies": ["roll", "sheet"],
+        "description": "Professional matte finish paper roll",
+        "size": [300, 50],
+        "color": ["White", "black", "green"],
+        "price": "100"
+      }
+    ]
+}

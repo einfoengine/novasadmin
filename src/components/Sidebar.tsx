@@ -18,7 +18,12 @@ import {
   ViewColumnsIcon,
   ClipboardDocumentCheckIcon,
   StarIcon,
-  PaperAirplaneIcon
+  PaperAirplaneIcon,
+  BuildingOffice2Icon,
+  DocumentIcon,
+  PrinterIcon,
+  RectangleGroupIcon,
+  PuzzlePieceIcon
 } from '@heroicons/react/24/outline';
 
 const menuItems = [
@@ -30,7 +35,7 @@ const menuItems = [
   },
   { 
     name: 'Messages', 
-    href: '/messages', 
+    // href: '/messages', 
     icon: EnvelopeIcon,
     submenu: [
       { name: 'All', href: '/messages', icon: ShoppingBagIcon },
@@ -59,8 +64,19 @@ const menuItems = [
     submenu: []
   },
   { 
-    name: 'Template', 
-    href: '/template', 
+    name: 'Production', 
+    href: '/production', 
+    icon: BuildingOffice2Icon,
+    submenu: [
+      { name: 'Materials', href: '/materials', icon: DocumentIcon },
+      { name: 'Printers', href: '/printers', icon: PrinterIcon },
+      { name: 'Finishers', href: '/finishers', icon: RectangleGroupIcon},
+      { name: 'Others', href: '/others', icon: PuzzlePieceIcon },
+    ]
+  },
+  { 
+    name: 'Templates', 
+    href: '/templates', 
     icon: ViewColumnsIcon,
     submenu: []
   },
@@ -80,12 +96,6 @@ const menuItems = [
     name: 'Users', 
     href: '/users', 
     icon: UserIcon,
-    submenu: []
-  },
-  { 
-    name: 'Materials', 
-    href: '/materials', 
-    icon: StarIcon,
     submenu: []
   },
   { 

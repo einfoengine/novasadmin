@@ -1,0 +1,32 @@
+{
+  "templates": [
+    {
+      "id": "TMP001",
+      "template_name": "Standard Business Card",
+      "creation_date": "2024-03-15",
+      "editing_date": "2024-03-20",
+      "total_cost": 299.99
+    },
+    {
+      "id": "TMP002",
+      "template_name": "Premium Flyer",
+      "creation_date": "2024-03-10",
+      "editing_date": "2024-03-18",
+      "total_cost": 499.99
+    },
+    {
+      "id": "TMP003",
+      "template_name": "Brochure Template",
+      "creation_date": "2024-03-05",
+      "editing_date": "2024-03-15",
+      "total_cost": 399.99
+    },
+    {
+      "id": "TMP004",
+      "template_name": "Social Media Kit",
+      "creation_date": "2024-03-01",
+      "editing_date": "2024-03-12",
+      "total_cost": 599.99
+    }
+  ]
+}

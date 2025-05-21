@@ -1,0 +1,63 @@
+{
+    "printers": [
+      {
+        "id": "MAT002",
+        "name": "Matte Paper Roll",
+        "dependency": "materials",
+        "dependency_field": "materialType",
+        "dependencies": ["roll", "sheet"],
+        "description": "Professional matte finish paper roll",
+        "size": [300, 50],
+        "color": ["White", "black", "green"],
+        "price": "100"
+      },
+      {
+        "id": "MAT003",
+        "name": "Matte Paper Roll",
+        "segment": "printer",
+        "materialType": "roll-to-roll",
+        "dependency_field": "material",
+        "dependencies": ["MAT001"],
+        "description": "Professional matte finish paper roll",
+        "size": "300, 50",
+        "color": "White",
+        "price": "100"
+      },
+      {
+        "id": "MAT003",
+        "name": "Vinyl Roll",
+        "segment": "roll",
+        "materialType": "roll-to-roll",
+        "dependency_field": "material",
+        "dependencies": ["MAT001"],
+        "description": "Durable vinyl material for outdoor applications",
+        "size": "300, 50",
+        "color": "White",
+        "price": "100"
+      },
+      {
+        "id": "MAT004",
+        "name": "Canvas Roll",
+        "segment": "roll",
+        "materialType": "roll-to-roll",
+        "dependency_field": "material",
+        "dependencies": ["MAT001"],
+        "description": "Artist-grade canvas for fine art printing",
+        "size": "300, 50",
+        "color": "Natural",
+        "price": "100"
+      },
+      {
+        "id": "MAT005",
+        "name": "Banner Material Roll",
+        "segment": "roll",
+        "materialType": "roll-to-roll",
+        "dependency_field": "material",
+        "dependencies": ["MAT001"],
+        "description": "Heavy-duty banner material for large format printing",
+        "size": "300, 50",
+        "color": "White",
+        "price": "100"
+      }
+    ]
+  } 
