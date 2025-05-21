@@ -20,13 +20,14 @@ export default function StoreDetailsPage({ params }: { params: { id: string } })
   const router = useRouter();
   const [store, setStore] = useState<Store | null>(null);
   const [loading, setLoading] = useState(true);
+  const storeId = React.use(params as unknown as Promise<{ id: string }>).id;
 
   useEffect(() => {
     const fetchStore = async () => {
       try {
         const response = await fetch('/data/stores.json');
         const data = await response.json();
-        const foundStore = data.stores.find((s: Store) => s.id === params.id);
+        const foundStore = data.stores.find((s: Store) => s.id === storeId);
         setStore(foundStore || null);
       } catch (error) {
         console.error('Error fetching store:', error);
@@ -37,7 +38,7 @@ export default function StoreDetailsPage({ params }: { params: { id: string } })
     };
 
     fetchStore();
-  }, [params.id]);
+  }, [storeId]);
 
   if (loading) {
     return (
