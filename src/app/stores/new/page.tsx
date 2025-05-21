@@ -6,11 +6,14 @@ import { BuildingStorefrontIcon } from '@heroicons/react/24/outline';
 
 interface StoreFormData {
   name: string;
+  storeCode: string;
   country: string;
   countryId: string;
   contact: string;
+  contactPerson: string;
   type: string;
   size: string;
+  securityGate: string;
   address: string;
   status: string;
   description: string;
@@ -18,11 +21,14 @@ interface StoreFormData {
 
 const initialFormData: StoreFormData = {
   name: '',
+  storeCode: '',
   country: '',
   countryId: '',
   contact: '',
+  contactPerson: '',
   type: '',
   size: '',
+  securityGate: '',
   address: '',
   status: 'Active',
   description: ''
@@ -30,6 +36,7 @@ const initialFormData: StoreFormData = {
 
 const storeTypes = ['A', 'B', 'C'];
 const storeSizes = ['Small', 'Medium', 'Large'];
+const securityGates = ['Low', 'Medium', 'High'];
 const countries = [
   { name: 'United States', code: 'US' },
   { name: 'United Kingdom', code: 'GB' },
@@ -137,6 +144,23 @@ export default function NewStorePage() {
                 />
               </div>
 
+              {/* Store Code */}
+              <div className="space-y-1">
+                <label htmlFor="storeCode" className="block text-sm font-medium text-gray-700">
+                  Store Code
+                </label>
+                <input
+                  type="text"
+                  id="storeCode"
+                  name="storeCode"
+                  value={formData.storeCode}
+                  onChange={handleInputChange}
+                  required
+                  className="block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:border-primary focus:ring-primary sm:text-sm"
+                  placeholder="e.g., NYC-DT-001"
+                />
+              </div>
+
               {/* Country */}
               <div className="space-y-1">
                 <label htmlFor="country" className="block text-sm font-medium text-gray-700">
@@ -173,6 +197,23 @@ export default function NewStorePage() {
                   required
                   className="block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:border-primary focus:ring-primary sm:text-sm"
                   placeholder="+1 (555) 123-4567"
+                />
+              </div>
+
+              {/* Contact Person */}
+              <div className="space-y-1">
+                <label htmlFor="contactPerson" className="block text-sm font-medium text-gray-700">
+                  Contact Person
+                </label>
+                <input
+                  type="text"
+                  id="contactPerson"
+                  name="contactPerson"
+                  value={formData.contactPerson}
+                  onChange={handleInputChange}
+                  required
+                  className="block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:border-primary focus:ring-primary sm:text-sm"
+                  placeholder="Enter contact person name"
                 />
               </div>
 
@@ -215,6 +256,28 @@ export default function NewStorePage() {
                   {storeSizes.map(size => (
                     <option key={size} value={size}>
                       {size}
+                    </option>
+                  ))}
+                </select>
+              </div>
+
+              {/* Security Gate */}
+              <div className="space-y-1">
+                <label htmlFor="securityGate" className="block text-sm font-medium text-gray-700">
+                  Security Gate
+                </label>
+                <select
+                  id="securityGate"
+                  name="securityGate"
+                  value={formData.securityGate}
+                  onChange={handleInputChange}
+                  required
+                  className="block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:border-primary focus:ring-primary sm:text-sm"
+                >
+                  <option value="">Select security level</option>
+                  {securityGates.map(level => (
+                    <option key={level} value={level}>
+                      {level}
                     </option>
                   ))}
                 </select>
