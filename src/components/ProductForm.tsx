@@ -19,6 +19,7 @@ interface ProductFormData {
   surface: string;
   lamination: string;
   finishing: string;
+  quantity: number;
   pricing: number;
   description: string;
   image: string;
@@ -46,6 +47,7 @@ export default function ProductForm({
     surface: initialData.surface || '',
     lamination: initialData.lamination || '',
     finishing: initialData.finishing || '',
+    quantity: initialData.quantity || 0,
     pricing: initialData.pricing || 0,
     description: initialData.description || '',
     image: initialData.image || ''
@@ -130,7 +132,7 @@ export default function ProductForm({
 
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-2">
-                Roll/Sheer
+                Material
               </label>
               <div className="space-y-2">
                 <select
@@ -324,6 +326,21 @@ export default function ProductForm({
               </div>
             </div>
             {/*  */}
+
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-2">
+                Quantity
+              </label>
+              <input
+                type="number"
+                name="quantity"
+                value={formData.quantity}
+                onChange={handleInputChange}
+                min="0"
+                className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent"
+                required
+              />
+            </div>
 
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-2">
