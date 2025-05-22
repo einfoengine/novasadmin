@@ -68,7 +68,8 @@ const countries = [
   { name: 'Germany', code: 'DE' }
 ];
 
-export default function EditStorePage({ params }: { params: { id: string } }) {
+export default function EditStorePage({ params }: { params: Promise<{ id: string }> }) {
+  const resolvedParams = React.use(params);
   const router = useRouter();
   const [formData, setFormData] = useState<StoreFormData>(initialFormData);
   const [loading, setLoading] = useState(true);
@@ -82,7 +83,7 @@ export default function EditStorePage({ params }: { params: { id: string } }) {
         if (!response.ok) throw new Error('Failed to fetch stores');
         
         const data = await response.json();
-        const store = data.stores.find((s: Store) => s.id === params.id);
+        const store = data.stores.find((s: Store) => s.id === resolvedParams.id);
         
         if (!store) {
           throw new Error('Store not found');
@@ -113,7 +114,7 @@ export default function EditStorePage({ params }: { params: { id: string } }) {
     };
 
     fetchStoreData();
-  }, [params.id]);
+  }, [resolvedParams.id]);
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
     const { name, value } = e.target;
@@ -152,14 +153,14 @@ export default function EditStorePage({ params }: { params: { id: string } }) {
     setError(null);
 
     try {
-      const response = await fetch(`/api/stores/${params.id}`, {
+      const response = await fetch(`/api/stores/${resolvedParams.id}`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({
           ...formData,
-          id: params.id
+          id: resolvedParams.id
         }),
       });
 
