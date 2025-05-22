@@ -2,14 +2,14 @@
 
 import React, { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
-import { BeakerIcon } from '@heroicons/react/24/outline';
+import { PrinterIcon } from '@heroicons/react/24/outline';
 import TableBuilder from '@/components/TableBuilder';
 
-interface Material {
+interface Printer {
   id: string;
   name: string;
   segment: string;
-  materialType: string;
+  printerType: string;
   dependency_type: string;
   dependencies: string[];
   description: string;
@@ -19,38 +19,38 @@ interface Material {
   image?: string;
 }
 
-export default function MaterialsPage() {
+export default function PrintersPage() {
   const router = useRouter();
-  const [materials, setMaterials] = useState<Material[]>([]);
+  const [printers, setPrinters] = useState<Printer[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
-    const fetchMaterials = async () => {
+    const fetchPrinters = async () => {
       try {
-        const response = await fetch('/data/materials.json');
-        if (!response.ok) throw new Error('Failed to fetch materials');
+        const response = await fetch('/data/printers.json');
+        if (!response.ok) throw new Error('Failed to fetch printers');
         
         const data = await response.json();
-        setMaterials(data.materials || []);
+        setPrinters(data.printers || []);
         setError(null);
       } catch (error) {
-        console.error('Error fetching materials:', error);
-        setError(error instanceof Error ? error.message : 'Failed to load materials');
+        console.error('Error fetching printers:', error);
+        setError(error instanceof Error ? error.message : 'Failed to load printers');
       } finally {
         setLoading(false);
       }
     };
 
-    fetchMaterials();
+    fetchPrinters();
   }, []);
 
-  const handleEdit = (material: Material) => {
-    router.push(`/productions/materials/${material.id}/edit`);
+  const handleEdit = (printer: Printer) => {
+    router.push(`/productions/printers/${printer.id}/edit`);
   };
 
-  const handleRowClick = (material: Material) => {
-    router.push(`/productions/materials/${material.id}`);
+  const handleRowClick = (printer: Printer) => {
+    router.push(`/productions/printers/${printer.id}`);
   };
 
   const columns = [
@@ -67,10 +67,12 @@ export default function MaterialsPage() {
       className: 'font-medium'
     },
     {
-      key: 'materialType',
+      key: 'printerType',
       label: 'Type',
       type: 'text' as const,
-      format: (value: unknown) => String(value).charAt(0).toUpperCase() + String(value).slice(1)
+      format: (value: unknown) => String(value).split('-').map(word => 
+        word.charAt(0).toUpperCase() + word.slice(1)
+      ).join(' ')
     },
     {
       key: 'size',
@@ -104,17 +106,17 @@ export default function MaterialsPage() {
     <div className="min-h-screen bg-gray-50">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         <TableBuilder
-          data={materials}
+          data={printers}
           columns={columns}
-          title="Materials"
-          icon={<BeakerIcon className="w-6 h-6" />}
+          title="Printers"
+          icon={<PrinterIcon className="w-6 h-6" />}
           onEdit={handleEdit}
           onRowClick={handleRowClick}
           searchable
           selectable
           actionButton={{
-            label: 'Add Material',
-            href: '/productions/materials/new'
+            label: 'Add Printer',
+            href: '/productions/printers/new'
           }}
         />
       </div>

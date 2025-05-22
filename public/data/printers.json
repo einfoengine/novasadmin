@@ -1,15 +1,30 @@
 {
     "printers": [
       {
-        "id": "MAT002",
-        "name": "Matte Paper Roll",
-        "dependency": ["materials"],
-        "dependency_field": ["materialType"],
+        "id": "PRN001",
+        "name": "HP DesignJet Z9+",
+        "segment": "printer",
+        "printerType": "large-format",
+        "dependency_type": "materials",
         "dependencies": ["roll", "sheet"],
-        "description": "Professional matte finish paper roll",
-        "size": [300, 50],
-        "color": ["White", "black", "green"],
-        "price": "100"
+        "description": "Professional large-format printer for high-quality prints",
+        "size": "44-inch",
+        "color": "Black",
+        "price": "4999",
+        "image": "/images/printers/hp-designjet-z9.jpg"
+      },
+      {
+        "id": "PRN002",
+        "name": "Epson SureColor P9000",
+        "segment": "printer",
+        "printerType": "large-format",
+        "dependency_type": "materials",
+        "dependencies": ["roll"],
+        "description": "Ultra-wide format printer for professional photo printing",
+        "size": "64-inch",
+        "color": "Black",
+        "price": "5999",
+        "image": "/images/printers/epson-surecolor-p9000.jpg"
       }
     ]
 }

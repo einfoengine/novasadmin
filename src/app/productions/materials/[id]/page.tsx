@@ -19,11 +19,12 @@ interface Material {
   image?: string;
 }
 
-export default function MaterialDetailsPage({ params }: { params: { id: string } }) {
+export default function MaterialDetailsPage({ params }: { params: Promise<{ id: string }> }) {
   const router = useRouter();
   const [material, setMaterial] = useState<Material | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const resolvedParams = React.use(params);
 
   useEffect(() => {
     const fetchMaterial = async () => {
@@ -32,7 +33,7 @@ export default function MaterialDetailsPage({ params }: { params: { id: string }
         if (!response.ok) throw new Error('Failed to fetch material');
         
         const data = await response.json();
-        const foundMaterial = data.materials.find((m: Material) => m.id === params.id);
+        const foundMaterial = data.materials.find((m: Material) => m.id === resolvedParams.id);
         
         if (!foundMaterial) {
           throw new Error('Material not found');
@@ -49,10 +50,10 @@ export default function MaterialDetailsPage({ params }: { params: { id: string }
     };
 
     fetchMaterial();
-  }, [params.id]);
+  }, [resolvedParams.id]);
 
   const handleEdit = () => {
-    router.push(`/productions/materials/${params.id}/edit`);
+    router.push(`/productions/materials/${resolvedParams.id}/edit`);
   };
 
   if (loading) {
