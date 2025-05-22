@@ -2,7 +2,7 @@
 
 import React, { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
-import { BuildingStorefrontIcon, PencilIcon } from '@heroicons/react/24/outline';
+import { BuildingStorefrontIcon } from '@heroicons/react/24/outline';
 import TableBuilder from '@/components/TableBuilder';
 
 interface Store {
@@ -89,28 +89,15 @@ export default function StoresPage() {
       label: 'Size',
       type: 'text',
       className: 'text-center'
-    },
-    {
-      key: 'actions',
-      label: '',
-      type: 'custom',
-      className: 'w-12 text-right',
-      render: (item) => (
-        <button
-          onClick={(e) => {
-            e.stopPropagation();
-            router.push(`/stores/${(item as Store).id}/edit`);
-          }}
-          className="p-1 text-gray-500 hover:text-primary focus:outline-none"
-        >
-          <PencilIcon className="w-5 h-5" />
-        </button>
-      )
     }
   ];
 
   const handleRowClick = (item: Store) => {
     router.push(`/stores/${item.id}`);
+  };
+
+  const handleEdit = (store: Store) => {
+    router.push(`/stores/${store.id}/edit`);
   };
 
   if (loading) {
@@ -160,6 +147,7 @@ export default function StoresPage() {
             searchable
             selectable
             onRowClick={handleRowClick}
+            onEdit={handleEdit}
             actionButton={{
               label: 'Add Store',
               href: '/stores/new'
