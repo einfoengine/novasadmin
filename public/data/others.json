@@ -1,0 +1,56 @@
+{
+  "others": [
+    {
+      "id": "OTH001",
+      "name": "HP DesignJet T650",
+      "segment": "production",
+      "otherType": "plotter",
+      "dependency_type": "roll",
+      "dependencies": ["roll"],
+      "description": "Professional plotter for technical drawings and CAD output",
+      "size": "36-inch",
+      "color": "Black",
+      "price": "3499",
+      "image": "/images/others/hp-designjet-t650.jpg"
+    },
+    {
+      "id": "OTH002",
+      "name": "Epson SureColor SC-T3100",
+      "segment": "production",
+      "otherType": "scanner",
+      "dependency_type": "sheet",
+      "dependencies": ["sheet"],
+      "description": "High-speed document scanner for professional use",
+      "size": "A3",
+      "color": "White",
+      "price": "1299",
+      "image": "/images/others/epson-surecolor-sc-t3100.jpg"
+    },
+    {
+      "id": "OTH003",
+      "name": "Canon imagePROGRAF PRO-1000",
+      "segment": "production",
+      "otherType": "plotter",
+      "dependency_type": "roll",
+      "dependencies": ["roll"],
+      "description": "Professional photo printer for high-quality prints",
+      "size": "44-inch",
+      "color": "Black",
+      "price": "2499",
+      "image": "/images/others/canon-imageprograf-pro-1000.jpg"
+    },
+    {
+      "id": "OTH004",
+      "name": "Fuji Xerox DocuCentre-VI C3373",
+      "segment": "production",
+      "otherType": "scanner",
+      "dependency_type": "sheet",
+      "dependencies": ["sheet"],
+      "description": "High-volume document scanner with advanced features",
+      "size": "A3",
+      "color": "White",
+      "price": "1899",
+      "image": "/images/others/fuji-xerox-docucentre-vi-c3373.jpg"
+    }
+  ]
+}
