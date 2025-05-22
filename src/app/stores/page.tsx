@@ -2,20 +2,29 @@
 
 import React, { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
-import { BuildingStorefrontIcon } from '@heroicons/react/24/outline';
+import { BuildingStorefrontIcon, PencilIcon } from '@heroicons/react/24/outline';
 import TableBuilder from '@/components/TableBuilder';
-import StatsCard from "@/components/StatsCard";
 
 interface Store {
   id: string;
+  storeCode: string;
   name: string;
   country: string;
-  countryId: string;
   contact: string;
   type: string;
+  securityGate: string;
   size: string;
-  address: string;
   status: string;
+}
+
+interface Column {
+  key: string;
+  label: string;
+  type?: 'text' | 'number' | 'currency' | 'date' | 'status' | 'link' | 'custom' | 'image';
+  format?: (value: unknown) => string;
+  render?: <T>(item: T) => React.ReactNode;
+  className?: string;
+  linkHref?: (value: unknown) => string;
 }
 
 export default function StoresPage() {
@@ -27,11 +36,11 @@ export default function StoresPage() {
     const fetchStores = async () => {
       try {
         const response = await fetch('/data/stores.json');
+        if (!response.ok) throw new Error('Failed to fetch stores');
         const data = await response.json();
-        setStores(data.stores || []);
+        setStores(data.stores);
       } catch (error) {
         console.error('Error fetching stores:', error);
-        setStores([]);
       } finally {
         setLoading(false);
       }
@@ -40,131 +49,139 @@ export default function StoresPage() {
     fetchStores();
   }, []);
 
-  const handleEdit = (store: Store) => {
-    router.push(`/stores/${store.id}/edit`);
-  };
-
-  const handleDelete = (store: Store) => {
-    if (window.confirm('Are you sure you want to delete this store?')) {
-      setStores(prev => prev.filter(s => s.id !== store.id));
-    }
-  };
-
-  const columns = [
-    { 
-      key: 'name', 
-      label: 'Store Name',
-      type: 'text' as const,
-      className: 'font-medium hover:text-primary cursor-pointer'
-    },
-    { 
-      key: 'country', 
-      label: 'Country',
-      type: 'text' as const,
-      className: 'flex items-center gap-2'
-    },
-    { 
-      key: 'contact', 
-      label: 'Contact',
-      type: 'text' as const,
-      className: 'flex items-center gap-2'
-    },
-    { 
-      key: 'type', 
-      label: 'Type',
-      type: 'status' as const,
-      className: 'px-2 py-1 text-xs font-medium rounded-full'
-    },
-    { 
-      key: 'size', 
-      label: 'Size',
-      type: 'text' as const,
-      className: 'flex items-center gap-2'
+  const columns: Column[] = [
+    {
+      key: 'storeCode',
+      label: 'Store Code',
+      type: 'text',
+      className: 'font-medium'
     },
     {
-      key: 'status',
-      label: 'Status',
-      type: 'status' as const,
-      className: 'px-2 py-1 text-xs font-medium rounded-full'
+      key: 'name',
+      label: 'Store Name',
+      type: 'text',
+      className: 'font-medium'
+    },
+    {
+      key: 'country',
+      label: 'Country',
+      type: 'text'
+    },
+    {
+      key: 'contact',
+      label: 'Contact',
+      type: 'text'
+    },
+    {
+      key: 'type',
+      label: 'Type',
+      type: 'status',
+      className: 'text-center'
+    },
+    {
+      key: 'securityGate',
+      label: 'Security Gate',
+      type: 'status',
+      className: 'text-center'
+    },
+    {
+      key: 'size',
+      label: 'Size',
+      type: 'text',
+      className: 'text-center'
+    },
+    {
+      key: 'actions',
+      label: '',
+      type: 'custom',
+      className: 'w-12 text-right',
+      render: (item) => (
+        <button
+          onClick={(e) => {
+            e.stopPropagation();
+            router.push(`/stores/${(item as Store).id}/edit`);
+          }}
+          className="p-1 text-gray-500 hover:text-primary focus:outline-none"
+        >
+          <PencilIcon className="w-5 h-5" />
+        </button>
+      )
     }
   ];
 
+  const handleRowClick = (item: Store) => {
+    router.push(`/stores/${item.id}`);
+  };
+
   if (loading) {
     return (
-      <div className="p-6">
-        <div className="flex items-center justify-center h-64">
-          <div className="text-gray-500">Loading stores...</div>
-        </div>
+      <div className="min-h-screen bg-gray-50 flex items-center justify-center">
+        <div className="text-gray-500">Loading...</div>
       </div>
     );
   }
 
-  const activeStores = stores.filter(store => store.status === 'Active').length;
-  const typeAStores = stores.filter(store => store.type === 'A').length;
-  const typeBStores = stores.filter(store => store.type === 'B').length;
-  const typeCStores = stores.filter(store => store.type === 'C').length;
-
   return (
-    <div className="min-h-screen p-6">
-      <div className="grid grid-cols-1 md:grid-cols-4 gap-6 mb-6">
-        <StatsCard
-          title="Total Stores"
-          value={stores.length.toString()}
-          icon={<BuildingStorefrontIcon className="w-6 h-6" />}
-          iconColor="#6366f1"
-          iconBg="#eef2ff"
-          percentage=""
-          percentageColor="#6b7280"
-          trend=""
-        />
-        <StatsCard
-          title="Active Stores"
-          value={activeStores.toString()}
-          icon={<BuildingStorefrontIcon className="w-6 h-6" />}
-          iconColor="#10b981"
-          iconBg="#ecfdf5"
-          percentage=""
-          percentageColor="#6b7280"
-          trend=""
-        />
-        <StatsCard
-          title="Type A Stores"
-          value={typeAStores.toString()}
-          icon={<BuildingStorefrontIcon className="w-6 h-6" />}
-          iconColor="#3b82f6"
-          iconBg="#eff6ff"
-          percentage=""
-          percentageColor="#6b7280"
-          trend=""
-        />
-        <StatsCard
-          title="Type B & C Stores"
-          value={`${typeBStores + typeCStores}`}
-          icon={<BuildingStorefrontIcon className="w-6 h-6" />}
-          iconColor="#f59e0b"
-          iconBg="#fffbeb"
-          percentage=""
-          percentageColor="#6b7280"
-          trend=""
-        />
-      </div>
+    <div className="min-h-screen bg-gray-50">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        {/* Header */}
+        <div className="mb-8">
+          <div className="flex items-center justify-between">
+            <div className="flex items-center gap-3">
+              <BuildingStorefrontIcon className="w-8 h-8 text-gray-500" />
+              <h1 className="text-2xl font-semibold text-gray-900">Stores</h1>
+            </div>
+            <button
+              onClick={() => router.push('/stores/new')}
+              className="px-4 py-2 text-sm font-medium text-white bg-primary rounded-md hover:bg-primary/90 focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2"
+            >
+              Add Store
+            </button>
+          </div>
+        </div>
 
-      <div className="rounded-lg shadow">
-        <TableBuilder
-          data={stores}
-          columns={columns}
-          title="Stores"
-          icon={<BuildingStorefrontIcon className="h-6 w-6" />}
-          searchable
-          selectable
-          onRowClick={(store) => router.push(`/stores/${store.id}`)}
-          onEdit={handleEdit}
-          onDelete={handleDelete}
-          actionButton={{
-            label: 'Add Store',
-            href: '/stores/new',
-          }}
-        />
+        {/* Stats */}
+        <div className="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
+          <div className="bg-white p-6 rounded-lg shadow">
+            <h3 className="text-sm font-medium text-gray-500">Total Stores</h3>
+            <p className="mt-2 text-3xl font-semibold text-gray-900">{stores.length}</p>
+          </div>
+          <div className="bg-white p-6 rounded-lg shadow">
+            <h3 className="text-sm font-medium text-gray-500">Active Stores</h3>
+            <p className="mt-2 text-3xl font-semibold text-gray-900">
+              {stores.filter(store => store.status === 'Active').length}
+            </p>
+          </div>
+          <div className="bg-white p-6 rounded-lg shadow">
+            <h3 className="text-sm font-medium text-gray-500">Type A Stores</h3>
+            <p className="mt-2 text-3xl font-semibold text-gray-900">
+              {stores.filter(store => store.type === 'A').length}
+            </p>
+          </div>
+          <div className="bg-white p-6 rounded-lg shadow">
+            <h3 className="text-sm font-medium text-gray-500">Type B & C Stores</h3>
+            <p className="mt-2 text-3xl font-semibold text-gray-900">
+              {stores.filter(store => store.type === 'B' || store.type === 'C').length}
+            </p>
+          </div>
+        </div>
+
+        {/* Table */}
+        <div className="bg-white rounded-lg shadow">
+          <TableBuilder
+            data={stores}
+            columns={columns}
+            title="Stores"
+            icon={<BuildingStorefrontIcon className="h-6 w-6" />}
+            searchable
+            selectable
+            onRowClick={handleRowClick}
+            actionButton={{
+              label: 'Add Store',
+              href: '/stores/new'
+            }}
+          />
+        </div>
       </div>
     </div>
   );

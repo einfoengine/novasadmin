@@ -18,6 +18,7 @@ interface Store {
   address: string;
   status: string;
   description?: string;
+  image?: string;
 }
 
 interface StoreFormData {
@@ -33,6 +34,7 @@ interface StoreFormData {
   address: string;
   status: string;
   description: string;
+  image?: string;
 }
 
 const initialFormData: StoreFormData = {
@@ -47,7 +49,8 @@ const initialFormData: StoreFormData = {
   securityGate: '',
   address: '',
   status: 'Active',
-  description: ''
+  description: '',
+  image: ''
 };
 
 const storeTypes = ['A', 'B', 'C'];
@@ -97,7 +100,8 @@ export default function EditStorePage({ params }: { params: { id: string } }) {
           securityGate: store.securityGate || '',
           address: store.address || '',
           status: store.status || 'Active',
-          description: store.description || ''
+          description: store.description || '',
+          image: store.image || ''
         });
         setError(null);
       } catch (error) {
@@ -126,6 +130,20 @@ export default function EditStorePage({ params }: { params: { id: string } }) {
       country: e.target.value,
       countryId: selectedCountry?.code || ''
     }));
+  };
+
+  const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        setFormData(prev => ({
+          ...prev,
+          image: reader.result as string
+        }));
+      };
+      reader.readAsDataURL(file);
+    }
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -404,6 +422,51 @@ export default function EditStorePage({ params }: { params: { id: string } }) {
                 className="block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:border-primary focus:ring-primary sm:text-sm"
                 placeholder="Enter store description"
               />
+            </div>
+
+            {/* Store Image */}
+            <div className="space-y-1">
+              <label htmlFor="image" className="block text-sm font-medium text-gray-700">
+                Store Image
+              </label>
+              <div className="mt-1 flex items-center space-x-4">
+                {formData.image && (
+                  <div className="relative w-32 h-32">
+                    <img
+                      src={formData.image}
+                      alt="Store preview"
+                      className="w-full h-full object-cover rounded-lg"
+                    />
+                    <button
+                      type="button"
+                      onClick={() => setFormData(prev => ({ ...prev, image: '' }))}
+                      className="absolute -top-2 -right-2 p-1 bg-red-500 text-white rounded-full hover:bg-red-600 focus:outline-none"
+                    >
+                      <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                      </svg>
+                    </button>
+                  </div>
+                )}
+                <div className="flex-1">
+                  <input
+                    type="file"
+                    id="image"
+                    name="image"
+                    accept="image/*"
+                    onChange={handleImageChange}
+                    className="block w-full text-sm text-gray-500
+                      file:mr-4 file:py-2 file:px-4
+                      file:rounded-md file:border-0
+                      file:text-sm file:font-medium
+                      file:bg-primary file:text-white
+                      hover:file:bg-primary/90"
+                  />
+                  <p className="mt-1 text-sm text-gray-500">
+                    PNG, JPG, GIF up to 10MB
+                  </p>
+                </div>
+              </div>
             </div>
 
             {/* Submit Button */}
