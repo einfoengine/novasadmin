@@ -49,6 +49,10 @@ export default function MaterialsPage() {
     router.push(`/productions/materials/${material.id}/edit`);
   };
 
+  const handleRowClick = (material: Material) => {
+    router.push(`/productions/materials/${material.id}`);
+  };
+
   const columns = [
     {
       key: 'image',
@@ -105,6 +109,7 @@ export default function MaterialsPage() {
           title="Materials"
           icon={<BeakerIcon className="w-6 h-6" />}
           onEdit={handleEdit}
+          onRowClick={handleRowClick}
           searchable
           actionButton={{
             label: 'Add Material',
