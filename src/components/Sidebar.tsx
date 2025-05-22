@@ -17,7 +17,6 @@ import {
   FlagIcon,
   ViewColumnsIcon,
   ClipboardDocumentCheckIcon,
-  StarIcon,
   PaperAirplaneIcon,
   BuildingOffice2Icon,
   DocumentIcon,
@@ -64,14 +63,14 @@ const menuItems = [
     submenu: []
   },
   { 
-    name: 'Production', 
-    href: '/production', 
+    name: 'Productions', 
+    href: '/productions', 
     icon: BuildingOffice2Icon,
     submenu: [
-      { name: 'Materials', href: '/materials', icon: DocumentIcon },
-      { name: 'Printers', href: '/printers', icon: PrinterIcon },
-      { name: 'Finishers', href: '/finishers', icon: RectangleGroupIcon},
-      { name: 'Others', href: '/others', icon: PuzzlePieceIcon },
+      { name: 'Materials', href: '/productions/materials', icon: DocumentIcon },
+      { name: 'Printers', href: '/productions/printers', icon: PrinterIcon },
+      { name: 'Finishers', href: '/productions/finishers', icon: RectangleGroupIcon},
+      { name: 'Others', href: '/productions/others', icon: PuzzlePieceIcon },
     ]
   },
   { 
