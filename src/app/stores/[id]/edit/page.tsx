@@ -3,6 +3,7 @@
 import React, { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { BuildingStorefrontIcon } from '@heroicons/react/24/outline';
+import ImageUpload from '@/components/ImageUpload';
 
 interface Store {
   id: string;
@@ -133,18 +134,11 @@ export default function EditStorePage({ params }: { params: Promise<{ id: string
     }));
   };
 
-  const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files?.[0];
-    if (file) {
-      const reader = new FileReader();
-      reader.onloadend = () => {
-        setFormData(prev => ({
-          ...prev,
-          image: reader.result as string
-        }));
-      };
-      reader.readAsDataURL(file);
-    }
+  const handleImageChange = (imageUrl: string) => {
+    setFormData(prev => ({
+      ...prev,
+      image: imageUrl
+    }));
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -215,263 +209,237 @@ export default function EditStorePage({ params }: { params: Promise<{ id: string
           </div>
 
           {/* Form */}
-          <form onSubmit={handleSubmit} className="p-6 space-y-6">
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-              {/* Store Name */}
-              <div className="space-y-1">
-                <label htmlFor="name" className="block text-sm font-medium text-gray-700">
-                  Store Name
-                </label>
-                <input
-                  type="text"
-                  id="name"
-                  name="name"
-                  value={formData.name}
-                  onChange={handleInputChange}
-                  required
-                  className="block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:border-primary focus:ring-primary sm:text-sm"
-                  placeholder="Enter store name"
-                />
-              </div>
-
-              {/* Store Code */}
-              <div className="space-y-1">
-                <label htmlFor="storeCode" className="block text-sm font-medium text-gray-700">
-                  Store Code
-                </label>
-                <input
-                  type="text"
-                  id="storeCode"
-                  name="storeCode"
-                  value={formData.storeCode}
-                  onChange={handleInputChange}
-                  required
-                  className="block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:border-primary focus:ring-primary sm:text-sm"
-                  placeholder="e.g., NYC-DT-001"
-                />
-              </div>
-
-              {/* Country */}
-              <div className="space-y-1">
-                <label htmlFor="country" className="block text-sm font-medium text-gray-700">
-                  Country
-                </label>
-                <select
-                  id="country"
-                  name="country"
-                  value={formData.country}
-                  onChange={handleCountryChange}
-                  required
-                  className="block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:border-primary focus:ring-primary sm:text-sm"
-                >
-                  <option value="">Select a country</option>
-                  {countries.map(country => (
-                    <option key={country.code} value={country.name}>
-                      {country.name}
-                    </option>
-                  ))}
-                </select>
-              </div>
-
-              {/* Contact */}
-              <div className="space-y-1">
-                <label htmlFor="contact" className="block text-sm font-medium text-gray-700">
-                  Contact Number
-                </label>
-                <input
-                  type="tel"
-                  id="contact"
-                  name="contact"
-                  value={formData.contact}
-                  onChange={handleInputChange}
-                  required
-                  className="block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:border-primary focus:ring-primary sm:text-sm"
-                  placeholder="+1 (555) 123-4567"
-                />
-              </div>
-
-              {/* Contact Person */}
-              <div className="space-y-1">
-                <label htmlFor="contactPerson" className="block text-sm font-medium text-gray-700">
-                  Contact Person
-                </label>
-                <input
-                  type="text"
-                  id="contactPerson"
-                  name="contactPerson"
-                  value={formData.contactPerson}
-                  onChange={handleInputChange}
-                  required
-                  className="block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:border-primary focus:ring-primary sm:text-sm"
-                  placeholder="Enter contact person name"
-                />
-              </div>
-
-              {/* Store Type */}
-              <div className="space-y-1">
-                <label htmlFor="type" className="block text-sm font-medium text-gray-700">
-                  Store Type
-                </label>
-                <select
-                  id="type"
-                  name="type"
-                  value={formData.type}
-                  onChange={handleInputChange}
-                  required
-                  className="block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:border-primary focus:ring-primary sm:text-sm"
-                >
-                  <option value="">Select a type</option>
-                  {storeTypes.map(type => (
-                    <option key={type} value={type}>
-                      Type {type}
-                    </option>
-                  ))}
-                </select>
-              </div>
-
-              {/* Store Size */}
-              <div className="space-y-1">
-                <label htmlFor="size" className="block text-sm font-medium text-gray-700">
-                  Store Size
-                </label>
-                <select
-                  id="size"
-                  name="size"
-                  value={formData.size}
-                  onChange={handleInputChange}
-                  required
-                  className="block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:border-primary focus:ring-primary sm:text-sm"
-                >
-                  <option value="">Select a size</option>
-                  {storeSizes.map(size => (
-                    <option key={size} value={size}>
-                      {size}
-                    </option>
-                  ))}
-                </select>
-              </div>
-
-              {/* Security Gate */}
-              <div className="space-y-1">
-                <label htmlFor="securityGate" className="block text-sm font-medium text-gray-700">
-                  Security Gate
-                </label>
-                <select
-                  id="securityGate"
-                  name="securityGate"
-                  value={formData.securityGate}
-                  onChange={handleInputChange}
-                  required
-                  className="block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:border-primary focus:ring-primary sm:text-sm"
-                >
-                  <option value="">Select security level</option>
-                  {securityGates.map(level => (
-                    <option key={level} value={level}>
-                      {level}
-                    </option>
-                  ))}
-                </select>
-              </div>
-
-              {/* Status */}
-              <div className="space-y-1">
-                <label htmlFor="status" className="block text-sm font-medium text-gray-700">
-                  Status
-                </label>
-                <select
-                  id="status"
-                  name="status"
-                  value={formData.status}
-                  onChange={handleInputChange}
-                  required
-                  className="block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:border-primary focus:ring-primary sm:text-sm"
-                >
-                  <option value="Active">Active</option>
-                  <option value="Inactive">Inactive</option>
-                </select>
-              </div>
-            </div>
-
-            {/* Address */}
-            <div className="space-y-1">
-              <label htmlFor="address" className="block text-sm font-medium text-gray-700">
-                Address
-              </label>
-              <input
-                type="text"
-                id="address"
-                name="address"
-                value={formData.address}
-                onChange={handleInputChange}
-                required
-                className="block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:border-primary focus:ring-primary sm:text-sm"
-                placeholder="Enter store address"
-              />
-            </div>
-
-            {/* Description */}
-            <div className="space-y-1">
-              <label htmlFor="description" className="block text-sm font-medium text-gray-700">
-                Description
-              </label>
-              <textarea
-                id="description"
-                name="description"
-                value={formData.description}
-                onChange={handleInputChange}
-                rows={4}
-                className="block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:border-primary focus:ring-primary sm:text-sm"
-                placeholder="Enter store description"
-              />
-            </div>
-
-            {/* Store Image */}
-            <div className="space-y-1">
-              <label htmlFor="image" className="block text-sm font-medium text-gray-700">
-                Store Image
-              </label>
-              <div className="mt-1 flex items-center space-x-4">
-                {formData.image && (
-                  <div className="relative w-32 h-32">
-                    <img
-                      src={formData.image}
-                      alt="Store preview"
-                      className="w-full h-full object-cover rounded-lg"
+          <form onSubmit={handleSubmit} className="p-6">
+            <div className="grid grid-cols-3 gap-6">
+              {/* Left Column - Form Fields */}
+              <div className="col-span-2 space-y-6">
+                <div className="grid grid-cols-2 gap-6">
+                  {/* Store Name */}
+                  <div className="space-y-1">
+                    <label htmlFor="name" className="block text-sm font-medium text-gray-700">
+                      Store Name
+                    </label>
+                    <input
+                      type="text"
+                      id="name"
+                      name="name"
+                      value={formData.name}
+                      onChange={handleInputChange}
+                      required
+                      className="block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:border-primary focus:ring-primary sm:text-sm"
+                      placeholder="Enter store name"
                     />
-                    <button
-                      type="button"
-                      onClick={() => setFormData(prev => ({ ...prev, image: '' }))}
-                      className="absolute -top-2 -right-2 p-1 bg-red-500 text-white rounded-full hover:bg-red-600 focus:outline-none"
-                    >
-                      <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
-                      </svg>
-                    </button>
                   </div>
-                )}
-                <div className="flex-1">
+
+                  {/* Store Code */}
+                  <div className="space-y-1">
+                    <label htmlFor="storeCode" className="block text-sm font-medium text-gray-700">
+                      Store Code
+                    </label>
+                    <input
+                      type="text"
+                      id="storeCode"
+                      name="storeCode"
+                      value={formData.storeCode}
+                      onChange={handleInputChange}
+                      required
+                      className="block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:border-primary focus:ring-primary sm:text-sm"
+                      placeholder="e.g., NYC-DT-001"
+                    />
+                  </div>
+
+                  {/* Country */}
+                  <div className="space-y-1">
+                    <label htmlFor="country" className="block text-sm font-medium text-gray-700">
+                      Country
+                    </label>
+                    <select
+                      id="country"
+                      name="country"
+                      value={formData.country}
+                      onChange={handleCountryChange}
+                      required
+                      className="block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:border-primary focus:ring-primary sm:text-sm"
+                    >
+                      <option value="">Select a country</option>
+                      {countries.map(country => (
+                        <option key={country.code} value={country.name}>
+                          {country.name}
+                        </option>
+                      ))}
+                    </select>
+                  </div>
+
+                  {/* Contact */}
+                  <div className="space-y-1">
+                    <label htmlFor="contact" className="block text-sm font-medium text-gray-700">
+                      Contact Number
+                    </label>
+                    <input
+                      type="tel"
+                      id="contact"
+                      name="contact"
+                      value={formData.contact}
+                      onChange={handleInputChange}
+                      required
+                      className="block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:border-primary focus:ring-primary sm:text-sm"
+                      placeholder="+1 (555) 123-4567"
+                    />
+                  </div>
+
+                  {/* Contact Person */}
+                  <div className="space-y-1">
+                    <label htmlFor="contactPerson" className="block text-sm font-medium text-gray-700">
+                      Contact Person
+                    </label>
+                    <input
+                      type="text"
+                      id="contactPerson"
+                      name="contactPerson"
+                      value={formData.contactPerson}
+                      onChange={handleInputChange}
+                      required
+                      className="block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:border-primary focus:ring-primary sm:text-sm"
+                      placeholder="Enter contact person name"
+                    />
+                  </div>
+
+                  {/* Store Type */}
+                  <div className="space-y-1">
+                    <label htmlFor="type" className="block text-sm font-medium text-gray-700">
+                      Store Type
+                    </label>
+                    <select
+                      id="type"
+                      name="type"
+                      value={formData.type}
+                      onChange={handleInputChange}
+                      required
+                      className="block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:border-primary focus:ring-primary sm:text-sm"
+                    >
+                      <option value="">Select a type</option>
+                      {storeTypes.map(type => (
+                        <option key={type} value={type}>
+                          Type {type}
+                        </option>
+                      ))}
+                    </select>
+                  </div>
+
+                  {/* Store Size */}
+                  <div className="space-y-1">
+                    <label htmlFor="size" className="block text-sm font-medium text-gray-700">
+                      Store Size
+                    </label>
+                    <select
+                      id="size"
+                      name="size"
+                      value={formData.size}
+                      onChange={handleInputChange}
+                      required
+                      className="block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:border-primary focus:ring-primary sm:text-sm"
+                    >
+                      <option value="">Select a size</option>
+                      {storeSizes.map(size => (
+                        <option key={size} value={size}>
+                          {size}
+                        </option>
+                      ))}
+                    </select>
+                  </div>
+
+                  {/* Security Gate */}
+                  <div className="space-y-1">
+                    <label htmlFor="securityGate" className="block text-sm font-medium text-gray-700">
+                      Security Gate
+                    </label>
+                    <select
+                      id="securityGate"
+                      name="securityGate"
+                      value={formData.securityGate}
+                      onChange={handleInputChange}
+                      required
+                      className="block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:border-primary focus:ring-primary sm:text-sm"
+                    >
+                      <option value="">Select security level</option>
+                      {securityGates.map(level => (
+                        <option key={level} value={level}>
+                          {level}
+                        </option>
+                      ))}
+                    </select>
+                  </div>
+
+                  {/* Status */}
+                  <div className="space-y-1">
+                    <label htmlFor="status" className="block text-sm font-medium text-gray-700">
+                      Status
+                    </label>
+                    <select
+                      id="status"
+                      name="status"
+                      value={formData.status}
+                      onChange={handleInputChange}
+                      required
+                      className="block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:border-primary focus:ring-primary sm:text-sm"
+                    >
+                      <option value="Active">Active</option>
+                      <option value="Inactive">Inactive</option>
+                    </select>
+                  </div>
+                </div>
+
+                {/* Address */}
+                <div className="space-y-1">
+                  <label htmlFor="address" className="block text-sm font-medium text-gray-700">
+                    Address
+                  </label>
                   <input
-                    type="file"
-                    id="image"
-                    name="image"
-                    accept="image/*"
-                    onChange={handleImageChange}
-                    className="block w-full text-sm text-gray-500
-                      file:mr-4 file:py-2 file:px-4
-                      file:rounded-md file:border-0
-                      file:text-sm file:font-medium
-                      file:bg-primary file:text-white
-                      hover:file:bg-primary/90"
+                    type="text"
+                    id="address"
+                    name="address"
+                    value={formData.address}
+                    onChange={handleInputChange}
+                    required
+                    className="block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:border-primary focus:ring-primary sm:text-sm"
+                    placeholder="Enter store address"
                   />
-                  <p className="mt-1 text-sm text-gray-500">
-                    PNG, JPG, GIF up to 10MB
-                  </p>
+                </div>
+
+                {/* Description */}
+                <div className="space-y-1">
+                  <label htmlFor="description" className="block text-sm font-medium text-gray-700">
+                    Description
+                  </label>
+                  <textarea
+                    id="description"
+                    name="description"
+                    value={formData.description}
+                    onChange={handleInputChange}
+                    rows={4}
+                    className="block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:border-primary focus:ring-primary sm:text-sm"
+                    placeholder="Enter store description"
+                  />
+                </div>
+              </div>
+
+              {/* Right Column - Image Upload */}
+              <div className="col-span-1">
+                <div className="sticky top-6">
+                  <ImageUpload
+                    value={formData.image}
+                    onChange={handleImageChange}
+                    onError={(error) => console.error(error)}
+                    label="Store Image"
+                    maxSize={10 * 1024 * 1024} // 10MB
+                    accept={['image/jpeg', 'image/png', 'image/gif']}
+                  />
                 </div>
               </div>
             </div>
 
             {/* Submit Button */}
-            <div className="flex justify-end pt-4 border-t border-gray-200">
+            <div className="flex justify-end pt-6 mt-6 border-t border-gray-200">
               <button
                 type="submit"
                 disabled={saving}
