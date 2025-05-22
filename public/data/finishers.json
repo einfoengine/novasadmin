@@ -1,0 +1,56 @@
+{
+  "finishers": [
+    {
+      "id": "FIN001",
+      "name": "Duplo DC-618",
+      "segment": "production",
+      "finisherType": "booklet-maker",
+      "dependency_type": "sheet",
+      "dependencies": ["sheet"],
+      "description": "Professional booklet maker for high-volume production",
+      "size": "A4",
+      "color": "Black",
+      "price": "24999",
+      "image": "/images/finishers/duplo-dc-618.jpg"
+    },
+    {
+      "id": "FIN002",
+      "name": "Morgana DigiFold 500",
+      "segment": "production",
+      "finisherType": "folder",
+      "dependency_type": "sheet",
+      "dependencies": ["sheet"],
+      "description": "High-speed digital folder for professional finishing",
+      "size": "A3",
+      "color": "Silver",
+      "price": "18999",
+      "image": "/images/finishers/morgana-digifold-500.jpg"
+    },
+    {
+      "id": "FIN003",
+      "name": "GBC StreamPunch 8000",
+      "segment": "production",
+      "finisherType": "cutter",
+      "dependency_type": "sheet",
+      "dependencies": ["sheet"],
+      "description": "Professional paper cutter for high-volume production",
+      "size": "A3",
+      "color": "Blue",
+      "price": "12999",
+      "image": "/images/finishers/gbc-streampunch-8000.jpg"
+    },
+    {
+      "id": "FIN004",
+      "name": "GBC StreamLiner 8000",
+      "segment": "production",
+      "finisherType": "laminator",
+      "dependency_type": "sheet",
+      "dependencies": ["sheet"],
+      "description": "High-speed laminator for professional finishing",
+      "size": "A3",
+      "color": "Blue",
+      "price": "15999",
+      "image": "/images/finishers/gbc-streamliner-8000.jpg"
+    }
+  ]
+}

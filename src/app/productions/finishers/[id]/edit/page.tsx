@@ -2,14 +2,14 @@
 
 import React, { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
-import { PrinterIcon, ArrowLeftIcon } from '@heroicons/react/24/outline';
+import { ScissorsIcon, ArrowLeftIcon } from '@heroicons/react/24/outline';
 import ImageUpload from '@/components/ImageUpload';
 
-interface Printer {
+interface Finisher {
   id: string;
   name: string;
   segment: string;
-  printerType: string;
+  finisherType: string;
   dependency_type: string;
   dependencies: string[];
   description: string;
@@ -19,40 +19,40 @@ interface Printer {
   image?: string;
 }
 
-export default function EditPrinterPage({ params }: { params: Promise<{ id: string }> }) {
+export default function EditFinisherPage({ params }: { params: Promise<{ id: string }> }) {
   const router = useRouter();
   const resolvedParams = React.use(params);
-  const [printer, setPrinter] = useState<Printer | null>(null);
+  const [finisher, setFinisher] = useState<Finisher | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
-  const [formData, setFormData] = useState<Partial<Printer>>({});
+  const [formData, setFormData] = useState<Partial<Finisher>>({});
   const [saving, setSaving] = useState(false);
 
   useEffect(() => {
-    const fetchPrinter = async () => {
+    const fetchFinisher = async () => {
       try {
-        const response = await fetch('/data/printers.json');
-        if (!response.ok) throw new Error('Failed to fetch printer');
+        const response = await fetch('/data/finishers.json');
+        if (!response.ok) throw new Error('Failed to fetch finisher');
         
         const data = await response.json();
-        const foundPrinter = data.printers.find((p: Printer) => p.id === resolvedParams.id);
+        const foundFinisher = data.finishers.find((f: Finisher) => f.id === resolvedParams.id);
         
-        if (!foundPrinter) {
-          throw new Error('Printer not found');
+        if (!foundFinisher) {
+          throw new Error('Finisher not found');
         }
 
-        setPrinter(foundPrinter);
-        setFormData(foundPrinter);
+        setFinisher(foundFinisher);
+        setFormData(foundFinisher);
         setError(null);
       } catch (error) {
-        console.error('Error fetching printer:', error);
-        setError(error instanceof Error ? error.message : 'Failed to load printer');
+        console.error('Error fetching finisher:', error);
+        setError(error instanceof Error ? error.message : 'Failed to load finisher');
       } finally {
         setLoading(false);
       }
     };
 
-    fetchPrinter();
+    fetchFinisher();
   }, [resolvedParams.id]);
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
@@ -73,16 +73,16 @@ export default function EditPrinterPage({ params }: { params: Promise<{ id: stri
     setSaving(true);
 
     try {
-      // Here you would typically make an API call to update the printer
-      console.log('Saving printer:', formData);
+      // Here you would typically make an API call to update the finisher
+      console.log('Saving finisher:', formData);
       
       // For now, we'll just simulate a successful save
       await new Promise(resolve => setTimeout(resolve, 1000));
       
-      router.push('/productions/printers');
+      router.push('/productions/finishers');
     } catch (error) {
-      console.error('Error saving printer:', error);
-      setError(error instanceof Error ? error.message : 'Failed to save printer');
+      console.error('Error saving finisher:', error);
+      setError(error instanceof Error ? error.message : 'Failed to save finisher');
     } finally {
       setSaving(false);
     }
@@ -96,10 +96,10 @@ export default function EditPrinterPage({ params }: { params: Promise<{ id: stri
     );
   }
 
-  if (error || !printer) {
+  if (error || !finisher) {
     return (
       <div className="min-h-screen bg-gray-50 flex items-center justify-center">
-        <div className="text-red-500">{error || 'Printer not found'}</div>
+        <div className="text-red-500">{error || 'Finisher not found'}</div>
       </div>
     );
   }
@@ -112,8 +112,8 @@ export default function EditPrinterPage({ params }: { params: Promise<{ id: stri
           <div className="px-6 py-4 border-b border-gray-200">
             <div className="flex items-center justify-between">
               <div className="flex items-center gap-3">
-                <PrinterIcon className="w-6 h-6 text-gray-500" />
-                <h1 className="text-xl font-semibold text-gray-900">Edit Printer</h1>
+                <ScissorsIcon className="w-6 h-6 text-gray-500" />
+                <h1 className="text-xl font-semibold text-gray-900">Edit Finisher</h1>
               </div>
               <button
                 type="button"
@@ -147,21 +147,22 @@ export default function EditPrinterPage({ params }: { params: Promise<{ id: stri
                 </div>
 
                 <div>
-                  <label htmlFor="printerType" className="block text-sm font-medium text-gray-700">
+                  <label htmlFor="finisherType" className="block text-sm font-medium text-gray-700">
                     Type
                   </label>
                   <select
-                    name="printerType"
-                    id="printerType"
-                    value={formData.printerType || ''}
+                    name="finisherType"
+                    id="finisherType"
+                    value={formData.finisherType || ''}
                     onChange={handleInputChange}
                     className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-primary focus:ring-primary sm:text-sm"
                     required
                   >
                     <option value="">Select a type</option>
-                    <option value="large-format">Large Format</option>
-                    <option value="desktop">Desktop</option>
-                    <option value="industrial">Industrial</option>
+                    <option value="booklet-maker">Booklet Maker</option>
+                    <option value="folder">Folder</option>
+                    <option value="laminator">Laminator</option>
+                    <option value="cutter">Cutter</option>
                   </select>
                 </div>
 
@@ -246,7 +247,7 @@ export default function EditPrinterPage({ params }: { params: Promise<{ id: stri
                     value={formData.image}
                     onChange={handleImageChange}
                     onError={(error) => setError(error)}
-                    label="Printer Image"
+                    label="Finisher Image"
                     maxSize={5}
                     accept={["image/*"]}
                   />
