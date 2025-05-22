@@ -15,6 +15,8 @@ interface Product {
   "printer-ids": string[];
   "finisher-ids": string[];
   "others-ids": string[];
+  surface: string;
+  lamination: string;
   pricing: number;
   description: string;
 }
@@ -103,27 +105,39 @@ export default function ProductsPage() {
     { 
       key: 'size', 
       label: 'Size',
-      render: (item: any): React.ReactNode => `${item.size[0]} x ${item.size[1]}`
+      render: (item: Product) => `${item.size[0]} x ${item.size[1]}`
     },
     { 
       key: 'materials', 
       label: 'Material',
-      render: (item: any): React.ReactNode => getMaterialNames(item.materials)
+      render: (item: Product) => getMaterialNames(item.materials)
     },
     { 
       key: 'printer-ids', 
       label: 'Printing',
-      render: (item: any): React.ReactNode => getMaterialNames(item["printer-ids"])
+      render: (item: Product) => getMaterialNames(item["printer-ids"])
+    },
+    { 
+      key: 'surface', 
+      label: 'Surface',
+      type: 'text' as const,
+      className: 'text-center'
+    },
+    { 
+      key: 'lamination', 
+      label: 'Lamination',
+      type: 'text' as const,
+      className: 'text-center'
     },
     { 
       key: 'finisher-ids', 
       label: 'Finishing',
-      render: (item: any): React.ReactNode => getMaterialNames(item["finisher-ids"])
+      render: (item: Product) => getMaterialNames(item["finisher-ids"])
     },
     { 
       key: 'others-ids', 
       label: 'Others',
-      render: (item: any): React.ReactNode => getMaterialNames(item["others-ids"])
+      render: (item: Product) => getMaterialNames(item["others-ids"])
     },
     { 
       key: 'pricing', 
