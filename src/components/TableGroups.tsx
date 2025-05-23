@@ -131,8 +131,8 @@ export default function TableGroups({
     setHoveredImage(null);
   };
 
-  const handleProductClick = (item: Item) => {
-    router.push(`/products/${item.id}`);
+  const handleProductClick = (group: Product) => {
+    router.push(`/products/${group.id}`);
   };
 
   return (
@@ -192,7 +192,7 @@ export default function TableGroups({
                 <div>
                   <h2 
                     className="text-lg font-medium text-gray-900 cursor-pointer hover:text-primary"
-                    onClick={() => handleProductClick(group.items[0])}
+                    onClick={() => handleProductClick(group)}
                   >
                     {group.name}
                   </h2>
