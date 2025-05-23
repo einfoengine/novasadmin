@@ -53,7 +53,6 @@ const menuItems = [
     href: '/countries', 
     icon: FlagIcon,
     submenu: [
-      { name: 'List', href: '/countries', icon: BriefcaseIcon },
     ]
   },
   { 
