@@ -1,64 +1,315 @@
 {
   "products": [
     {
-      "id": "PRD001",
-      "name": "Custom Box",
-      "image": "/images/products/demo1.jpg",
-      "size": [300, 200],
-      "materials": ["MAT011", "MAT012"],
-      "printer-ids": ["MAT021", "MAT022", "MAT023"],
-      "finisher-ids": ["MAT032", "MAT033"],
-      "others-ids": ["MAT044"],
-      "pricing": 2.50,
-      "description": "High-quality custom box with premium finishing"
+      "id": "PKG001",
+      "name": "Print & Packaging",
+      "description": "Professional printing and packaging solutions",
+      "price": 299.99,
+      "items": [
+        {
+          "id": "PRD001",
+          "name": "Custom Box",
+          "image": "/images/products/demo1.jpg",
+          "size": [300, 200],
+          "materials": ["MAT011", "MAT012"],
+          "printer-ids": ["MAT021", "MAT022", "MAT023"],
+          "finisher-ids": ["MAT032", "MAT033"],
+          "others-ids": ["MAT044"],
+          "description": "High-quality custom box with premium finishing"
+        },
+        {
+          "id": "PRD005",
+          "name": "Business Cards",
+          "image": "/images/products/demo5.jpg",
+          "size": [90, 50],
+          "materials": ["MAT011", "MAT012"],
+          "printer-ids": ["MAT021", "MAT027"],
+          "finisher-ids": ["MAT032", "MAT036"],
+          "others-ids": [],
+          "description": "Premium business cards with spot UV finish"
+        },
+        {
+          "id": "PRD006",
+          "name": "Brochures",
+          "image": "/images/products/demo6.jpg",
+          "size": [210, 297],
+          "materials": ["MAT013", "MAT014"],
+          "printer-ids": ["MAT021", "MAT028"],
+          "finisher-ids": ["MAT034", "MAT035"],
+          "others-ids": [],
+          "description": "Professional brochures with high-quality printing"
+        }
+      ]
     },
     {
-      "id": "PRD002",
-      "name": "Banner Display",
-      "image": "/images/products/demo2.jpg",
-      "size": [600, 300],
-      "materials": ["MAT005", "MAT006"],
-      "printer-ids": ["MAT024", "MAT025"],
-      "finisher-ids": ["MAT031"],
-      "others-ids": ["MAT041"],
-      "pricing": 5.75,
-      "description": "Professional banner display with backlit option"
+      "id": "PKG002",
+      "name": "Large Format Printing",
+      "description": "Professional large format printing solutions",
+      "price": 499.99,
+      "items": [
+        {
+          "id": "PRD002",
+          "name": "Banner Display",
+          "image": "/images/products/demo2.jpg",
+          "size": [600, 300],
+          "materials": ["MAT005", "MAT006"],
+          "printer-ids": ["MAT024", "MAT025"],
+          "finisher-ids": ["MAT031"],
+          "others-ids": ["MAT041"],
+          "description": "Professional banner display with backlit option"
+        },
+        {
+          "id": "PRD003",
+          "name": "Vehicle Wrap",
+          "image": "/images/products/demo3.jpg",
+          "size": [500, 250],
+          "materials": ["MAT007"],
+          "printer-ids": ["MAT025", "MAT026"],
+          "finisher-ids": ["MAT031", "MAT033"],
+          "others-ids": [],
+          "description": "Premium vehicle wrap with UV protection"
+        }
+      ]
     },
     {
-      "id": "PRD003",
-      "name": "Vehicle Wrap",
-      "image": "/images/products/demo3.jpg",
-      "size": [500, 250],
-      "materials": ["MAT007"],
-      "printer-ids": ["MAT025", "MAT026"],
-      "finisher-ids": ["MAT031", "MAT033"],
-      "others-ids": [],
-      "pricing": 8.25,
-      "description": "Premium vehicle wrap with UV protection"
+      "id": "PKG003",
+      "name": "Fine Art & Photography",
+      "description": "Premium art and photography printing solutions",
+      "price": 199.99,
+      "items": [
+        {
+          "id": "PRD004",
+          "name": "Canvas Print",
+          "image": "/images/products/demo4.jpg",
+          "size": [400, 300],
+          "materials": ["MAT004", "MAT014"],
+          "printer-ids": ["MAT023", "MAT028"],
+          "finisher-ids": ["MAT033", "MAT034"],
+          "others-ids": [],
+          "description": "Gallery-quality canvas print with premium finishing"
+        }
+      ]
     },
     {
-      "id": "PRD004",
-      "name": "Canvas Print",
-      "image": "/images/products/demo4.jpg",
-      "size": [400, 300],
-      "materials": ["MAT004", "MAT014"],
-      "printer-ids": ["MAT023", "MAT028"],
-      "finisher-ids": ["MAT033", "MAT034"],
-      "others-ids": [],
-      "pricing": 4.50,
-      "description": "Gallery-quality canvas print with premium finishing"
+      "id": "PKG004",
+      "name": "Signage Solutions",
+      "description": "Professional signage and display solutions",
+      "price": 399.99,
+      "items": [
+        {
+          "id": "PRD007",
+          "name": "LED Signage",
+          "image": "/images/products/demo7.jpg",
+          "size": [800, 400],
+          "materials": ["MAT015", "MAT016"],
+          "printer-ids": ["MAT029", "MAT030"],
+          "finisher-ids": ["MAT035", "MAT036"],
+          "others-ids": ["MAT042"],
+          "description": "High-brightness LED signage with weather protection"
+        },
+        {
+          "id": "PRD008",
+          "name": "Window Graphics",
+          "image": "/images/products/demo8.jpg",
+          "size": [300, 200],
+          "materials": ["MAT017"],
+          "printer-ids": ["MAT031"],
+          "finisher-ids": ["MAT037"],
+          "others-ids": [],
+          "description": "Perforated window graphics for storefronts"
+        },
+        {
+          "id": "PRD009",
+          "name": "Floor Graphics",
+          "image": "/images/products/demo9.jpg",
+          "size": [400, 300],
+          "materials": ["MAT018"],
+          "printer-ids": ["MAT032"],
+          "finisher-ids": ["MAT038"],
+          "others-ids": ["MAT043"],
+          "description": "Anti-slip floor graphics for retail spaces"
+        }
+      ]
     },
     {
-      "id": "PRD005",
-      "name": "Business Cards",
-      "image": "/images/products/demo5.jpg",
-      "size": [90, 50],
-      "materials": ["MAT011", "MAT012"],
-      "printer-ids": ["MAT021", "MAT027"],
-      "finisher-ids": ["MAT032", "MAT036"],
-      "others-ids": [],
-      "pricing": 1.25,
-      "description": "Premium business cards with spot UV finish"
+      "id": "PKG005",
+      "name": "Promotional Items",
+      "description": "Custom promotional merchandise and gifts",
+      "price": 149.99,
+      "items": [
+        {
+          "id": "PRD010",
+          "name": "Custom T-Shirts",
+          "image": "/images/products/demo10.jpg",
+          "size": [50, 70],
+          "materials": ["MAT019"],
+          "printer-ids": ["MAT033"],
+          "finisher-ids": ["MAT039"],
+          "others-ids": [],
+          "description": "Premium quality custom printed t-shirts"
+        }
+      ]
+    },
+    {
+      "id": "PKG006",
+      "name": "Digital Printing",
+      "description": "High-quality digital printing services",
+      "price": 249.99,
+      "items": [
+        {
+          "id": "PRD011",
+          "name": "Photo Books",
+          "image": "/images/products/demo11.jpg",
+          "size": [210, 297],
+          "materials": ["MAT020", "MAT021"],
+          "printer-ids": ["MAT034"],
+          "finisher-ids": ["MAT040"],
+          "others-ids": [],
+          "description": "Premium photo books with hardcover binding"
+        },
+        {
+          "id": "PRD012",
+          "name": "Photo Prints",
+          "image": "/images/products/demo12.jpg",
+          "size": [152, 102],
+          "materials": ["MAT022"],
+          "printer-ids": ["MAT035"],
+          "finisher-ids": ["MAT041"],
+          "others-ids": [],
+          "description": "High-resolution photo prints on premium paper"
+        }
+      ]
+    },
+    {
+      "id": "PKG007",
+      "name": "Event Materials",
+      "description": "Professional event and exhibition materials",
+      "price": 349.99,
+      "items": [
+        {
+          "id": "PRD013",
+          "name": "Event Banners",
+          "image": "/images/products/demo13.jpg",
+          "size": [300, 200],
+          "materials": ["MAT023"],
+          "printer-ids": ["MAT036"],
+          "finisher-ids": ["MAT042"],
+          "others-ids": ["MAT045"],
+          "description": "Professional event banners with stand options"
+        },
+        {
+          "id": "PRD014",
+          "name": "Table Covers",
+          "image": "/images/products/demo14.jpg",
+          "size": [180, 180],
+          "materials": ["MAT024"],
+          "printer-ids": ["MAT037"],
+          "finisher-ids": ["MAT043"],
+          "others-ids": [],
+          "description": "Custom printed table covers for events"
+        },
+        {
+          "id": "PRD015",
+          "name": "Pop-up Displays",
+          "image": "/images/products/demo15.jpg",
+          "size": [200, 150],
+          "materials": ["MAT025"],
+          "printer-ids": ["MAT038"],
+          "finisher-ids": ["MAT044"],
+          "others-ids": ["MAT046"],
+          "description": "Professional pop-up displays for exhibitions"
+        }
+      ]
+    },
+    {
+      "id": "PKG008",
+      "name": "Office Supplies",
+      "description": "Custom printed office supplies and stationery",
+      "price": 99.99,
+      "items": [
+        {
+          "id": "PRD016",
+          "name": "Notebooks",
+          "image": "/images/products/demo16.jpg",
+          "size": [148, 210],
+          "materials": ["MAT026"],
+          "printer-ids": ["MAT039"],
+          "finisher-ids": ["MAT045"],
+          "others-ids": [],
+          "description": "Custom printed notebooks with premium binding"
+        }
+      ]
+    },
+    {
+      "id": "PKG009",
+      "name": "Retail Displays",
+      "description": "Professional retail display solutions",
+      "price": 179.99,
+      "items": [
+        {
+          "id": "PRD017",
+          "name": "Shelf Talkers",
+          "image": "/images/products/demo17.jpg",
+          "size": [100, 50],
+          "materials": ["MAT027"],
+          "printer-ids": ["MAT040"],
+          "finisher-ids": ["MAT046"],
+          "others-ids": [],
+          "description": "Custom shelf talkers for retail displays"
+        },
+        {
+          "id": "PRD018",
+          "name": "Price Tags",
+          "image": "/images/products/demo18.jpg",
+          "size": [75, 25],
+          "materials": ["MAT028"],
+          "printer-ids": ["MAT041"],
+          "finisher-ids": ["MAT047"],
+          "others-ids": [],
+          "description": "Custom printed price tags for retail"
+        }
+      ]
+    },
+    {
+      "id": "PKG010",
+      "name": "Outdoor Advertising",
+      "description": "Professional outdoor advertising solutions",
+      "price": 599.99,
+      "items": [
+        {
+          "id": "PRD019",
+          "name": "Billboards",
+          "image": "/images/products/demo19.jpg",
+          "size": [1000, 500],
+          "materials": ["MAT029"],
+          "printer-ids": ["MAT042"],
+          "finisher-ids": ["MAT048"],
+          "others-ids": ["MAT047"],
+          "description": "Large format billboards for outdoor advertising"
+        },
+        {
+          "id": "PRD020",
+          "name": "Bus Wraps",
+          "image": "/images/products/demo20.jpg",
+          "size": [800, 300],
+          "materials": ["MAT030"],
+          "printer-ids": ["MAT043"],
+          "finisher-ids": ["MAT049"],
+          "others-ids": ["MAT048"],
+          "description": "Full vehicle wraps for buses and large vehicles"
+        },
+        {
+          "id": "PRD021",
+          "name": "Street Furniture",
+          "image": "/images/products/demo21.jpg",
+          "size": [400, 200],
+          "materials": ["MAT031"],
+          "printer-ids": ["MAT044"],
+          "finisher-ids": ["MAT050"],
+          "others-ids": ["MAT049"],
+          "description": "Custom wraps for street furniture and bus stops"
+        }
+      ]
     }
   ]
 } 

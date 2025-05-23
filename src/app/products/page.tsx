@@ -3,209 +3,127 @@
 import React, { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { ArrowTrendingUpIcon, ClockIcon, DocumentTextIcon, CubeIcon } from '@heroicons/react/24/outline';
-import TableBuilder from '@/components/TableBuilder';
+import TableGroups from '@/components/TableGroups';
 import StatsCard from "@/components/StatsCard";
 
-interface Product {
+interface Item {
   id: string;
   name: string;
   image: string;
   size: number[];
   materials: string[];
-  "printer-ids": string[];
-  "finisher-ids": string[];
-  "others-ids": string[];
-  surface: string;
-  lamination: string;
-  pricing: number;
+  'printer-ids': string[];
+  'finisher-ids': string[];
+  'others-ids': string[];
   description: string;
 }
 
-interface Material {
+interface Product {
   id: string;
   name: string;
-  materialSegment: string;
-  materialType: string;
   description: string;
-  size: string;
-  color: string;
-  price: string;
+  price: number;
+  items: Item[];
 }
 
 export default function ProductsPage() {
-  const router = useRouter();
   const [products, setProducts] = useState<Product[]>([]);
-  const [materials, setMaterials] = useState<Material[]>([]);
-  const [loading, setLoading] = useState(true);
+  const router = useRouter();
 
   useEffect(() => {
-    const fetchData = async () => {
+    const fetchProducts = async () => {
       try {
-        const [productsResponse, materialsResponse] = await Promise.all([
-          fetch('/data/products.json'),
-          fetch('/data/materials.json')
-        ]);
-        const productsData = await productsResponse.json();
-        const materialsData = await materialsResponse.json();
-        setProducts(productsData.products || []);
-        setMaterials(materialsData.materials || []);
+        const response = await fetch('/data/products.json');
+        const data = await response.json();
+        setProducts(data.products);
       } catch (error) {
-        console.error('Error fetching data:', error);
-        setProducts([]);
-        setMaterials([]);
-      } finally {
-        setLoading(false);
+        console.error('Error fetching products:', error);
       }
     };
 
-    fetchData();
+    fetchProducts();
   }, []);
 
-
-  const getMaterialNames = (materialIds: string[]): React.ReactNode => {
-    return (
-      <div className="flex flex-wrap gap-1">
-        {materialIds.map(id => {
-          const material = materials.find(m => m.id === id);
-          return (
-            <span 
-              key={id}
-              className="px-2 py-1 text-xs font-medium bg-gray-100 text-gray-800 rounded-full"
-            >
-              {material ? material.name : id}
-            </span>
-          );
-        })}
-      </div>
-    );
+  const handleEdit = (item: Item) => {
+    router.push(`/products/${item.id}`);
   };
 
-  const handleEdit = (product: Product) => {
-    router.push(`/products/${product.id}/edit`);
-  };
-
-  const handleDelete = (product: Product) => {
-    if (window.confirm('Are you sure you want to delete this product?')) {
-      setProducts(prev => prev.filter(p => p.id !== product.id));
+  const handleDelete = async (ids: string[]) => {
+    if (window.confirm(`Are you sure you want to delete ${ids.length} items?`)) {
+      // Here you would typically make an API call to delete the items
+      // For now, we'll just update the local state
+      setProducts(prevProducts => 
+        prevProducts.map(product => ({
+          ...product,
+          items: product.items.filter(item => !ids.includes(item.id))
+        })).filter(product => product.items.length > 0)
+      );
     }
   };
 
   const columns = [
-    { 
-      key: 'image', 
-      label: 'Image',
-      type: 'image' as const,
-      className: ''
-    },
-    { 
-      key: 'name', 
-      label: 'Name',
-      className: 'font-medium hover:text-primary cursor-pointer'
-    },
-    { 
-      key: 'size', 
-      label: 'Size',
-      render: (item: Product) => `${item.size[0]} x ${item.size[1]}`
-    },
-    { 
-      key: 'materials', 
-      label: 'Material',
-      render: (item: Product) => getMaterialNames(item.materials)
-    },
-    { 
-      key: 'printer-ids', 
-      label: 'Printing',
-      render: (item: Product) => getMaterialNames(item["printer-ids"])
-    },
-    { 
-      key: 'surface', 
-      label: 'Surface',
-      type: 'text' as const,
-      className: 'text-center'
-    },
-    { 
-      key: 'lamination', 
-      label: 'Lamination',
-      type: 'text' as const,
-      className: 'text-center'
-    },
-    { 
-      key: 'finisher-ids', 
-      label: 'Finishing',
-      render: (item: Product) => getMaterialNames(item["finisher-ids"])
-    },
-    { 
-      key: 'others-ids', 
-      label: 'Others',
-      render: (item: Product) => getMaterialNames(item["others-ids"])
-    },
-    { 
-      key: 'pricing', 
-      label: 'Pricing',
-      type: 'currency' as const,
-      className: ''
-    }
+    { key: 'image', label: 'Image', type: 'image' },
+    { key: 'size', label: 'Size', render: (item: Item) => `${item.size[0]} x ${item.size[1]}` },
+    { key: 'materials', label: 'Materials', render: (item: Item) => item.materials.join(', ') },
+    { key: 'printer-ids', label: 'Printers', render: (item: Item) => item['printer-ids'].join(', ') },
+    { key: 'finisher-ids', label: 'Finishers', render: (item: Item) => item['finisher-ids'].join(', ') },
+    { key: 'others-ids', label: 'Others', render: (item: Item) => item['others-ids'].join(', ') },
   ];
 
-  if (loading) {
-    return (
-      <div className="p-6">
-        <div className="flex items-center justify-center h-64">
-          <div className="text-gray-500">Loading products...</div>
-        </div>
-      </div>
-    );
-  }
-
   return (
-    <div className={`min-h-screen p-6`}>
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-6">
+    <div className="container mx-auto px-4 py-8">
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
         <StatsCard
           title="Total Products"
-          value={products.length.toString()}
-          icon={<DocumentTextIcon className="w-6 h-6" />}
-          iconColor="#6366f1"
-          iconBg="#eef2ff"
+          value={products.reduce((acc, p) => acc + p.items.length, 0).toString()}
+          icon={<CubeIcon className="w-6 h-6" />}
+          iconColor="#3b82f6"
+          iconBg="#eff6ff"
           percentage=""
           percentageColor="#6b7280"
-          trend="+12%"
+          trend=""
+        />
+        <StatsCard
+          title="Total Packages"
+          value={products.length.toString()}
+          icon={<DocumentTextIcon className="w-6 h-6" />}
+          iconColor="#8b5cf6"
+          iconBg="#f5f3ff"
+          percentage=""
+          percentageColor="#6b7280"
+          trend=""
         />
         <StatsCard
           title="Average Price"
-          value={`$${(products.reduce((acc, p) => acc + p.pricing, 0) / products.length).toFixed(2)}`}
+          value={`$${(products.reduce((acc, p) => acc + p.price, 0) / products.length).toFixed(2)}`}
           icon={<ClockIcon className="w-6 h-6" />}
           iconColor="#10b981"
           iconBg="#ecfdf5"
           percentage=""
           percentageColor="#6b7280"
-          trend="-5%"
+          trend=""
         />
         <StatsCard
           title="Total Value"
-          value={`$${products.reduce((acc, p) => acc + p.pricing, 0).toFixed(2)}`}
+          value={`$${products.reduce((acc, p) => acc + p.price, 0).toFixed(2)}`}
           icon={<ArrowTrendingUpIcon className="w-6 h-6" />}
           iconColor="#f59e42"
           iconBg="#fff7ed"
           percentage=""
           percentageColor="#6b7280"
-          trend="+2%"
+          trend=""
         />
       </div>
 
-      <div className={`rounded-lg shadow`}>
-        <TableBuilder
+      <div className="rounded-lg shadow">
+        <TableGroups
           data={products}
           columns={columns}
-          title="Products"
-          icon={<CubeIcon className={`h-6 w-6 `} />}
-          searchable
-          selectable
-          onRowClick={(product) => router.push(`/products/${product.id}`)}
           onEdit={handleEdit}
           onDelete={handleDelete}
           actionButton={{
             label: 'Add Product',
-            href: '/products/new',
+            href: '/products/new'
           }}
         />
       </div>
