@@ -15,6 +15,7 @@
           "printer-ids": ["MAT021", "MAT022", "MAT023"],
           "finisher-ids": ["MAT032", "MAT033"],
           "others-ids": ["MAT044"],
+          "lamination": ["Glossy", "Matte"],
           "description": "High-quality custom box with premium finishing"
         },
         {
@@ -26,6 +27,7 @@
           "printer-ids": ["MAT021", "MAT027"],
           "finisher-ids": ["MAT032", "MAT036"],
           "others-ids": [],
+          "lamination": ["Soft Touch", "Spot UV"],
           "description": "Premium business cards with spot UV finish"
         },
         {
@@ -37,6 +39,7 @@
           "printer-ids": ["MAT021", "MAT028"],
           "finisher-ids": ["MAT034", "MAT035"],
           "others-ids": [],
+          "lamination": ["Glossy", "Soft Touch"],
           "description": "Professional brochures with high-quality printing"
         }
       ]
@@ -56,6 +59,7 @@
           "printer-ids": ["MAT024", "MAT025"],
           "finisher-ids": ["MAT031"],
           "others-ids": ["MAT041"],
+          "lamination": ["UV Protected", "Anti-Scratch"],
           "description": "Professional banner display with backlit option"
         },
         {
@@ -67,6 +71,7 @@
           "printer-ids": ["MAT025", "MAT026"],
           "finisher-ids": ["MAT031", "MAT033"],
           "others-ids": [],
+          "lamination": ["UV Protected", "Weather Resistant"],
           "description": "Premium vehicle wrap with UV protection"
         }
       ]
