@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   MagnifyingGlassIcon,
   ChevronDownIcon,
@@ -31,6 +31,11 @@ interface Product {
   items: Item[];
 }
 
+interface Material {
+  id: string;
+  name: string;
+}
+
 interface TableGroupsProps {
   data: Product[];
   columns: {
@@ -57,6 +62,30 @@ export default function TableGroups({
   const [selectedGroups, setSelectedGroups] = useState<string[]>([]);
   const [hoveredImage, setHoveredImage] = useState<{ src: string; alt: string } | null>(null);
   const [popupPosition, setPopupPosition] = useState({ x: 0, y: 0 });
+  const [materials, setMaterials] = useState<Material[]>([]);
+
+  useEffect(() => {
+    const fetchMaterials = async () => {
+      try {
+        const response = await fetch('/data/materials.json');
+        const data = await response.json();
+        setMaterials(data.materials);
+      } catch (error) {
+        console.error('Error fetching materials:', error);
+      }
+    };
+
+    fetchMaterials();
+  }, []);
+
+  const getMaterialName = (id: string): string => {
+    const material = materials.find(m => m.id === id);
+    return material ? material.name : id;
+  };
+
+  const renderMaterialNames = (ids: string[]): string => {
+    return ids.map(id => getMaterialName(id)).join(', ');
+  };
 
   const filteredGroups = data
     .map((group) => ({
@@ -245,6 +274,8 @@ export default function TableGroups({
                                 className="w-full h-full object-cover"
                               />
                             </div>
+                          ) : column.key === 'materials' ? (
+                            renderMaterialNames(item.materials)
                           ) : (
                             item[column.key as keyof Item]
                           )}
