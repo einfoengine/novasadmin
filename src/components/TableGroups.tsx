@@ -1,8 +1,14 @@
 'use client';
 
 import React, { useState } from 'react';
-import { MagnifyingGlassIcon, PencilIcon, ChevronDownIcon, ChevronRightIcon, TrashIcon } from "@heroicons/react/24/outline";
-import Link from "next/link";
+import {
+  MagnifyingGlassIcon,
+  ChevronDownIcon,
+  ChevronRightIcon,
+  TrashIcon,
+  PencilIcon,
+} from '@heroicons/react/24/outline';
+import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 
 interface Item {
@@ -33,7 +39,6 @@ interface TableGroupsProps {
     type?: string;
     render?: (item: Item) => React.ReactNode;
   }[];
-  onEdit?: (item: Item) => void;
   onDelete?: (ids: string[]) => void;
   actionButton?: {
     label: string;
@@ -44,7 +49,6 @@ interface TableGroupsProps {
 export default function TableGroups({
   data,
   columns,
-  onEdit,
   onDelete,
   actionButton,
 }: TableGroupsProps) {
@@ -56,7 +60,6 @@ export default function TableGroups({
   const [hoveredImage, setHoveredImage] = useState<{ src: string; alt: string } | null>(null);
   const [popupPosition, setPopupPosition] = useState({ x: 0, y: 0 });
 
-  // Filter data based on search term
   const filteredGroups = data.map(group => ({
     ...group,
     items: group.items.filter((item) =>
@@ -66,7 +69,6 @@ export default function TableGroups({
     )
   })).filter(group => group.items.length > 0);
 
-  // Handle selection
   const handleSelect = (id: string) => {
     setSelectedIds((prev) =>
       prev.includes(id) ? prev.filter((sid) => sid !== id) : [...prev, id]
@@ -74,20 +76,22 @@ export default function TableGroups({
   };
 
   const handleSelectAll = (items: Item[]) => {
-    setSelectedIds((prev) =>
-      prev.length === items.length ? [] : items.map((item) => item.id)
+    const itemIds = items.map((item) => item.id);
+    const allSelected = itemIds.every((id) => selectedIds.includes(id));
+    setSelectedIds(
+      allSelected
+        ? selectedIds.filter((id) => !itemIds.includes(id))
+        : [...selectedIds, ...itemIds.filter(id => !selectedIds.includes(id))]
     );
   };
 
   const handleGroupSelect = (groupId: string, items: Item[]) => {
     setSelectedGroups((prev) => {
       if (prev.includes(groupId)) {
-        // Remove group selection and all its items
-        setSelectedIds((ids) => ids.filter(id => !items.find(item => item.id === id)));
-        return prev.filter(id => id !== groupId);
+        setSelectedIds((ids) => ids.filter((id) => !items.some((item) => item.id === id)));
+        return prev.filter((id) => id !== groupId);
       } else {
-        // Add group selection and all its items
-        setSelectedIds((ids) => [...ids, ...items.map(item => item.id)]);
+        setSelectedIds((ids) => Array.from(new Set([...ids, ...items.map((item) => item.id)])));
         return [...prev, groupId];
       }
     });
@@ -95,13 +99,10 @@ export default function TableGroups({
 
   const handleSelectAllGroups = () => {
     const allItems = filteredGroups.flatMap(group => group.items);
-    if (selectedGroups.length === filteredGroups.length) {
-      setSelectedGroups([]);
-      setSelectedIds([]);
-    } else {
-      setSelectedGroups(filteredGroups.map(group => group.id));
-      setSelectedIds(allItems.map(item => item.id));
-    }
+    const allItemIds = allItems.map(item => item.id);
+    const allSelected = allItemIds.every(id => selectedIds.includes(id));
+    setSelectedGroups(allSelected ? [] : filteredGroups.map(group => group.id));
+    setSelectedIds(allSelected ? [] : allItemIds);
   };
 
   const handleDeleteSelected = () => {
@@ -109,6 +110,13 @@ export default function TableGroups({
       onDelete?.(selectedIds);
       setSelectedIds([]);
       setSelectedGroups([]);
+    }
+  };
+
+  const handleEditGroup = () => {
+    const group = data.find(group => selectedGroups.includes(group.id));
+    if (group && group.items.length > 0) {
+      router.push(`/products/${group.items[0].id}/edit`);
     }
   };
 
@@ -139,10 +147,18 @@ export default function TableGroups({
     <div className="space-y-8">
       {/* Header */}
       <div className="flex items-center justify-between">
+        <h1 className="text-xl font-semibold text-gray-900">Products</h1>
         <div className="flex items-center gap-2">
-          <h1 className="text-xl font-semibold text-gray-900">Products</h1>
-        </div>
-        <div className="flex items-center gap-2">
+          {selectedGroups.length === 1 && (
+            <button onClick={handleEditGroup} title="Edit group">
+              <PencilIcon className="h-5 w-5" />
+            </button>
+          )}
+          {selectedIds.length > 0 && onDelete && (
+            <button onClick={handleDeleteSelected} title="Delete selected">
+              <TrashIcon className="h-5 w-5" />
+            </button>
+          )}
           <div className="flex items-center gap-2">
             <input
               type="checkbox"
@@ -152,32 +168,23 @@ export default function TableGroups({
             />
             <span className="text-sm font-medium text-gray-700">Select All</span>
           </div>
-          {selectedIds.length > 0 && onDelete && (
-            <button onClick={handleDeleteSelected} title={`Delete ${selectedIds.length} selected items`}>
-              <TrashIcon className="h-5 w-5" />
-            </button>
-          )}
           <div className="relative">
             <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
               <MagnifyingGlassIcon className="h-5 w-5 text-gray-400" />
             </div>
             <input
               type="text"
-              className="block w-64 pl-10 pr-3 py-2 border border-gray-300 rounded-md leading-5 bg-white placeholder-gray-500 focus:outline-none focus:placeholder-gray-400 focus:ring-1 focus:ring-primary focus:border-primary sm:text-sm"
+              className="block w-64 pl-10 pr-3 py-2 border border-gray-300 rounded-md bg-white sm:text-sm"
               placeholder="Search..."
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
             />
           </div>
-          {actionButton && (
-            <Link href={actionButton.href}>
-              {actionButton.label}
-            </Link>
-          )}
+          {actionButton && <Link href={actionButton.href}>{actionButton.label}</Link>}
         </div>
       </div>
 
-      {/* Tables */}
+      {/* Grouped Table */}
       {filteredGroups.map((group) => (
         <div key={group.id} className="bg-white rounded-lg shadow">
           <div className="px-6 py-4 border-b border-gray-200">
@@ -196,7 +203,7 @@ export default function TableGroups({
                   >
                     {group.name}
                   </h2>
-                  <p className="mt-1 text-sm text-gray-500">{group.description}</p>
+                  <p className="text-sm text-gray-500">{group.description}</p>
                 </div>
               </div>
               <div className="flex items-center gap-4">
@@ -216,10 +223,10 @@ export default function TableGroups({
               <table className="min-w-full divide-y divide-gray-200">
                 <thead className="bg-gray-50">
                   <tr>
-                    <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                    <th className="px-4 py-3">
                       <input
                         type="checkbox"
-                        checked={selectedIds.length === group.items.length && group.items.length > 0}
+                        checked={group.items.every(item => selectedIds.includes(item.id))}
                         onChange={() => handleSelectAll(group.items)}
                         className="rounded border-gray-300 text-primary focus:ring-primary"
                       />
@@ -232,11 +239,6 @@ export default function TableGroups({
                         {column.label}
                       </th>
                     ))}
-                    {onEdit && (
-                      <th className="px-4 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">
-                        Actions
-                      </th>
-                    )}
                   </tr>
                 </thead>
                 <tbody className="bg-white divide-y divide-gray-200">
@@ -253,7 +255,7 @@ export default function TableGroups({
                       {columns.map((column) => (
                         <td
                           key={column.key}
-                          className="px-4 py-4 whitespace-nowrap text-sm text-gray-900"
+                          className="px-4 py-4 text-sm text-gray-900 whitespace-nowrap"
                         >
                           {column.render ? (
                             column.render(item)
@@ -274,13 +276,6 @@ export default function TableGroups({
                           )}
                         </td>
                       ))}
-                      {onEdit && (
-                        <td className="px-4 py-4 whitespace-nowrap text-right text-sm font-medium">
-                          <button onClick={() => onEdit(item)}>
-                            <PencilIcon className="h-5 w-5" />
-                          </button>
-                        </td>
-                      )}
                     </tr>
                   ))}
                 </tbody>
@@ -290,10 +285,10 @@ export default function TableGroups({
         </div>
       ))}
 
-      {/* Image Popup */}
+      {/* Image Preview */}
       {hoveredImage && (
         <div
-          className="fixed z-50 bg-white rounded-lg shadow-xl border border-gray-200 p-2"
+          className="fixed z-50 bg-white rounded-lg shadow-xl border p-2"
           style={{
             width: '300px',
             height: '300px',
@@ -301,15 +296,13 @@ export default function TableGroups({
             top: `${popupPosition.y - 150}px`,
           }}
         >
-          <div className="w-full h-full rounded-md overflow-hidden">
-            <img
-              src={hoveredImage.src}
-              alt={hoveredImage.alt}
-              className="w-full h-full object-contain"
-            />
-          </div>
+          <img
+            src={hoveredImage.src}
+            alt={hoveredImage.alt}
+            className="w-full h-full object-contain rounded-md"
+          />
         </div>
       )}
     </div>
   );
-} 
+}
