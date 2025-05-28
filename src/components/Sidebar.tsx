@@ -7,7 +7,6 @@ import { useTheme } from '@/app/providers';
 import { 
   HomeIcon, 
   UserIcon, 
-  BriefcaseIcon, 
   BuildingStorefrontIcon, 
   ShoppingBagIcon, 
   CurrencyEuroIcon, 
