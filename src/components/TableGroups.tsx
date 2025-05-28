@@ -36,7 +36,6 @@ interface TableGroupsProps {
   columns: {
     key: string;
     label: string;
-    type?: string;
     render?: (item: Item) => React.ReactNode;
   }[];
   onDelete?: (ids: string[]) => void;
@@ -54,69 +53,53 @@ export default function TableGroups({
 }: TableGroupsProps) {
   const router = useRouter();
   const [searchTerm, setSearchTerm] = useState('');
-  const [selectedIds, setSelectedIds] = useState<string[]>([]);
-  const [expandedGroups, setExpandedGroups] = useState<string[]>(data.map(group => group.id));
+  const [expandedGroups, setExpandedGroups] = useState<string[]>(data.map(g => g.id));
   const [selectedGroups, setSelectedGroups] = useState<string[]>([]);
   const [hoveredImage, setHoveredImage] = useState<{ src: string; alt: string } | null>(null);
   const [popupPosition, setPopupPosition] = useState({ x: 0, y: 0 });
 
-  const filteredGroups = data.map(group => ({
-    ...group,
-    items: group.items.filter((item) =>
-      Object.values(item).some((value) =>
-        String(value).toLowerCase().includes(searchTerm.toLowerCase())
+  const filteredGroups = data
+    .map((group) => ({
+      ...group,
+      items: group.items.filter((item) =>
+        Object.values(item).some((value) =>
+          String(value).toLowerCase().includes(searchTerm.toLowerCase())
+        )
       )
-    )
-  })).filter(group => group.items.length > 0);
+    }))
+    .filter((group) => group.items.length > 0);
 
-  const handleSelect = (id: string) => {
-    setSelectedIds((prev) =>
-      prev.includes(id) ? prev.filter((sid) => sid !== id) : [...prev, id]
+  const handleGroupSelect = (groupId: string) => {
+    setSelectedGroups((prev) =>
+      prev.includes(groupId)
+        ? prev.filter((id) => id !== groupId)
+        : [...prev, groupId]
     );
-  };
-
-  const handleSelectAll = (items: Item[]) => {
-    const itemIds = items.map((item) => item.id);
-    const allSelected = itemIds.every((id) => selectedIds.includes(id));
-    setSelectedIds(
-      allSelected
-        ? selectedIds.filter((id) => !itemIds.includes(id))
-        : [...selectedIds, ...itemIds.filter(id => !selectedIds.includes(id))]
-    );
-  };
-
-  const handleGroupSelect = (groupId: string, items: Item[]) => {
-    setSelectedGroups((prev) => {
-      if (prev.includes(groupId)) {
-        setSelectedIds((ids) => ids.filter((id) => !items.some((item) => item.id === id)));
-        return prev.filter((id) => id !== groupId);
-      } else {
-        setSelectedIds((ids) => Array.from(new Set([...ids, ...items.map((item) => item.id)])));
-        return [...prev, groupId];
-      }
-    });
   };
 
   const handleSelectAllGroups = () => {
-    const allItems = filteredGroups.flatMap(group => group.items);
-    const allItemIds = allItems.map(item => item.id);
-    const allSelected = allItemIds.every(id => selectedIds.includes(id));
-    setSelectedGroups(allSelected ? [] : filteredGroups.map(group => group.id));
-    setSelectedIds(allSelected ? [] : allItemIds);
-  };
-
-  const handleDeleteSelected = () => {
-    if (window.confirm(`Are you sure you want to delete ${selectedIds.length} selected items?`)) {
-      onDelete?.(selectedIds);
-      setSelectedIds([]);
-      setSelectedGroups([]);
-    }
+    const allIds = filteredGroups.map((g) => g.id);
+    setSelectedGroups(
+      selectedGroups.length === allIds.length ? [] : allIds
+    );
   };
 
   const handleEditGroup = () => {
-    const group = data.find(group => selectedGroups.includes(group.id));
-    if (group && group.items.length > 0) {
+    const group = data.find((g) => selectedGroups.includes(g.id));
+    if (group && group.items[0]) {
       router.push(`/products/${group.items[0].id}/edit`);
+    }
+  };
+
+  const handleDeleteSelected = () => {
+    if (!onDelete) return;
+    const itemIds = data
+      .filter((g) => selectedGroups.includes(g.id))
+      .flatMap((g) => g.items.map((item) => item.id));
+
+    if (itemIds.length && window.confirm(`Delete ${itemIds.length} item(s)?`)) {
+      onDelete(itemIds);
+      setSelectedGroups([]);
     }
   };
 
@@ -126,11 +109,15 @@ export default function TableGroups({
     );
   };
 
-  const handleImageHover = (e: React.MouseEvent<HTMLDivElement>, src: string, alt: string) => {
+  const handleImageHover = (
+    e: React.MouseEvent<HTMLDivElement>,
+    src: string,
+    alt: string
+  ) => {
     const rect = e.currentTarget.getBoundingClientRect();
     setPopupPosition({
       x: rect.left + window.scrollX,
-      y: rect.top + window.scrollY
+      y: rect.top + window.scrollY,
     });
     setHoveredImage({ src, alt });
   };
@@ -145,7 +132,7 @@ export default function TableGroups({
 
   return (
     <div className="space-y-8">
-      {/* Header */}
+      {/* Top Bar */}
       <div className="flex items-center justify-between">
         <h1 className="text-xl font-semibold text-gray-900">Products</h1>
         <div className="flex items-center gap-2">
@@ -154,7 +141,7 @@ export default function TableGroups({
               <PencilIcon className="h-5 w-5" />
             </button>
           )}
-          {selectedIds.length > 0 && onDelete && (
+          {selectedGroups.length > 0 && onDelete && (
             <button onClick={handleDeleteSelected} title="Delete selected">
               <TrashIcon className="h-5 w-5" />
             </button>
@@ -184,7 +171,7 @@ export default function TableGroups({
         </div>
       </div>
 
-      {/* Grouped Table */}
+      {/* Groups */}
       {filteredGroups.map((group) => (
         <div key={group.id} className="bg-white rounded-lg shadow">
           <div className="px-6 py-4 border-b border-gray-200">
@@ -193,11 +180,11 @@ export default function TableGroups({
                 <input
                   type="checkbox"
                   checked={selectedGroups.includes(group.id)}
-                  onChange={() => handleGroupSelect(group.id, group.items)}
+                  onChange={() => handleGroupSelect(group.id)}
                   className="rounded border-gray-300 text-primary focus:ring-primary"
                 />
                 <div>
-                  <h2 
+                  <h2
                     className="text-lg font-medium text-gray-900 cursor-pointer hover:text-primary"
                     onClick={() => handleProductClick(group)}
                   >
@@ -218,19 +205,12 @@ export default function TableGroups({
               </div>
             </div>
           </div>
+
           {expandedGroups.includes(group.id) && (
             <div className="overflow-x-auto">
               <table className="min-w-full divide-y divide-gray-200">
                 <thead className="bg-gray-50">
                   <tr>
-                    <th className="px-4 py-3">
-                      <input
-                        type="checkbox"
-                        checked={group.items.every(item => selectedIds.includes(item.id))}
-                        onChange={() => handleSelectAll(group.items)}
-                        className="rounded border-gray-300 text-primary focus:ring-primary"
-                      />
-                    </th>
                     {columns.map((column) => (
                       <th
                         key={column.key}
@@ -244,14 +224,6 @@ export default function TableGroups({
                 <tbody className="bg-white divide-y divide-gray-200">
                   {group.items.map((item) => (
                     <tr key={item.id} className="hover:bg-gray-50">
-                      <td className="px-4 py-4 whitespace-nowrap">
-                        <input
-                          type="checkbox"
-                          checked={selectedIds.includes(item.id)}
-                          onChange={() => handleSelect(item.id)}
-                          className="rounded border-gray-300 text-primary focus:ring-primary"
-                        />
-                      </td>
                       {columns.map((column) => (
                         <td
                           key={column.key}
@@ -260,9 +232,11 @@ export default function TableGroups({
                           {column.render ? (
                             column.render(item)
                           ) : column.key === 'image' ? (
-                            <div 
+                            <div
                               className="w-12 h-12 rounded-md overflow-hidden cursor-pointer"
-                              onMouseEnter={(e) => handleImageHover(e, item.image, item.name)}
+                              onMouseEnter={(e) =>
+                                handleImageHover(e, item.image, item.name)
+                              }
                               onMouseLeave={handleImageLeave}
                             >
                               <img
@@ -285,7 +259,7 @@ export default function TableGroups({
         </div>
       ))}
 
-      {/* Image Preview */}
+      {/* Image Hover Preview */}
       {hoveredImage && (
         <div
           className="fixed z-50 bg-white rounded-lg shadow-xl border p-2"
