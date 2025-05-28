@@ -5,6 +5,7 @@
       "template_name": "Standard Business Card",
       "creation_date": "2024-03-15",
       "editing_date": "2024-03-20",
+      "status": "Active",
       "total_cost": 299.99
     },
     {
@@ -12,6 +13,7 @@
       "template_name": "Premium Flyer",
       "creation_date": "2024-03-10",
       "editing_date": "2024-03-18",
+      "status": "Delivered",
       "total_cost": 499.99
     },
     {
@@ -19,6 +21,7 @@
       "template_name": "Brochure Template",
       "creation_date": "2024-03-05",
       "editing_date": "2024-03-15",
+      "status": "Under Review",
       "total_cost": 399.99
     },
     {
@@ -26,7 +29,72 @@
       "template_name": "Social Media Kit",
       "creation_date": "2024-03-01",
       "editing_date": "2024-03-12",
+      "status": "Active",
       "total_cost": 599.99
+    },
+    {
+      "id": "TMP005",
+      "template_name": "Event Poster",
+      "creation_date": "2024-03-18",
+      "editing_date": "2024-03-21",
+      "status": "Under Production",
+      "total_cost": 349.99
+    },
+    {
+      "id": "TMP006",
+      "template_name": "Product Catalog",
+      "creation_date": "2024-03-09",
+      "editing_date": "2024-03-16",
+      "status": "Prepare for Delivery",
+      "total_cost": 799.99
+    },
+    {
+      "id": "TMP007",
+      "template_name": "Corporate Invoice",
+      "creation_date": "2024-03-11",
+      "editing_date": "2024-03-13",
+      "status": "Delivered",
+      "total_cost": 199.99
+    },
+    {
+      "id": "TMP008",
+      "template_name": "Restaurant Menu",
+      "creation_date": "2024-03-14",
+      "editing_date": "2024-03-19",
+      "status": "Under Review",
+      "total_cost": 429.99
+    },
+    {
+      "id": "TMP009",
+      "template_name": "Digital Presentation Slide",
+      "creation_date": "2024-03-08",
+      "editing_date": "2024-03-17",
+      "status": "Active",
+      "total_cost": 259.99
+    },
+    {
+      "id": "TMP010",
+      "template_name": "Email Newsletter",
+      "creation_date": "2024-03-06",
+      "editing_date": "2024-03-14",
+      "status": "Under Production",
+      "total_cost": 189.99
+    },
+    {
+      "id": "TMP011",
+      "template_name": "Logo Design",
+      "creation_date": "2024-03-02",
+      "editing_date": "2024-03-10",
+      "status": "Prepare for Delivery",
+      "total_cost": 699.99
+    },
+    {
+      "id": "TMP012",
+      "template_name": "Infographic Design",
+      "creation_date": "2024-03-13",
+      "editing_date": "2024-03-22",
+      "status": "Delivered",
+      "total_cost": 379.99
     }
   ]
 }

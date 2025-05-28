@@ -13,6 +13,16 @@ interface Template {
   total_cost: number
 }
 
+interface Column {
+  key: string;
+  label: string;
+  type?: 'text' | 'number' | 'currency' | 'date' | 'status' | 'link' | 'custom' | 'image';
+  format?: (value: unknown) => string;
+  render?: <T>(item: T) => React.ReactNode;
+  className?: string;
+  linkHref?: (value: unknown) => string;
+}
+
 export default function Page() {
   const router = useRouter()
   const [templates, setTemplates] = useState<Template[]>([])
@@ -31,32 +41,38 @@ export default function Page() {
     fetchTemplates()
   }, [])
 
-  const columns = [
+  const columns: Column[] = [
     {
       key: 'template_name',
       label: 'Template Name',
-      type: 'text' as const,
+      type: 'text',
+      className: 'font-medium'
     },
     {
       key: 'creation_date',
       label: 'Creation Date',
-      type: 'date' as const,
+      type: 'date'
     },
     {
-      key: 'editing_date',
-      label: 'Last Edited',
-      type: 'date' as const,
+      key: 'status',
+      label: 'Status',
+      type: 'status'  // Or use `render` to customize badges
     },
     {
       key: 'total_cost',
       label: 'Total Cost',
-      type: 'currency' as const,
+      type: 'currency'
     },
-  ]
+  ];
+  
 
   const handleRowClick = (template: Template) => {
     router.push(`/templates/${template.id}`)
   }
+
+  const handleEdit = (store: Template) => {
+    router.push(`/stores/${store.id}/edit`);
+  };
 
   return (
     <div className="p-6">
@@ -66,6 +82,9 @@ export default function Page() {
         title="Templates"
         icon={<DocumentIcon className="h-6 w-6" />}
         onRowClick={handleRowClick}
+        onEdit={handleEdit}
+        searchable
+        selectable
         actionButton={{
           label: 'Create Template',
           href: '/templates/create',
