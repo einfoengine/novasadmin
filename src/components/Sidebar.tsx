@@ -61,6 +61,12 @@ const menuItems = [
     submenu: []
   },
   { 
+    name: 'Templates', 
+    href: '/templates', 
+    icon: ViewColumnsIcon,
+    submenu: []
+  },
+  { 
     name: 'Productions', 
     href: '/productions', 
     icon: BuildingOffice2Icon,
@@ -70,12 +76,6 @@ const menuItems = [
       { name: 'Finishers', href: '/productions/finishers', icon: RectangleGroupIcon},
       { name: 'Others', href: '/productions/others', icon: PuzzlePieceIcon },
     ]
-  },
-  { 
-    name: 'Templates', 
-    href: '/templates', 
-    icon: ViewColumnsIcon,
-    submenu: []
   },
   { 
     name: 'Campaign', 

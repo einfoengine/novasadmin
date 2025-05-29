@@ -103,7 +103,7 @@ export default function NewProductForm() {
   const [finishers, setFinishers] = useState<Material[]>([]);
   const [others, setOthers] = useState<Material[]>([]);
   const [product, setProduct] = useState<Product>({
-    id: `PKG${Math.floor(Math.random() * 1000).toString().padStart(3, '0')}`,
+    id: 'PKG001',
     name: '',
     description: '',
     price: 0,
@@ -111,6 +111,7 @@ export default function NewProductForm() {
   });
 
   const [itemBoxes, setItemBoxes] = useState<Item[]>([]);
+  const [itemCounter, setItemCounter] = useState(1);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -201,7 +202,7 @@ export default function NewProductForm() {
 
   const addItemBox = () => {
     const newItem: Item = {
-      id: `PRD${Math.floor(Math.random() * 1000).toString().padStart(3, '0')}`,
+      id: `PRD${itemCounter.toString().padStart(3, '0')}`,
       name: '',
       image: '',
       size: [0, 0],
@@ -213,6 +214,7 @@ export default function NewProductForm() {
       description: ''
     };
     setItemBoxes(prev => [...prev, newItem]);
+    setItemCounter(prev => prev + 1);
   };
 
   const removeItemBox = (index: number) => {
