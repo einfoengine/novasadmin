@@ -116,10 +116,12 @@ const menuItems: MenuItem[] = [
 
 export default function Sidebar() {
   const pathname = usePathname();
+  const [mounted, setMounted] = useState(false);
   const [expandedMenus, setExpandedMenus] = useState<{ [key: string]: boolean }>({});
   const { theme } = useTheme();
 
   useEffect(() => {
+    setMounted(true);
     // Initialize expanded state for menus with submenus
     const initialExpandedState: { [key: string]: boolean } = {};
     menuItems.forEach(item => {
@@ -141,6 +143,51 @@ export default function Sidebar() {
     }));
   };
 
+  const renderMenuItem = (item: MenuItem) => {
+    if (item.submenu.length > 0) {
+      return (
+        <button
+          type="button"
+          className={`w-full flex items-center justify-between px-4 py-2 text-sm font-medium rounded-md transition-colors cursor-pointer ${
+            item.href && isActive(item.href)
+              ? theme === 'dark' ? 'bg-gray-800 text-white' : 'bg-gray-100 text-gray-900'
+              : theme === 'dark' ? 'text-gray-300 hover:bg-gray-800 hover:text-white' : 'text-gray-600 hover:bg-gray-100 hover:text-gray-900'
+          }`}
+          onClick={() => toggleSubmenu(item.name)}
+        >
+          <div className="flex items-center">
+            <item.icon className={`w-5 h-5 mr-3 ${theme === 'dark' ? 'text-gray-300' : 'text-gray-600'}`} />
+            <span>{item.name}</span>
+          </div>
+          {mounted && expandedMenus[item.name] ? 
+            <ChevronDownIcon className={`w-4 h-4 ${theme === 'dark' ? 'text-gray-300' : 'text-gray-600'}`} /> : 
+            <ChevronRightIcon className={`w-4 h-4 ${theme === 'dark' ? 'text-gray-300' : 'text-gray-600'}`} />
+          }
+        </button>
+      );
+    }
+
+    if (item.href) {
+      return (
+        <Link
+          href={item.href}
+          className={`flex items-center justify-between px-4 py-2 text-sm font-medium rounded-md transition-colors ${
+            isActive(item.href)
+              ? theme === 'dark' ? 'bg-gray-800 text-white' : 'bg-gray-100 text-gray-900'
+              : theme === 'dark' ? 'text-gray-300 hover:bg-gray-800 hover:text-white' : 'text-gray-600 hover:bg-gray-100 hover:text-gray-900'
+          }`}
+        >
+          <div className="flex items-center">
+            <item.icon className={`w-5 h-5 mr-3 ${theme === 'dark' ? 'text-gray-300' : 'text-gray-600'}`} />
+            <span>{item.name}</span>
+          </div>
+        </Link>
+      );
+    }
+
+    return null;
+  };
+
   return (
     <aside className={`w-64 ${theme === 'dark' ? 'bg-gray-900 border-gray-800' : 'bg-white border-gray-200'} border-r flex flex-col h-full`}>
       <div className={`flex items-center justify-center h-16 ${theme === 'dark' ? 'border-gray-800' : 'border-gray-200'} border-b`}>
@@ -149,41 +196,8 @@ export default function Sidebar() {
       <nav className="flex-1 px-4 py-4 space-y-1 overflow-y-auto">
         {menuItems.map(item => (
           <div key={item.name}>
-            {item.submenu.length > 0 ? (
-              <button
-                type="button"
-                className={`w-full flex items-center justify-between px-4 py-2 text-sm font-medium rounded-md transition-colors cursor-pointer ${
-                  item.href && isActive(item.href)
-                    ? theme === 'dark' ? 'bg-gray-800 text-white' : 'bg-gray-100 text-gray-900'
-                    : theme === 'dark' ? 'text-gray-300 hover:bg-gray-800 hover:text-white' : 'text-gray-600 hover:bg-gray-100 hover:text-gray-900'
-                }`}
-                onClick={() => toggleSubmenu(item.name)}
-              >
-                <div className="flex items-center">
-                  <item.icon className={`w-5 h-5 mr-3 ${theme === 'dark' ? 'text-gray-300' : 'text-gray-600'}`} />
-                  <span>{item.name}</span>
-                </div>
-                {expandedMenus[item.name] ? 
-                  <ChevronDownIcon className={`w-4 h-4 ${theme === 'dark' ? 'text-gray-300' : 'text-gray-600'}`} /> : 
-                  <ChevronRightIcon className={`w-4 h-4 ${theme === 'dark' ? 'text-gray-300' : 'text-gray-600'}`} />
-                }
-              </button>
-            ) : item.href ? (
-              <Link
-                href={item.href}
-                className={`flex items-center justify-between px-4 py-2 text-sm font-medium rounded-md transition-colors ${
-                  isActive(item.href)
-                    ? theme === 'dark' ? 'bg-gray-800 text-white' : 'bg-gray-100 text-gray-900'
-                    : theme === 'dark' ? 'text-gray-300 hover:bg-gray-800 hover:text-white' : 'text-gray-600 hover:bg-gray-100 hover:text-gray-900'
-                }`}
-              >
-                <div className="flex items-center">
-                  <item.icon className={`w-5 h-5 mr-3 ${theme === 'dark' ? 'text-gray-300' : 'text-gray-600'}`} />
-                  <span>{item.name}</span>
-                </div>
-              </Link>
-            ) : null}
-            {item.submenu.length > 0 && expandedMenus[item.name] && (
+            {renderMenuItem(item)}
+            {mounted && item.submenu.length > 0 && expandedMenus[item.name] && (
               <div className="ml-8 mt-1 space-y-1">
                 {item.submenu.map(subItem => (
                   <Link
