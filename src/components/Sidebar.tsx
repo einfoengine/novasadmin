@@ -150,8 +150,9 @@ export default function Sidebar() {
         {menuItems.map(item => (
           <div key={item.name}>
             {item.submenu.length > 0 ? (
-              <div
-                className={`flex items-center justify-between px-4 py-2 text-sm font-medium rounded-md transition-colors cursor-pointer ${
+              <button
+                type="button"
+                className={`w-full flex items-center justify-between px-4 py-2 text-sm font-medium rounded-md transition-colors cursor-pointer ${
                   item.href && isActive(item.href)
                     ? theme === 'dark' ? 'bg-gray-800 text-white' : 'bg-gray-100 text-gray-900'
                     : theme === 'dark' ? 'text-gray-300 hover:bg-gray-800 hover:text-white' : 'text-gray-600 hover:bg-gray-100 hover:text-gray-900'
@@ -166,7 +167,7 @@ export default function Sidebar() {
                   <ChevronDownIcon className={`w-4 h-4 ${theme === 'dark' ? 'text-gray-300' : 'text-gray-600'}`} /> : 
                   <ChevronRightIcon className={`w-4 h-4 ${theme === 'dark' ? 'text-gray-300' : 'text-gray-600'}`} />
                 }
-              </div>
+              </button>
             ) : item.href ? (
               <Link
                 href={item.href}
