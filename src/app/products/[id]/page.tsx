@@ -24,7 +24,8 @@ interface Product {
   items: Item[];
 }
 
-export default function ProductDetailsPage({ params }: { params: { id: string } }) {
+export default function ProductDetailsPage({ params }: { params: Promise<{ id: string }> }) {
+  const resolvedParams = React.use(params);
   const [group, setGroup] = useState<Product | null>(null);
 
   useEffect(() => {
@@ -32,7 +33,7 @@ export default function ProductDetailsPage({ params }: { params: { id: string } 
       try {
         const response = await fetch('/data/products.json');
         const data = await response.json();
-        const foundGroup = data.products.find((p: Product) => p.id === params.id);
+        const foundGroup = data.products.find((p: Product) => p.id === resolvedParams.id);
         if (foundGroup) {
           setGroup(foundGroup);
         }
@@ -42,7 +43,7 @@ export default function ProductDetailsPage({ params }: { params: { id: string } 
     };
 
     fetchGroup();
-  }, [params.id]);
+  }, [resolvedParams.id]);
 
   if (!group) {
     return (
