@@ -10,28 +10,30 @@ interface Campaign {
   id: string;
   campaignId: string;
   campaignName: string;
-  country: string;
-  assigned: string;
-  userType: string;
-  creatingDate: string;
+  countryId: string;
+  assignUserId: string;
+  typeOfOrder: string;
+  assignDate: string;
   startDate: string;
-  endDate: string;
+  deadline: string;
   status: string;
-  totalCost: number;
+  totalCosts: number;
+  currency: string;
   invoiceStatus: string;
 }
 
 interface RawCampaign {
   campaignId: string;
   campaignName: string;
-  country: string;
-  assigned: string;
-  userType: string;
-  creatingDate: string;
+  countryId: string;
+  assignUserId: string;
+  typeOfOrder: string;
+  assignDate: string;
   startDate: string;
-  endDate: string;
+  deadline: string;
   status: string;
-  totalCost: number;
+  totalCosts: number;
+  currency: string;
   invoiceStatus: string;
 }
 
@@ -67,6 +69,17 @@ export default function Campaigns() {
     router.push(`/campaigns/${item.id}`);
   };
 
+  const handleEdit = (item: Campaign) => {
+    router.push(`/campaigns/${item.id}/edit`);
+  };
+
+  const handleDelete = (item: Campaign) => {
+    if (window.confirm(`Are you sure you want to delete campaign "${item.campaignName}"?`)) {
+      // Here you would typically make an API call to delete the campaign
+      setCampaigns(prevCampaigns => prevCampaigns.filter(c => c.id !== item.id));
+    }
+  };
+
   const columns = [
     {
       key: 'campaignName',
@@ -74,48 +87,53 @@ export default function Campaigns() {
       type: 'text' as const,
     },
     {
-      key: 'country',
+      key: 'countryId',
       label: 'Country',
       type: 'text' as const,
     },
     {
-      key: 'assigned',
+      key: 'assignUserId',
       label: 'Assigned To',
       type: 'text' as const,
     },
     {
-      key: 'userType',
-      label: 'User Type',
+      key: 'typeOfOrder',
+      label: 'Order Type',
       type: 'text' as const,
+    },
+    {
+      key: 'assignDate',
+      label: 'Assigned Date',
+      type: 'date' as const,
     },
     {
       key: 'startDate',
       label: 'Start Date',
-      type: 'text' as const,
+      type: 'date' as const,
     },
     {
-      key: 'endDate',
-      label: 'End Date',
-      type: 'text' as const,
+      key: 'deadline',
+      label: 'Deadline',
+      type: 'date' as const,
     },
     {
       key: 'status',
       label: 'Status',
-      type: 'text' as const,
+      type: 'status' as const,
     },
     {
-      key: 'totalCost',
+      key: 'totalCosts',
       label: 'Total Cost',
-      type: 'number' as const,
+      type: 'currency' as const,
       format: (value: unknown) => {
         if (value === undefined || value === null) return '-';
-        return `$${(value as number).toLocaleString()}`;
+        return `${(value as number).toLocaleString()} EUR`;
       },
     },
     {
       key: 'invoiceStatus',
       label: 'Invoice Status',
-      type: 'text' as const,
+      type: 'status' as const,
     },
   ];
 
@@ -148,6 +166,8 @@ export default function Campaigns() {
         data={campaigns}
         columns={columns}
         onRowClick={handleRowClick}
+        onEdit={handleEdit}
+        onDelete={handleDelete}
         searchable
         selectable
         title="Campaigns"
