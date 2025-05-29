@@ -6,7 +6,14 @@
       "creation_date": "2024-03-15",
       "editing_date": "2024-03-20",
       "status": "Active",
-      "total_cost": 299.99
+      "total_cost": 299.99,
+      "description": "Standard business card template with professional design",
+      "products": [
+        {
+          "id": "PKG001",
+          "quantity": 1
+        }
+      ]
     },
     {
       "id": "TMP002",
@@ -14,7 +21,18 @@
       "creation_date": "2024-03-10",
       "editing_date": "2024-03-18",
       "status": "Delivered",
-      "total_cost": 499.99
+      "total_cost": 499.99,
+      "description": "Premium flyer template with high-quality printing options",
+      "products": [
+        {
+          "id": "PKG002",
+          "quantity": 1
+        },
+        {
+          "id": "PKG004",
+          "quantity": 2
+        }
+      ]
     },
     {
       "id": "TMP003",
@@ -22,7 +40,18 @@
       "creation_date": "2024-03-05",
       "editing_date": "2024-03-15",
       "status": "Under Review",
-      "total_cost": 399.99
+      "total_cost": 399.99,
+      "description": "Professional brochure template with multiple page options",
+      "products": [
+        {
+          "id": "PKG001",
+          "quantity": 1
+        },
+        {
+          "id": "PKG006",
+          "quantity": 1
+        }
+      ]
     },
     {
       "id": "TMP004",
@@ -30,7 +59,18 @@
       "creation_date": "2024-03-01",
       "editing_date": "2024-03-12",
       "status": "Active",
-      "total_cost": 599.99
+      "total_cost": 599.99,
+      "description": "Complete social media kit with various design templates",
+      "products": [
+        {
+          "id": "PKG003",
+          "quantity": 1
+        },
+        {
+          "id": "PKG006",
+          "quantity": 2
+        }
+      ]
     },
     {
       "id": "TMP005",
@@ -38,7 +78,18 @@
       "creation_date": "2024-03-18",
       "editing_date": "2024-03-21",
       "status": "Under Production",
-      "total_cost": 349.99
+      "total_cost": 349.99,
+      "description": "Eye-catching event poster template with modern design",
+      "products": [
+        {
+          "id": "PKG002",
+          "quantity": 1
+        },
+        {
+          "id": "PKG007",
+          "quantity": 1
+        }
+      ]
     },
     {
       "id": "TMP006",
@@ -46,7 +97,18 @@
       "creation_date": "2024-03-09",
       "editing_date": "2024-03-16",
       "status": "Prepare for Delivery",
-      "total_cost": 799.99
+      "total_cost": 799.99,
+      "description": "Comprehensive product catalog template with multiple layouts",
+      "products": [
+        {
+          "id": "PKG001",
+          "quantity": 2
+        },
+        {
+          "id": "PKG006",
+          "quantity": 1
+        }
+      ]
     },
     {
       "id": "TMP007",
@@ -54,7 +116,14 @@
       "creation_date": "2024-03-11",
       "editing_date": "2024-03-13",
       "status": "Delivered",
-      "total_cost": 199.99
+      "total_cost": 199.99,
+      "description": "Professional corporate invoice template with branding options",
+      "products": [
+        {
+          "id": "PKG008",
+          "quantity": 1
+        }
+      ]
     },
     {
       "id": "TMP008",
@@ -62,7 +131,18 @@
       "creation_date": "2024-03-14",
       "editing_date": "2024-03-19",
       "status": "Under Review",
-      "total_cost": 429.99
+      "total_cost": 429.99,
+      "description": "Elegant restaurant menu template with food photography layouts",
+      "products": [
+        {
+          "id": "PKG001",
+          "quantity": 1
+        },
+        {
+          "id": "PKG006",
+          "quantity": 1
+        }
+      ]
     },
     {
       "id": "TMP009",
@@ -70,7 +150,14 @@
       "creation_date": "2024-03-08",
       "editing_date": "2024-03-17",
       "status": "Active",
-      "total_cost": 259.99
+      "total_cost": 259.99,
+      "description": "Professional presentation slide template with modern design",
+      "products": [
+        {
+          "id": "PKG006",
+          "quantity": 1
+        }
+      ]
     },
     {
       "id": "TMP010",
@@ -78,7 +165,14 @@
       "creation_date": "2024-03-06",
       "editing_date": "2024-03-14",
       "status": "Under Production",
-      "total_cost": 189.99
+      "total_cost": 189.99,
+      "description": "Engaging email newsletter template with responsive design",
+      "products": [
+        {
+          "id": "PKG006",
+          "quantity": 1
+        }
+      ]
     },
     {
       "id": "TMP011",
@@ -86,7 +180,18 @@
       "creation_date": "2024-03-02",
       "editing_date": "2024-03-10",
       "status": "Prepare for Delivery",
-      "total_cost": 699.99
+      "total_cost": 699.99,
+      "description": "Professional logo design template with multiple variations",
+      "products": [
+        {
+          "id": "PKG003",
+          "quantity": 1
+        },
+        {
+          "id": "PKG004",
+          "quantity": 1
+        }
+      ]
     },
     {
       "id": "TMP012",
@@ -94,7 +199,18 @@
       "creation_date": "2024-03-13",
       "editing_date": "2024-03-22",
       "status": "Delivered",
-      "total_cost": 379.99
+      "total_cost": 379.99,
+      "description": "Informative infographic template with data visualization",
+      "products": [
+        {
+          "id": "PKG002",
+          "quantity": 1
+        },
+        {
+          "id": "PKG006",
+          "quantity": 1
+        }
+      ]
     }
   ]
 }
