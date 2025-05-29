@@ -24,7 +24,18 @@ import {
   PuzzlePieceIcon
 } from '@heroicons/react/24/outline';
 
-const menuItems = [
+interface MenuItem {
+  name: string;
+  href?: string;
+  icon: React.ComponentType<React.SVGProps<SVGSVGElement>>;
+  submenu: {
+    name: string;
+    href: string;
+    icon: React.ComponentType<React.SVGProps<SVGSVGElement>>;
+  }[];
+}
+
+const menuItems: MenuItem[] = [
   { 
     name: 'Dashboard', 
     href: '/dashboard', 
@@ -105,16 +116,14 @@ const menuItems = [
 
 export default function Sidebar() {
   const pathname = usePathname();
-  const [mounted, setMounted] = useState(false);
   const [expandedMenus, setExpandedMenus] = useState<{ [key: string]: boolean }>({});
   const { theme } = useTheme();
 
   useEffect(() => {
-    setMounted(true);
     // Initialize expanded state for menus with submenus
     const initialExpandedState: { [key: string]: boolean } = {};
     menuItems.forEach(item => {
-      if (item.submenu.length > 0) {
+      if (item.submenu.length > 0 && item.href) {
         initialExpandedState[item.name] = pathname.startsWith(item.href);
       }
     });
@@ -122,7 +131,6 @@ export default function Sidebar() {
   }, [pathname]);
 
   const isActive = (href: string) => {
-    if (!mounted) return false;
     return pathname === href || pathname.startsWith(href + '/');
   };
 
@@ -141,30 +149,39 @@ export default function Sidebar() {
       <nav className="flex-1 px-4 py-4 space-y-1 overflow-y-auto">
         {menuItems.map(item => (
           <div key={item.name}>
-            <div
-              className={`flex items-center justify-between px-4 py-2 text-sm font-medium rounded-md transition-colors cursor-pointer ${
-                isActive(item.href)
-                  ? theme === 'dark' ? 'bg-gray-800 text-white' : 'bg-gray-100 text-gray-900'
-                  : theme === 'dark' ? 'text-gray-300 hover:bg-gray-800 hover:text-white' : 'text-gray-600 hover:bg-gray-100 hover:text-gray-900'
-              }`}
-              onClick={() => item.submenu.length > 0 ? toggleSubmenu(item.name) : null}
-            >
-              <div className="flex items-center">
-                <item.icon className={`w-5 h-5 mr-3 ${theme === 'dark' ? 'text-gray-300' : 'text-gray-600'}`} />
-                {item.submenu.length > 0 ? (
+            {item.submenu.length > 0 ? (
+              <div
+                className={`flex items-center justify-between px-4 py-2 text-sm font-medium rounded-md transition-colors cursor-pointer ${
+                  item.href && isActive(item.href)
+                    ? theme === 'dark' ? 'bg-gray-800 text-white' : 'bg-gray-100 text-gray-900'
+                    : theme === 'dark' ? 'text-gray-300 hover:bg-gray-800 hover:text-white' : 'text-gray-600 hover:bg-gray-100 hover:text-gray-900'
+                }`}
+                onClick={() => toggleSubmenu(item.name)}
+              >
+                <div className="flex items-center">
+                  <item.icon className={`w-5 h-5 mr-3 ${theme === 'dark' ? 'text-gray-300' : 'text-gray-600'}`} />
                   <span>{item.name}</span>
-                ) : (
-                  <Link href={item.href} className="flex items-center">
-                    <span>{item.name}</span>
-                  </Link>
-                )}
-              </div>
-              {item.submenu.length > 0 && (
-                expandedMenus[item.name] ? 
+                </div>
+                {expandedMenus[item.name] ? 
                   <ChevronDownIcon className={`w-4 h-4 ${theme === 'dark' ? 'text-gray-300' : 'text-gray-600'}`} /> : 
                   <ChevronRightIcon className={`w-4 h-4 ${theme === 'dark' ? 'text-gray-300' : 'text-gray-600'}`} />
-              )}
-            </div>
+                }
+              </div>
+            ) : item.href ? (
+              <Link
+                href={item.href}
+                className={`flex items-center justify-between px-4 py-2 text-sm font-medium rounded-md transition-colors ${
+                  isActive(item.href)
+                    ? theme === 'dark' ? 'bg-gray-800 text-white' : 'bg-gray-100 text-gray-900'
+                    : theme === 'dark' ? 'text-gray-300 hover:bg-gray-800 hover:text-white' : 'text-gray-600 hover:bg-gray-100 hover:text-gray-900'
+                }`}
+              >
+                <div className="flex items-center">
+                  <item.icon className={`w-5 h-5 mr-3 ${theme === 'dark' ? 'text-gray-300' : 'text-gray-600'}`} />
+                  <span>{item.name}</span>
+                </div>
+              </Link>
+            ) : null}
             {item.submenu.length > 0 && expandedMenus[item.name] && (
               <div className="ml-8 mt-1 space-y-1">
                 {item.submenu.map(subItem => (
