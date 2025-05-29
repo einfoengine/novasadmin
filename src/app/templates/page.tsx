@@ -70,8 +70,8 @@ export default function Page() {
     router.push(`/templates/${template.id}`)
   }
 
-  const handleEdit = (store: Template) => {
-    router.push(`/stores/${store.id}/edit`);
+  const handleEdit = (template: Template) => {
+    router.push(`/templates/${template.id}/edit`);
   };
 
   return (

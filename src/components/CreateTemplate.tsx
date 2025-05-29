@@ -34,7 +34,22 @@ interface SelectedProduct {
   description: string;
 }
 
-export default function CreateTemplate() {
+interface Template {
+  id: string;
+  name: string;
+  description: string;
+  products: {
+    id: string;
+    quantity: number;
+  }[];
+}
+
+interface CreateTemplateProps {
+  mode?: 'create' | 'edit';
+  templateId?: string;
+}
+
+export default function CreateTemplate({ mode = 'create', templateId }: CreateTemplateProps) {
   const router = useRouter();
   const [products, setProducts] = useState<Product[]>([]);
   const [selectedProducts, setSelectedProducts] = useState<SelectedProduct[]>([]);
@@ -43,6 +58,7 @@ export default function CreateTemplate() {
     name: '',
     description: '',
   });
+  const [isLoading, setIsLoading] = useState(mode === 'edit');
 
   useEffect(() => {
     const fetchProducts = async () => {
@@ -57,6 +73,54 @@ export default function CreateTemplate() {
 
     fetchProducts();
   }, []);
+
+  useEffect(() => {
+    const fetchTemplate = async () => {
+      if (mode === 'edit' && templateId) {
+        try {
+          const response = await fetch('/data/templates.json');
+          const data = await response.json();
+          const template = data.templates.find((t: Template) => t.id === templateId);
+          
+          if (template) {
+            setFormData({
+              name: template.name,
+              description: template.description,
+            });
+
+            // Map template products to selected products
+            const templateProducts = template.products.map((tp: { id: string; quantity: number }) => {
+              const product = products.find(p => p.id === tp.id);
+              if (product) {
+                return {
+                  id: product.id,
+                  name: product.name,
+                  quantity: tp.quantity,
+                  price: product.price,
+                  image: product.items[0]?.image || '/placeholder.png',
+                  description: product.description
+                };
+              }
+              return null;
+            }).filter(Boolean) as SelectedProduct[];
+
+            setSelectedProducts(templateProducts);
+            if (templateProducts.length > 0) {
+              setSelectedProductDetails(templateProducts[0]);
+            }
+          }
+        } catch (error) {
+          console.error('Error fetching template:', error);
+        } finally {
+          setIsLoading(false);
+        }
+      }
+    };
+
+    if (products.length > 0) {
+      fetchTemplate();
+    }
+  }, [mode, templateId, products]);
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target;
@@ -114,13 +178,35 @@ export default function CreateTemplate() {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    // TODO: Implement template creation logic
-    console.log('Template data:', {
+    const templateData = {
       ...formData,
-      products: selectedProducts
-    });
+      products: selectedProducts.map(p => ({
+        id: p.id,
+        quantity: p.quantity
+      }))
+    };
+
+    if (mode === 'edit' && templateId) {
+      // TODO: Implement template update logic
+      console.log('Update template:', templateId, templateData);
+    } else {
+      // TODO: Implement template creation logic
+      console.log('Create template:', templateData);
+    }
+    
     router.push('/templates');
   };
+
+  if (isLoading) {
+    return (
+      <div className="min-h-screen flex items-center justify-center">
+        <div className="text-center">
+          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary mx-auto"></div>
+          <p className="mt-4 text-gray-600">Loading template...</p>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="min-h-screen p-6">
@@ -133,7 +219,9 @@ export default function CreateTemplate() {
           >
             <ArrowLeftIcon className="w-5 h-5" />
           </button>
-          <h1 className="text-2xl font-semibold">Create Template</h1>
+          <h1 className="text-2xl font-semibold">
+            {mode === 'edit' ? 'Edit Template' : 'Create Template'}
+          </h1>
         </div>
       </div>
 
@@ -282,7 +370,7 @@ export default function CreateTemplate() {
                 type="submit"
                 className="px-4 py-2 text-sm font-medium text-white bg-primary border border-transparent rounded-md hover:bg-primary/90 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary"
               >
-                Create Template
+                {mode === 'edit' ? 'Update Template' : 'Create Template'}
               </button>
             </div>
           </div>
