@@ -37,33 +37,75 @@ interface RawCampaign {
   invoiceStatus: string;
 }
 
+interface Country {
+  id: string;
+  name: string;
+  totalStores: number;
+  currency: string;
+  exchangeRate: number;
+}
+
+interface User {
+  userId: string;
+  userName: string;
+  userType: string;
+  avatarUrl: string;
+  joiningDate: string;
+  endingDate: string;
+  status: string;
+  contact: string;
+  address: string;
+}
+
 export default function Campaigns() {
   const router = useRouter();
   const { theme } = useTheme();
   const [campaigns, setCampaigns] = useState<Campaign[]>([]);
+  const [countries, setCountries] = useState<Country[]>([]);
+  const [users, setUsers] = useState<User[]>([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    const fetchCampaigns = async () => {
+    const fetchData = async () => {
       try {
-        const res = await fetch('/data/campaigns.json');
-        const data = await res.json();
-        // Transform the data to include id field
-        const transformedCampaigns = (data.campaigns || []).map((campaign: RawCampaign) => ({
+        const [campaignsRes, countriesRes, usersRes] = await Promise.all([
+          fetch('/data/campaigns.json'),
+          fetch('/data/countries.json'),
+          fetch('/data/users.json')
+        ]);
+        
+        const campaignsData = await campaignsRes.json();
+        const countriesData = await countriesRes.json();
+        const usersData = await usersRes.json();
+
+        setCampaigns(campaignsData.campaigns.map((campaign: RawCampaign) => ({
           id: campaign.campaignId,
           ...campaign
-        }));
-        setCampaigns(transformedCampaigns);
+        })));
+        setCountries(countriesData.countries);
+        setUsers(usersData.users);
       } catch (error) {
-        console.error('Error fetching campaigns:', error);
+        console.error('Error fetching data:', error);
         setCampaigns([]);
+        setCountries([]);
+        setUsers([]);
       } finally {
         setLoading(false);
       }
     };
 
-    fetchCampaigns();
+    fetchData();
   }, []);
+
+  const getCountryName = (countryId: string) => {
+    const country = countries.find(c => c.id === countryId);
+    return country ? country.name : countryId;
+  };
+
+  const getUserName = (userId: string) => {
+    const user = users.find(u => u.userId === userId);
+    return user ? user.userName : userId;
+  };
 
   const handleRowClick = (item: { id: string }) => {
     router.push(`/campaigns/${item.id}`);
@@ -90,11 +132,13 @@ export default function Campaigns() {
       key: 'countryId',
       label: 'Country',
       type: 'text' as const,
+      render: (item: { countryId: string }) => getCountryName(item.countryId),
     },
     {
       key: 'assignUserId',
       label: 'Assigned To',
       type: 'text' as const,
+      render: (item: { assignUserId: string }) => getUserName(item.assignUserId),
     },
     {
       key: 'typeOfOrder',
@@ -164,7 +208,7 @@ export default function Campaigns() {
       </div>
       <TableBuilder
         data={campaigns}
-        columns={columns}
+        columns={columns as any}
         onRowClick={handleRowClick}
         onEdit={handleEdit}
         onDelete={handleDelete}
