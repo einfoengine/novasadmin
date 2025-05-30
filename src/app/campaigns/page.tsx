@@ -191,21 +191,6 @@ export default function Campaigns() {
 
   return (
     <main className={`p-6 ${theme === 'dark' ? 'bg-gray-900 text-white' : 'bg-white text-gray-900'}`}>
-      <div className="mb-6">
-        <div className="flex justify-between items-center">
-          <h1 className="text-2xl font-bold flex items-center gap-2">
-            <MegaphoneIcon className="h-6 w-6" />
-            Campaigns
-          </h1>
-          <Link
-            href="/campaigns/add-campaign"
-            className="flex items-center gap-1 text-white bg-black px-3 py-1 rounded hover:bg-gray-800"
-          >
-            <PlusIcon className="w-4 h-4" />
-            Add Campaign
-          </Link>
-        </div>
-      </div>
       <TableBuilder
         data={campaigns}
         columns={columns as any}

@@ -1,6 +1,8 @@
 'use client';
 
 import { createContext, useContext, useEffect, useState } from 'react';
+import { Provider } from 'react-redux';
+import { store } from '@/store/store';
 
 type Theme = 'light' | 'dark';
 
@@ -40,6 +42,8 @@ export function useTheme() {
 
 export function Providers({ children }: { children: React.ReactNode }) {
   return (
-    <ThemeProvider>{children}</ThemeProvider>
+    <Provider store={store}>
+      <ThemeProvider>{children}</ThemeProvider>
+    </Provider>
   );
 } 
