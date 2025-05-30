@@ -209,13 +209,17 @@ export default function Campaigns() {
       <TableBuilder
         data={campaigns}
         columns={columns as any}
+        title="Campaigns"
+        icon={<MegaphoneIcon className="h-6 w-6" />}
+        searchable
+        selectable
         onRowClick={handleRowClick}
         onEdit={handleEdit}
         onDelete={handleDelete}
-        searchable
-        selectable
-        title="Campaigns"
-        icon={<MegaphoneIcon className="h-6 w-6" />}
+        actionButton={{
+          label: 'Add Campaign',
+          href: '/campaigns/new'
+        }}
       />
     </main>
   );

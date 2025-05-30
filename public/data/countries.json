@@ -1,5 +1,9 @@
 {
   "countries": [
+    { "id": "HR", "name": "Croatia", "totalStores": 45, "currency": "EUR", "exchangeRate": 1.0 },
+    { "id": "SI", "name": "Slovenia", "totalStores": 35, "currency": "EUR", "exchangeRate": 1.0 },
+    { "id": "BH", "name": "Bosnia and Herzegovina", "totalStores": 30, "currency": "BAM", "exchangeRate": 1.95 },
+    { "id": "RS", "name": "Serbia", "totalStores": 40, "currency": "RSD", "exchangeRate": 117.0 },
     { "id": "DE", "name": "Germany", "totalStores": 120, "currency": "EUR", "exchangeRate": 1.0 },
     { "id": "FR", "name": "France", "totalStores": 95, "currency": "EUR", "exchangeRate": 1.0 },
     { "id": "IT", "name": "Italy", "totalStores": 80, "currency": "EUR", "exchangeRate": 1.0 },
