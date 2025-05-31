@@ -1,7 +1,6 @@
 'use client';
 
 import React, { useState, useEffect } from "react";
-import { useTheme } from '@/app/providers';
 import { useRouter } from 'next/navigation';
 import { GlobeAltIcon, BuildingStorefrontIcon } from "@heroicons/react/24/outline";
 import TableBuilder from "@/components/TableBuilder";
@@ -34,7 +33,6 @@ export default function CountryDetailsClient({ id }: { id: string }) {
   const [country, setCountry] = useState<Country | null>(null);
   const [stores, setStores] = useState<Store[]>([]);
   const [loading, setLoading] = useState(true);
-  // const { theme } = useTheme();
   const router = useRouter();
 
   useEffect(() => {
@@ -50,10 +48,11 @@ export default function CountryDetailsClient({ id }: { id: string }) {
           storesRes.json()
         ]);
 
+        const countryStores = storesData.stores.filter((s: Store) => s.countryId === id);
         const foundCountry = countriesData.countries.find((c: Country) => c.id === id);
+
         if (foundCountry) {
-          setCountry(foundCountry);
-          const countryStores = storesData.stores.filter((s: Store) => s.countryId === id);
+          setCountry({ ...foundCountry, totalStores: countryStores.length });
           setStores(countryStores);
         }
       } catch (error) {
@@ -65,6 +64,10 @@ export default function CountryDetailsClient({ id }: { id: string }) {
 
     fetchData();
   }, [id]);
+
+  const handleEdit = (store: Store) => {
+    router.push(`/stores/${store.id}/edit`);
+  };
 
   if (loading) {
     return (
@@ -87,31 +90,11 @@ export default function CountryDetailsClient({ id }: { id: string }) {
   }
 
   const storeColumns = [
-    { 
-      key: 'name', 
-      label: 'Store Name',
-      className: 'text-black'
-    },
-    { 
-      key: 'storeCode', 
-      label: 'Store Code',
-      className: 'text-black'
-    },
-    { 
-      key: 'type', 
-      label: 'Type',
-      className: 'text-black'
-    },
-    { 
-      key: 'size', 
-      label: 'Size',
-      className: 'text-black'
-    },
-    { 
-      key: 'status', 
-      label: 'Status',
-      className: 'text-black'
-    }
+    { key: 'name', label: 'Store Name', className: 'text-black' },
+    { key: 'storeCode', label: 'Store Code', className: 'text-black' },
+    { key: 'type', label: 'Type', className: 'text-black' },
+    { key: 'size', label: 'Size', className: 'text-black' },
+    { key: 'status', label: 'Status', className: 'text-black' }
   ];
 
   return (
@@ -153,6 +136,7 @@ export default function CountryDetailsClient({ id }: { id: string }) {
           searchable
           selectable
           onRowClick={(store) => router.push(`/stores/${store.id}`)}
+          onEdit={handleEdit} // 👈 Now included
           actionButton={{
             label: 'Add Store',
             href: '/stores/new'
@@ -161,4 +145,4 @@ export default function CountryDetailsClient({ id }: { id: string }) {
       </div>
     </div>
   );
-} 
+}

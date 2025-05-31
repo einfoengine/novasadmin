@@ -15,6 +15,20 @@
       "status": "Active"
     },
     {
+      "id": "ST015",
+      "storeCode": "ZAG-WN-002",
+      "name": "Zagreb West",
+      "country": "Croatia",
+      "countryId": "HR",
+      "contact": "+385 1 2345 678",
+      "contactPerson": "Petra Novak",
+      "type": "B",
+      "size": "Medium",
+      "securityGate": "Medium",
+      "address": "Ilica 45, 10000 Zagreb",
+      "status": "Active"
+    },
+    {
       "id": "ST002",
       "storeCode": "LJU-MK-002",
       "name": "Ljubljana Market",
@@ -71,6 +85,20 @@
       "status": "Active"
     },
     {
+      "id": "ST016",
+      "storeCode": "MUN-MR-006",
+      "name": "Munich Marienplatz",
+      "country": "Germany",
+      "countryId": "DE",
+      "contact": "+49 89 654321",
+      "contactPerson": "Klara Weiss",
+      "type": "B",
+      "size": "Medium",
+      "securityGate": "Medium",
+      "address": "Marienplatz 8, 80331 München",
+      "status": "Active"
+    },
+    {
       "id": "ST006",
       "storeCode": "PAR-BT-006",
       "name": "Paris Boutique",
@@ -100,7 +128,21 @@
     },
     {
       "id": "ST008",
-      "storeCode": "MAD-CT-008",
+      "storeCode": "MIL-FN-008",
+      "name": "Milan Fashion",
+      "country": "Italy",
+      "countryId": "IT",
+      "contact": "+39 02 98765432",
+      "contactPerson": "Alessandro Bianchi",
+      "type": "B",
+      "size": "50 x 50",
+      "securityGate": "High",
+      "address": "Via Montenapoleone 12, 20121 Milano",
+      "status": "Active"
+    },
+    {
+      "id": "ST009",
+      "storeCode": "MAD-CT-009",
       "name": "Madrid Central",
       "country": "Spain",
       "countryId": "ES",
@@ -113,8 +155,8 @@
       "status": "Active"
     },
     {
-      "id": "ST009",
-      "storeCode": "WAW-MN-009",
+      "id": "ST010",
+      "storeCode": "WAW-MN-010",
       "name": "Warsaw Main",
       "country": "Poland",
       "countryId": "PL",
@@ -127,8 +169,8 @@
       "status": "Active"
     },
     {
-      "id": "ST010",
-      "storeCode": "AMS-CT-010",
+      "id": "ST011",
+      "storeCode": "AMS-CT-011",
       "name": "Amsterdam Central",
       "country": "Netherlands",
       "countryId": "NL",
@@ -141,8 +183,8 @@
       "status": "Active"
     },
     {
-      "id": "ST011",
-      "storeCode": "BRU-GP-011",
+      "id": "ST012",
+      "storeCode": "BRU-GP-012",
       "name": "Brussels Grand",
       "country": "Belgium",
       "countryId": "BE",
@@ -155,8 +197,8 @@
       "status": "Active"
     },
     {
-      "id": "ST012",
-      "storeCode": "STO-RY-012",
+      "id": "ST013",
+      "storeCode": "STO-RY-013",
       "name": "Stockholm Royal",
       "country": "Sweden",
       "countryId": "SE",
@@ -169,8 +211,8 @@
       "status": "Active"
     },
     {
-      "id": "ST013",
-      "storeCode": "OSL-KG-013",
+      "id": "ST014",
+      "storeCode": "OSL-KG-014",
       "name": "Oslo Karl Johan",
       "country": "Norway",
       "countryId": "NO",
@@ -183,8 +225,8 @@
       "status": "Active"
     },
     {
-      "id": "ST014",
-      "storeCode": "CPH-TV-014",
+      "id": "ST015",
+      "storeCode": "CPH-TV-015",
       "name": "Copenhagen Tivoli",
       "country": "Denmark",
       "countryId": "DK",
