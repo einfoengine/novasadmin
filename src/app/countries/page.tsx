@@ -9,31 +9,40 @@ import TableBuilder from "@/components/TableBuilder";
 interface Country {
   id: string;
   name: string;
-  totalStores: number;
   currency: string;
   exchangeRate: number;
 }
 
 export default function CountriesPage() {
   const [countries, setCountries] = useState<Country[]>([]);
+  const [storeCounts, setStoreCounts] = useState<Record<string, number>>({});
   const [loading, setLoading] = useState(true);
   const { theme } = useTheme();
   const router = useRouter();
 
   useEffect(() => {
-    const fetchCountries = async () => {
+    const fetchData = async () => {
       try {
-        const response = await fetch('/data/countries.json');
-        const data = await response.json();
-        setCountries(data.countries);
+        const [countriesRes, storesRes] = await Promise.all([
+          fetch('/data/countries.json'),
+          fetch('/data/stores.json')
+        ]);
+        const countriesData = await countriesRes.json();
+        const storesData = await storesRes.json();
+        setCountries(countriesData.countries);
+        // Count stores per countryId
+        const counts: Record<string, number> = {};
+        for (const store of storesData.stores) {
+          counts[store.countryId] = (counts[store.countryId] || 0) + 1;
+        }
+        setStoreCounts(counts);
       } catch (error) {
-        console.error('Error fetching countries:', error);
+        console.error('Error fetching countries or stores:', error);
       } finally {
         setLoading(false);
       }
     };
-
-    fetchCountries();
+    fetchData();
   }, []);
 
   const columns = [
@@ -45,7 +54,8 @@ export default function CountriesPage() {
     { 
       key: 'totalStores', 
       label: 'Total Stores',
-      className: 'text-gray-900 dark:text-white'
+      className: 'text-gray-900 dark:text-white',
+      render: (item: unknown) => <>{storeCounts[(item as Country).id] || 0}</>
     },
     { 
       key: 'currency', 

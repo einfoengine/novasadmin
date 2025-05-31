@@ -1,18 +1,18 @@
 {
   "countries": [
-    { "id": "HR", "name": "Croatia", "totalStores": 45, "currency": "EUR", "exchangeRate": 1.0 },
-    { "id": "SI", "name": "Slovenia", "totalStores": 35, "currency": "EUR", "exchangeRate": 1.0 },
-    { "id": "BH", "name": "Bosnia and Herzegovina", "totalStores": 30, "currency": "BAM", "exchangeRate": 1.95 },
-    { "id": "RS", "name": "Serbia", "totalStores": 40, "currency": "RSD", "exchangeRate": 117.0 },
-    { "id": "DE", "name": "Germany", "totalStores": 120, "currency": "EUR", "exchangeRate": 1.0 },
-    { "id": "FR", "name": "France", "totalStores": 95, "currency": "EUR", "exchangeRate": 1.0 },
-    { "id": "IT", "name": "Italy", "totalStores": 80, "currency": "EUR", "exchangeRate": 1.0 },
-    { "id": "ES", "name": "Spain", "totalStores": 70, "currency": "EUR", "exchangeRate": 1.0 },
-    { "id": "PL", "name": "Poland", "totalStores": 60, "currency": "PLN", "exchangeRate": 4.5 },
-    { "id": "NL", "name": "Netherlands", "totalStores": 55, "currency": "EUR", "exchangeRate": 1.0 },
-    { "id": "BE", "name": "Belgium", "totalStores": 40, "currency": "EUR", "exchangeRate": 1.0 },
-    { "id": "SE", "name": "Sweden", "totalStores": 35, "currency": "SEK", "exchangeRate": 11.2 },
-    { "id": "NO", "name": "Norway", "totalStores": 30, "currency": "NOK", "exchangeRate": 11.5 },
-    { "id": "DK", "name": "Denmark", "totalStores": 25, "currency": "DKK", "exchangeRate": 7.45 }
+    { "id": "HR", "name": "Croatia", "currency": "EUR", "exchangeRate": 1.0 },
+    { "id": "SI", "name": "Slovenia", "currency": "EUR", "exchangeRate": 1.0 },
+    { "id": "BH", "name": "Bosnia and Herzegovina", "currency": "BAM", "exchangeRate": 1.95 },
+    { "id": "RS", "name": "Serbia", "currency": "RSD", "exchangeRate": 117.0 },
+    { "id": "DE", "name": "Germany",  "currency": "EUR", "exchangeRate": 1.0 },
+    { "id": "FR", "name": "France", "currency": "EUR", "exchangeRate": 1.0 },
+    { "id": "IT", "name": "Italy", "currency": "EUR", "exchangeRate": 1.0 },
+    { "id": "ES", "name": "Spain", "currency": "EUR", "exchangeRate": 1.0 },
+    { "id": "PL", "name": "Poland", "currency": "PLN", "exchangeRate": 4.5 },
+    { "id": "NL", "name": "Netherlands", "currency": "EUR", "exchangeRate": 1.0 },
+    { "id": "BE", "name": "Belgium", "currency": "EUR", "exchangeRate": 1.0 },
+    { "id": "SE", "name": "Sweden", "currency": "SEK", "exchangeRate": 11.2 },
+    { "id": "NO", "name": "Norway", "currency": "NOK", "exchangeRate": 11.5 },
+    { "id": "DK", "name": "Denmark", "currency": "DKK", "exchangeRate": 7.45 }
   ]
 }

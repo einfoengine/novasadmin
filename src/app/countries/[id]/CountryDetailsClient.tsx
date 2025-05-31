@@ -34,7 +34,7 @@ export default function CountryDetailsClient({ id }: { id: string }) {
   const [country, setCountry] = useState<Country | null>(null);
   const [stores, setStores] = useState<Store[]>([]);
   const [loading, setLoading] = useState(true);
-  const { theme } = useTheme();
+  // const { theme } = useTheme();
   const router = useRouter();
 
   useEffect(() => {
@@ -90,66 +90,66 @@ export default function CountryDetailsClient({ id }: { id: string }) {
     { 
       key: 'name', 
       label: 'Store Name',
-      className: 'text-gray-900 dark:text-white'
+      className: 'text-black'
     },
     { 
       key: 'storeCode', 
       label: 'Store Code',
-      className: 'text-gray-900 dark:text-white'
+      className: 'text-black'
     },
     { 
       key: 'type', 
       label: 'Type',
-      className: 'text-gray-900 dark:text-white'
+      className: 'text-black'
     },
     { 
       key: 'size', 
       label: 'Size',
-      className: 'text-gray-900 dark:text-white'
+      className: 'text-black'
     },
     { 
       key: 'status', 
       label: 'Status',
-      className: 'text-gray-900 dark:text-white'
+      className: 'text-black'
     }
   ];
 
   return (
-    <div className={`p-6 ${theme === 'dark' ? 'bg-gray-900' : 'bg-gray-50'}`}>
+    <div className="p-6 bg-white">
       {/* Country Information Card */}
-      <div className={`${theme === 'dark' ? 'bg-gray-800' : 'bg-white'} rounded-lg shadow mb-6 p-6`}>
+      <div className="bg-white rounded-lg shadow mb-6 p-6">
         <div className="flex items-center gap-4 mb-6">
-          <GlobeAltIcon className={`h-8 w-8 ${theme === 'dark' ? 'text-white' : 'text-gray-900'}`} />
-          <h1 className="text-2xl font-bold text-gray-900 dark:text-white">{country.name}</h1>
+          <GlobeAltIcon className="h-8 w-8 text-black" />
+          <h1 className="text-2xl font-bold text-black">{country.name}</h1>
         </div>
-        
+
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
           <div>
-            <h3 className="text-sm font-medium text-gray-500 dark:text-gray-400">Country Code</h3>
-            <p className="mt-1 text-lg text-gray-900 dark:text-white">{country.id}</p>
+            <h3 className="text-sm font-medium text-gray-500">Country Code</h3>
+            <p className="mt-1 text-lg text-black">{country.id}</p>
           </div>
           <div>
-            <h3 className="text-sm font-medium text-gray-500 dark:text-gray-400">Total Stores</h3>
-            <p className="mt-1 text-lg text-gray-900 dark:text-white">{country.totalStores}</p>
+            <h3 className="text-sm font-medium text-gray-500">Total Stores</h3>
+            <p className="mt-1 text-lg text-black">{country.totalStores}</p>
           </div>
           <div>
-            <h3 className="text-sm font-medium text-gray-500 dark:text-gray-400">Currency</h3>
-            <p className="mt-1 text-lg text-gray-900 dark:text-white">{country.currency}</p>
+            <h3 className="text-sm font-medium text-gray-500">Currency</h3>
+            <p className="mt-1 text-lg text-black">{country.currency}</p>
           </div>
           <div>
-            <h3 className="text-sm font-medium text-gray-500 dark:text-gray-400">Exchange Rate</h3>
-            <p className="mt-1 text-lg text-gray-900 dark:text-white">{country.exchangeRate.toFixed(2)}</p>
+            <h3 className="text-sm font-medium text-gray-500">Exchange Rate</h3>
+            <p className="mt-1 text-lg text-black">{country.exchangeRate.toFixed(2)}</p>
           </div>
         </div>
       </div>
 
       {/* Stores Table */}
-      <div className={`${theme === 'dark' ? 'bg-gray-800' : 'bg-white'} rounded-lg shadow`}>
+      <div className="bg-white rounded-lg shadow">
         <TableBuilder
           data={stores}
           columns={storeColumns}
           title="Stores"
-          icon={<BuildingStorefrontIcon className={`h-6 w-6 ${theme === 'dark' ? 'text-white' : 'text-gray-900'}`} />}
+          icon={<BuildingStorefrontIcon className="h-6 w-6 text-black" />}
           searchable
           selectable
           onRowClick={(store) => router.push(`/stores/${store.id}`)}
