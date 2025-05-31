@@ -20,14 +20,27 @@ interface Store {
   name: string;
 }
 
-interface Product {
+interface ProductItem {
   id: string;
   name: string;
+  // ...other fields as needed
+}
+
+interface ProductPackage {
+  id: string;
+  name: string;
+  type: string;
+  items: ProductItem[];
 }
 
 interface SelectedProduct {
   productId: string;
-  quantity: number;
+  productType: string;
+  quantities: {
+    totalQuantity?: number;
+    quantityA?: number;
+    quantityB?: number;
+  };
 }
 
 const campaignSchema = z.object({
@@ -39,7 +52,12 @@ const campaignSchema = z.object({
   storeCodes: z.array(z.string()).min(1, "At least one store is required"),
   selectedProducts: z.array(z.object({
     productId: z.string(),
-    quantity: z.number().min(1, "Quantity must be at least 1")
+    productType: z.string(),
+    quantities: z.object({
+      totalQuantity: z.number().optional(),
+      quantityA: z.number().optional(),
+      quantityB: z.number().optional(),
+    })
   })).min(1, "At least one product is required"),
   totalCost: z.number()
 });
@@ -51,7 +69,7 @@ export default function AddCampaignPage() {
   const dispatch = useDispatch();
   const [countries, setCountries] = useState<Country[]>([]);
   const [stores, setStores] = useState<Store[]>([]);
-  const [products, setProducts] = useState<Product[]>([]);
+  const [products, setProducts] = useState<ProductPackage[]>([]);
   const [selectedProducts, setSelectedProducts] = useState<SelectedProduct[]>([]);
   const [totalCost, setTotalCost] = useState<number>(0);
   const [selectedCountries, setSelectedCountries] = useState<string[]>([]);
@@ -110,8 +128,17 @@ export default function AddCampaignPage() {
   useEffect(() => {
     const calculateTotalCost = () => {
       const total = selectedProducts.reduce((sum, item) => {
-        const product = products.find(p => p.id === item.productId);
-        return sum + (product ? product.name.length * item.quantity : 0);
+        let foundProduct: ProductItem | undefined;
+        products.forEach(pkg => {
+          const prod = pkg.items.find(it => it.id === item.productId);
+          if (prod) foundProduct = prod;
+        });
+        if (!foundProduct) return sum;
+        if (item.productType === 'all') {
+          return sum + (foundProduct.name.length * (item.quantities.totalQuantity || 0));
+        } else {
+          return sum + (foundProduct.name.length * ((item.quantities.quantityA || 0) + (item.quantities.quantityB || 0)));
+        }
       }, 0);
       setTotalCost(total);
       setValue("totalCost", total);
@@ -148,20 +175,17 @@ export default function AddCampaignPage() {
     setValue("storeCodes", newSelectedStores);
   };
 
-  const handleProductChange = (productId: string, quantity: number) => {
-    const validQuantity = isNaN(quantity) ? 1 : Math.max(1, Math.min(quantity, 999));
-    
+  const handleProductChange = (productId: string, productType: string, quantities: { totalQuantity?: number; quantityA?: number; quantityB?: number; }) => {
     const existingProductIndex = selectedProducts.findIndex(
       (p) => p.productId === productId
     );
-
     if (existingProductIndex >= 0) {
       const updatedProducts = [...selectedProducts];
-      updatedProducts[existingProductIndex] = { productId, quantity: validQuantity };
+      updatedProducts[existingProductIndex] = { productId, productType, quantities };
       setSelectedProducts(updatedProducts);
       setValue("selectedProducts", updatedProducts);
     } else {
-      const newProducts = [...selectedProducts, { productId, quantity: validQuantity }];
+      const newProducts = [...selectedProducts, { productId, productType, quantities }];
       setSelectedProducts(newProducts);
       setValue("selectedProducts", newProducts);
     }
@@ -171,10 +195,14 @@ export default function AddCampaignPage() {
     try {
       const campaignData = {
         ...data,
+        selectedProducts: selectedProducts.map(p => ({
+          productId: p.productId,
+          productType: p.productType,
+          quantities: p.quantities
+        })),
         id: `CAMP${Date.now()}`,
         createdAt: new Date().toISOString()
       };
-
       dispatch(setCurrentCampaign(campaignData));
       router.push(`/campaigns/${campaignData.id}`);
     } catch (error) {
@@ -315,77 +343,98 @@ export default function AddCampaignPage() {
               className="flex-1 border rounded px-3 py-2"
               onChange={(e) => {
                 const value = e.target.value;
-                const product = products.find(p => p.id === value);
-                if (product) {
-                  handleProductChange(product.id, 1);
+                let productType = "";
+                products.forEach(pkg => {
+                  if (pkg.items.find(item => item.id === value)) {
+                    productType = pkg.type;
+                  }
+                });
+                if (value && productType) {
+                  handleProductChange(value, productType, productType === 'all' ? { totalQuantity: 1 } : { quantityA: 1, quantityB: 1 });
                 }
               }}
               value=""
             >
               <option value="">Select a product</option>
-              {products.map((p) => (
-                <option key={p.id} value={p.id}>{p.name}</option>
-              ))}
+              {products.flatMap(pkg =>
+                (pkg.items || []).map(item => (
+                  <option key={item.id} value={item.id}>{item.name} ({pkg.name})</option>
+                ))
+              )}
             </select>
           </div>
           <div className="border rounded p-2 bg-gray-50">
             {selectedProducts.map((item) => {
-              const product = products.find(p => p.id === item.productId);
+              let product: ProductItem | undefined;
+              let productType = item.productType;
+              products.forEach(pkg => {
+                const prod = pkg.items.find(it => it.id === item.productId);
+                if (prod) product = prod;
+              });
               if (!product) return null;
-              
               return (
                 <div key={item.productId} className="flex items-center gap-4 border border-gray-200 rounded-lg p-4 bg-white shadow-sm mb-2">
                   <div className="flex-grow">
                     <h3 className="text-lg font-medium text-gray-900">{product.name}</h3>
                     <div className="mt-1 flex items-center gap-4">
-                      <span className="text-sm text-gray-500">Quantity: {item.quantity}</span>
+                      {productType === 'all' ? (
+                        <div className="flex items-center gap-2">
+                          <label htmlFor={`totalQuantity-${item.productId}`} className="text-sm text-gray-600">Total Quantity:</label>
+                          <input
+                            id={`totalQuantity-${item.productId}`}
+                            type="number"
+                            min="1"
+                            value={item.quantities.totalQuantity || 1}
+                            onChange={e => {
+                              const value = Math.max(1, parseInt(e.target.value) || 1);
+                              handleProductChange(item.productId, productType, { totalQuantity: value });
+                            }}
+                            className="w-24 rounded-md border border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500"
+                          />
+                        </div>
+                      ) : (
+                        <>
+                          <div className="flex items-center gap-2">
+                            <label htmlFor={`quantityA-${item.productId}`} className="text-sm text-gray-600">Quantity A:</label>
+                            <input
+                              id={`quantityA-${item.productId}`}
+                              type="number"
+                              min="1"
+                              value={item.quantities.quantityA || 1}
+                              onChange={e => {
+                                const value = Math.max(1, parseInt(e.target.value) || 1);
+                                handleProductChange(item.productId, productType, { ...item.quantities, quantityA: value });
+                              }}
+                              className="w-20 rounded-md border border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500"
+                            />
+                          </div>
+                          <div className="flex items-center gap-2">
+                            <label htmlFor={`quantityB-${item.productId}`} className="text-sm text-gray-600">Quantity B:</label>
+                            <input
+                              id={`quantityB-${item.productId}`}
+                              type="number"
+                              min="1"
+                              value={item.quantities.quantityB || 1}
+                              onChange={e => {
+                                const value = Math.max(1, parseInt(e.target.value) || 1);
+                                handleProductChange(item.productId, productType, { ...item.quantities, quantityB: value });
+                              }}
+                              className="w-20 rounded-md border border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500"
+                            />
+                          </div>
+                        </>
+                      )}
                     </div>
                   </div>
-                  <div className="flex items-center gap-4">
-                    <div className="flex items-center gap-2">
-                      <label htmlFor={`quantity-${item.productId}`} className="text-sm text-gray-600">
-                        Quantity:
-                      </label>
-                      <input
-                        id={`quantity-${item.productId}`}
-                        type="number"
-                        min="1"
-                        max={999}
-                        value={item.quantity || 1}
-                        onChange={(e) => {
-                          const value = e.target.value === '' ? 1 : parseInt(e.target.value);
-                          handleProductChange(item.productId, value);
-                        }}
-                        className="w-20 rounded-md border border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500"
-                      />
-                    </div>
-                    <div className="flex items-center gap-2">
-                      <label htmlFor={`quantity-${item.productId}`} className="text-sm text-gray-600">
-                        Quantity:
-                      </label>
-                      <input
-                        id={`quantity-${item.productId}`}
-                        type="number"
-                        min="1"
-                        max={999}
-                        value={item.quantity || 1}
-                        onChange={(e) => {
-                          const value = e.target.value === '' ? 1 : parseInt(e.target.value);
-                          handleProductChange(item.productId, value);
-                        }}
-                        className="w-20 rounded-md border border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500"
-                      />
-                    </div>
-                    <button
-                      type="button"
-                      onClick={() => {
-                        setSelectedProducts(selectedProducts.filter(p => p.productId !== item.productId));
-                      }}
-                      className="text-gray-400 hover:text-red-500 transition-colors"
-                    >
-                      <XMarkIcon className="h-5 w-5" />
-                    </button>
-                  </div>
+                  <button
+                    type="button"
+                    onClick={() => {
+                      setSelectedProducts(selectedProducts.filter(p => p.productId !== item.productId));
+                    }}
+                    className="text-gray-400 hover:text-red-500 transition-colors"
+                  >
+                    <XMarkIcon className="h-5 w-5" />
+                  </button>
                 </div>
               );
             })}

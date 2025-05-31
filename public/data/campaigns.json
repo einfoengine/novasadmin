@@ -6,13 +6,15 @@
       "countryId": "HR",
       "assignUserId": "U002",
       "typeOfOrder": "Product",
+      "productType": "A",
       "assignDate": "2024-02-01",
       "startDate": "2024-02-01",
       "deadline": "2024-02-02",
       "status": "Under Review",
       "totalCosts": 120.251,
       "currency": "EUR",
-      "invoiceStatus": "Issued"
+      "invoiceStatus": "Issued",
+      "quantities": { "quantityA": 100, "quantityB": 200 }
     },
     {
       "campaignId": "CAMP002",
@@ -20,27 +22,31 @@
       "countryId": "SI",
       "assignUserId": "U003",
       "typeOfOrder": "Opening Set",
+      "productType": "all",
       "assignDate": "2024-02-01",
       "startDate": "2024-02-01",
       "deadline": "2024-02-03",
       "status": "Approved for Production",
       "totalCosts": 120.251,
       "currency": "EUR",
-      "invoiceStatus": "Not Issued"
+      "invoiceStatus": "Not Issued",
+      "quantities": { "totalQuantity": 300 }
     },
     {
       "campaignId": "CAMP003",
-      "campaignName": "Valentine’s Day",
+      "campaignName": "Valentine's Day",
       "countryId": "BH",
       "assignUserId": "U001",
       "typeOfOrder": "Store",
+      "productType": "B",
       "assignDate": "2024-02-01",
       "startDate": "2024-02-01",
       "deadline": "2024-02-04",
       "status": "Under Production",
       "totalCosts": 120.251,
       "currency": "EUR",
-      "invoiceStatus": "Not Issued"
+      "invoiceStatus": "Not Issued",
+      "quantities": { "quantityA": 50, "quantityB": 75 }
     },
     {
       "campaignId": "CAMP004",
@@ -48,13 +54,15 @@
       "countryId": "RS",
       "assignUserId": "U002",
       "typeOfOrder": "Product",
+      "productType": "C",
       "assignDate": "2024-02-01",
       "startDate": "2024-02-01",
       "deadline": "2024-02-05",
       "status": "Prepair For Delivery",
       "totalCosts": 120.251,
       "currency": "EUR",
-      "invoiceStatus": "Not Issued"
+      "invoiceStatus": "Not Issued",
+      "quantities": { "quantityA": 80, "quantityB": 120 }
     },
     {
       "campaignId": "CAMP005",
@@ -62,13 +70,15 @@
       "countryId": "HR",
       "assignUserId": "U004",
       "typeOfOrder": "Opening Set",
+      "productType": "all",
       "assignDate": "2024-02-01",
       "startDate": "2024-02-01",
       "deadline": "2024-02-06",
       "status": "Delivred",
       "totalCosts": 120.251,
       "currency": "EUR",
-      "invoiceStatus": "Not Issued"
+      "invoiceStatus": "Not Issued",
+      "quantities": { "totalQuantity": 500 }
     },
     {
       "campaignId": "CAMP006",
@@ -76,13 +86,15 @@
       "countryId": "RS",
       "assignUserId": "U005",
       "typeOfOrder": "Store",
+      "productType": "B",
       "assignDate": "2024-02-01",
       "startDate": "2024-02-01",
       "deadline": "2024-02-07",
       "status": "Delivred",
       "totalCosts": 120.251,
       "currency": "EUR",
-      "invoiceStatus": "Issued"
+      "invoiceStatus": "Issued",
+      "quantities": { "quantityA": 60, "quantityB": 90 }
     },
     {
       "campaignId": "CAMP007",
@@ -90,13 +102,15 @@
       "countryId": "BH",
       "assignUserId": "U006",
       "typeOfOrder": "Product",
+      "productType": "A",
       "assignDate": "2024-02-01",
       "startDate": "2024-02-01",
       "deadline": "2024-02-12",
       "status": "Under Production",
       "totalCosts": 120.251,
       "currency": "EUR",
-      "invoiceStatus": "Under Process"
+      "invoiceStatus": "Under Process",
+      "quantities": { "quantityA": 110, "quantityB": 140 }
     },
     {
       "campaignId": "CAMP008",
@@ -104,13 +118,15 @@
       "countryId": "SI",
       "assignUserId": "U007",
       "typeOfOrder": "Opening Set",
+      "productType": "all",
       "assignDate": "2024-02-01",
       "startDate": "2024-02-01",
       "deadline": "2024-02-11",
       "status": "Under Production",
       "totalCosts": 120.251,
       "currency": "EUR",
-      "invoiceStatus": "Under Process"
+      "invoiceStatus": "Under Process",
+      "quantities": { "totalQuantity": 250 }
     }
   ]
 }

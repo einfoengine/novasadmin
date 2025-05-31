@@ -2,7 +2,12 @@ import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
 interface SelectedProduct {
   productId: string;
-  quantity: number;
+  productType: string;
+  quantities: {
+    totalQuantity?: number;
+    quantityA?: number;
+    quantityB?: number;
+  };
 }
 
 interface Campaign {
