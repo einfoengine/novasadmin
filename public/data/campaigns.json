@@ -14,7 +14,11 @@
       "totalCosts": 120.251,
       "currency": "EUR",
       "invoiceStatus": "Issued",
-      "quantities": { "quantityA": 100, "quantityB": 200 }
+      "quantities": { "quantityA": 100, "quantityB": 200 },
+      "products": [
+        { "productId": "PRD006", "name": "Brochures", "quantity": 100 },
+        { "productId": "PRD005", "name": "Business Cards", "quantity": 200 }
+      ]
     },
     {
       "campaignId": "CAMP002",
@@ -30,7 +34,11 @@
       "totalCosts": 120.251,
       "currency": "EUR",
       "invoiceStatus": "Not Issued",
-      "quantities": { "totalQuantity": 300 }
+      "quantities": { "totalQuantity": 300 },
+      "products": [
+        { "productId": "PRD006", "name": "Brochures", "quantity": 150 },
+        { "productId": "PRD005", "name": "Business Cards", "quantity": 150 }
+      ]
     },
     {
       "campaignId": "CAMP003",
@@ -46,7 +54,11 @@
       "totalCosts": 120.251,
       "currency": "EUR",
       "invoiceStatus": "Not Issued",
-      "quantities": { "quantityA": 50, "quantityB": 75 }
+      "quantities": { "quantityA": 50, "quantityB": 75 },
+      "products": [
+        { "productId": "PRD004", "name": "Canvas Print", "quantity": 50 },
+        { "productId": "PRD005", "name": "Business Cards", "quantity": 75 }
+      ]
     },
     {
       "campaignId": "CAMP004",
@@ -62,7 +74,11 @@
       "totalCosts": 120.251,
       "currency": "EUR",
       "invoiceStatus": "Not Issued",
-      "quantities": { "quantityA": 80, "quantityB": 120 }
+      "quantities": { "quantityA": 80, "quantityB": 120 },
+      "products": [
+        { "productId": "PRD007", "name": "LED Signage", "quantity": 80 },
+        { "productId": "PRD008", "name": "Window Graphics", "quantity": 120 }
+      ]
     },
     {
       "campaignId": "CAMP005",
@@ -78,7 +94,11 @@
       "totalCosts": 120.251,
       "currency": "EUR",
       "invoiceStatus": "Not Issued",
-      "quantities": { "totalQuantity": 500 }
+      "quantities": { "totalQuantity": 500 },
+      "products": [
+        { "productId": "PRD006", "name": "Brochures", "quantity": 250 },
+        { "productId": "PRD005", "name": "Business Cards", "quantity": 250 }
+      ]
     },
     {
       "campaignId": "CAMP006",
@@ -94,7 +114,11 @@
       "totalCosts": 120.251,
       "currency": "EUR",
       "invoiceStatus": "Issued",
-      "quantities": { "quantityA": 60, "quantityB": 90 }
+      "quantities": { "quantityA": 60, "quantityB": 90 },
+      "products": [
+        { "productId": "PRD004", "name": "Canvas Print", "quantity": 60 },
+        { "productId": "PRD005", "name": "Business Cards", "quantity": 90 }
+      ]
     },
     {
       "campaignId": "CAMP007",
@@ -110,7 +134,11 @@
       "totalCosts": 120.251,
       "currency": "EUR",
       "invoiceStatus": "Under Process",
-      "quantities": { "quantityA": 110, "quantityB": 140 }
+      "quantities": { "quantityA": 110, "quantityB": 140 },
+      "products": [
+        { "productId": "PRD006", "name": "Brochures", "quantity": 110 },
+        { "productId": "PRD005", "name": "Business Cards", "quantity": 140 }
+      ]
     },
     {
       "campaignId": "CAMP008",
@@ -126,7 +154,11 @@
       "totalCosts": 120.251,
       "currency": "EUR",
       "invoiceStatus": "Under Process",
-      "quantities": { "totalQuantity": 250 }
+      "quantities": { "totalQuantity": 250 },
+      "products": [
+        { "productId": "PRD006", "name": "Brochures", "quantity": 125 },
+        { "productId": "PRD005", "name": "Business Cards", "quantity": 125 }
+      ]
     }
   ]
 }
