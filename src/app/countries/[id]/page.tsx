@@ -1,10 +1,6 @@
-import { Suspense } from 'react';
-import CountryStoresClient from './CountryStoresClient';
+import CountryDetailsClient from './CountryDetailsClient';
 
-export default function CountryStoresPage() {
-  return (
-    <Suspense fallback={<div>Loading...</div>}>
-      <CountryStoresClient />
-    </Suspense>
-  );
+export default async function CountryDetailsPage({ params }: { params: Promise<{ id: string }> }) {
+  const { id } = await params;
+  return <CountryDetailsClient id={id} />;
 }
