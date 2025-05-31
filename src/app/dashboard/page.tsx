@@ -1,11 +1,20 @@
 "use client";
 import { useState, useEffect } from "react";
 import CampaignList from "@/components/CampaignList";
-import StatsCard from "@/components/StatsCard";
 import UsersTable from "@/components/UsersTable";
-import { UsersIcon, ChartBarIcon } from "@heroicons/react/24/outline";
+import { 
+  UsersIcon, 
+  ChartBarIcon,
+  BuildingStorefrontIcon,
+  CogIcon,
+  CurrencyDollarIcon,
+  DocumentTextIcon,
+  CalendarIcon,
+  BellIcon
+} from "@heroicons/react/24/outline";
 import LoadingSpinner from "@/components/loadingSpinner";
 import { useTheme } from '@/app/providers';
+import Link from 'next/link';
 
 interface Campaign {
   campaignId: string;
@@ -22,13 +31,31 @@ interface Campaign {
 }
 
 interface User {
+  userId: string;
+  userName: string;
+  userType: string;
+  avatarUrl: string;
+  joiningDate: string;
+  endingDate: string;
+  status: string;
+  contact: string;
+  address: string;
+}
+
+interface StatCard {
+  title: string;
+  value: string;
+  icon: React.ElementType;
+  change: string;
+  changeType: 'increase' | 'decrease';
+}
+
+interface RecentActivity {
   id: string;
-  name: string;
-  email: string;
-  role: 'admin' | 'user' | 'manager';
-  status: 'active' | 'inactive';
-  lastLogin: string;
-  createdAt: string;
+  type: string;
+  description: string;
+  time: string;
+  user: string;
 }
 
 export default function Dashboard() {
@@ -48,6 +75,61 @@ export default function Dashboard() {
     invoiceStatus: 'Pending'
   });
   const { theme } = useTheme();
+
+  const [stats] = useState<StatCard[]>([
+    {
+      title: 'Total Users',
+      value: '1,234',
+      icon: UsersIcon,
+      change: '12%',
+      changeType: 'increase'
+    },
+    {
+      title: 'Active Stores',
+      value: '45',
+      icon: BuildingStorefrontIcon,
+      change: '8%',
+      changeType: 'increase'
+    },
+    {
+      title: 'Total Revenue',
+      value: '$45,678',
+      icon: CurrencyDollarIcon,
+      change: '23%',
+      changeType: 'increase'
+    },
+    {
+      title: 'Pending Tasks',
+      value: '12',
+      icon: DocumentTextIcon,
+      change: '5%',
+      changeType: 'decrease'
+    }
+  ]);
+
+  const [recentActivities] = useState<RecentActivity[]>([
+    {
+      id: '1',
+      type: 'user',
+      description: 'New user registration',
+      time: '5 minutes ago',
+      user: 'John Doe'
+    },
+    {
+      id: '2',
+      type: 'store',
+      description: 'Store inventory updated',
+      time: '1 hour ago',
+      user: 'Jane Smith'
+    },
+    {
+      id: '3',
+      type: 'production',
+      description: 'New production order created',
+      time: '2 hours ago',
+      user: 'Mike Johnson'
+    }
+  ]);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -155,46 +237,114 @@ export default function Dashboard() {
       <div className="nt-dashboard-main-content w-full">
         {/* Content */}
         <main className="px-4 py-6 mx-auto max-w-7xl sm:px-6 lg:px-8">
-          {/* Stats Grid */}
-          <div className="grid grid-cols-1 gap-5 mt-5 sm:grid-cols-2 lg:grid-cols-3">
-            <StatsCard
-              title="Current Campaigns"
-              value={campaigns.filter(c => c.status === 'Active').length.toString()}
-              icon={<UsersIcon className="w-6 h-6 " />}
-              iconColor=""
-              iconBg="bg-gray-100 dark:bg-gray-800"
-              percentage="12%"
-              percentageColor="text-green-500"
-              trend="Increased by"
-            />
+          {/* Header */}
+          <div className="flex justify-between items-center mb-8">
+            <div>
+              <h1 className="text-2xl font-bold text-gray-900">Dashboard</h1>
+              <p className="text-gray-600">Welcome back! Here&apos;s what&apos;s happening.</p>
+            </div>
+            <div className="flex items-center space-x-4">
+              <button className="p-2 text-gray-600 hover:text-gray-900">
+                <BellIcon className="h-6 w-6" />
+              </button>
+              <button className="p-2 text-gray-600 hover:text-gray-900">
+                <CalendarIcon className="h-6 w-6" />
+              </button>
+            </div>
+          </div>
 
-            <StatsCard
-              title="Upcoming Campaigns"
-              value={campaigns.filter(c => new Date(c.startDate) > new Date()).length.toString()}
-              icon={<UsersIcon className="w-6 h-6 " />}
-              iconColor=""
-              iconBg="bg-gray-100 dark:bg-gray-800"
-              percentage="12%"
-              percentageColor="text-green-500"
-              trend="Increased by"
-            />
-            <StatsCard 
-              title="Invoice status" 
-              value={campaigns.filter(c => c.invoiceStatus === 'Paid').length.toString()} 
-              icon={<ChartBarIcon className="w-6 h-6 " />} 
-              iconColor="" 
-              iconBg="bg-gray-100 dark:bg-gray-800" 
-              percentage="12%" 
-              percentageColor="text-green-500" 
-              trend="Increased by"
-            />
+          {/* Stats Grid */}
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+            {stats.map((stat, index) => (
+              <div key={index} className="bg-white rounded-lg shadow p-6">
+                <div className="flex items-center justify-between">
+                  <div>
+                    <p className="text-sm font-medium text-gray-600">{stat.title}</p>
+                    <p className="text-2xl font-semibold text-gray-900 mt-1">{stat.value}</p>
+                  </div>
+                  <div className={`p-3 rounded-full ${
+                    stat.changeType === 'increase' ? 'bg-green-100' : 'bg-red-100'
+                  }`}>
+                    <stat.icon className={`h-6 w-6 ${
+                      stat.changeType === 'increase' ? 'text-green-600' : 'text-red-600'
+                    }`} />
+                  </div>
+                </div>
+                <div className="mt-4">
+                  <span className={`text-sm font-medium ${
+                    stat.changeType === 'increase' ? 'text-green-600' : 'text-red-600'
+                  }`}>
+                    {stat.change} from last month
+                  </span>
+                </div>
+              </div>
+            ))}
+          </div>
+
+          {/* Main Content */}
+          <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+            {/* Quick Actions */}
+            <div className="lg:col-span-2">
+              <div className="bg-white rounded-lg shadow">
+                <div className="p-6">
+                  <h2 className="text-lg font-medium text-gray-900 mb-4">Quick Actions</h2>
+                  <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+                    <Link href="/users" className="flex flex-col items-center p-4 bg-gray-50 rounded-lg hover:bg-gray-100">
+                      <UsersIcon className="h-6 w-6 text-gray-600 mb-2" />
+                      <span className="text-sm font-medium text-gray-900">Users</span>
+                    </Link>
+                    <Link href="/stores" className="flex flex-col items-center p-4 bg-gray-50 rounded-lg hover:bg-gray-100">
+                      <BuildingStorefrontIcon className="h-6 w-6 text-gray-600 mb-2" />
+                      <span className="text-sm font-medium text-gray-900">Stores</span>
+                    </Link>
+                    <Link href="/productions" className="flex flex-col items-center p-4 bg-gray-50 rounded-lg hover:bg-gray-100">
+                      <CogIcon className="h-6 w-6 text-gray-600 mb-2" />
+                      <span className="text-sm font-medium text-gray-900">Production</span>
+                    </Link>
+                    <Link href="/reports" className="flex flex-col items-center p-4 bg-gray-50 rounded-lg hover:bg-gray-100">
+                      <ChartBarIcon className="h-6 w-6 text-gray-600 mb-2" />
+                      <span className="text-sm font-medium text-gray-900">Reports</span>
+                    </Link>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            {/* Recent Activity */}
+            <div className="bg-white rounded-lg shadow">
+              <div className="p-6">
+                <h2 className="text-lg font-medium text-gray-900 mb-4">Recent Activity</h2>
+                <div className="space-y-4">
+                  {recentActivities.map((activity) => (
+                    <div key={activity.id} className="flex items-start space-x-4">
+                      <div className="flex-shrink-0">
+                        <div className="p-2 bg-gray-100 rounded-full">
+                          <UsersIcon className="h-5 w-5 text-gray-600" />
+                        </div>
+                      </div>
+                      <div>
+                        <p className="text-sm font-medium text-gray-900">{activity.description}</p>
+                        <p className="text-sm text-gray-500">
+                          {activity.user} • {activity.time}
+                        </p>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+                <div className="mt-4">
+                  <Link href="/activities" className="text-sm font-medium text-indigo-600 hover:text-indigo-500">
+                    View all activities →
+                  </Link>
+                </div>
+              </div>
+            </div>
           </div>
 
           {/* Users Table */}
           <div className="mt-8">
             <UsersTable 
               title="Users"
-              icon={<UsersIcon className="w-6 h-6 " />}
+              icon={<UsersIcon className="w-6 h-6" />}
               selectable={true}
               onRowClick={handleUserRowClick}
               onEdit={handleUserEdit}
@@ -202,7 +352,7 @@ export default function Dashboard() {
             />
           </div>
 
-          {/* Recent Activity */}
+          {/* Campaign List */}
           <div className="mt-8">
             <CampaignList
               campaigns={campaigns}

@@ -112,30 +112,6 @@ export default function StoresPage() {
     <div className="min-h-screen bg-gray-50">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         {/* Stats */}
-        <section className="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
-          <div className="bg-white p-6 rounded-lg shadow">
-            <h3 className="text-sm font-medium text-gray-500">Total Stores</h3>
-            <p className="mt-2 text-3xl font-semibold text-gray-900">{stores.length}</p>
-          </div>
-          <div className="bg-white p-6 rounded-lg shadow">
-            <h3 className="text-sm font-medium text-gray-500">Active Stores</h3>
-            <p className="mt-2 text-3xl font-semibold text-gray-900">
-              {stores.filter(store => store.status === 'Active').length}
-            </p>
-          </div>
-          <div className="bg-white p-6 rounded-lg shadow">
-            <h3 className="text-sm font-medium text-gray-500">Type A Stores</h3>
-            <p className="mt-2 text-3xl font-semibold text-gray-900">
-              {stores.filter(store => store.type === 'A').length}
-            </p>
-          </div>
-          <div className="bg-white p-6 rounded-lg shadow">
-            <h3 className="text-sm font-medium text-gray-500">Type B & C Stores</h3>
-            <p className="mt-2 text-3xl font-semibold text-gray-900">
-              {stores.filter(store => store.type === 'B' || store.type === 'C').length}
-            </p>
-          </div>
-        </section>
 
         {/* Table */}
         <div className="bg-white rounded-lg shadow">

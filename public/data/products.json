@@ -3,6 +3,7 @@
     {
       "id": "PKG001",
       "name": "Print & Packaging",
+      "type": "all",
       "description": "Professional printing and packaging solutions",
       "price": 299.99,
       "items": [
@@ -47,6 +48,7 @@
     {
       "id": "PKG002",
       "name": "Large Format Printing",
+      "type": "A",
       "description": "Professional large format printing solutions",
       "price": 499.99,
       "items": [
@@ -79,6 +81,7 @@
     {
       "id": "PKG003",
       "name": "Fine Art & Photography",
+      "type": "B",
       "description": "Premium art and photography printing solutions",
       "price": 199.99,
       "items": [
@@ -98,6 +101,7 @@
     {
       "id": "PKG004",
       "name": "Signage Solutions",
+      "type": "C",
       "description": "Professional signage and display solutions",
       "price": 399.99,
       "items": [
@@ -139,6 +143,7 @@
     {
       "id": "PKG005",
       "name": "Promotional Items",
+      "type": "all",
       "description": "Custom promotional merchandise and gifts",
       "price": 149.99,
       "items": [
@@ -158,6 +163,7 @@
     {
       "id": "PKG006",
       "name": "Digital Printing",
+      "type": "all",
       "description": "High-quality digital printing services",
       "price": 249.99,
       "items": [
@@ -188,6 +194,7 @@
     {
       "id": "PKG007",
       "name": "Event Materials",
+      "type": "A",
       "description": "Professional event and exhibition materials",
       "price": 349.99,
       "items": [
@@ -229,6 +236,7 @@
     {
       "id": "PKG008",
       "name": "Office Supplies",
+      "type": "B",
       "description": "Custom printed office supplies and stationery",
       "price": 99.99,
       "items": [
@@ -248,6 +256,7 @@
     {
       "id": "PKG009",
       "name": "Retail Displays",
+      "type": "C",
       "description": "Professional retail display solutions",
       "price": 179.99,
       "items": [
@@ -278,6 +287,7 @@
     {
       "id": "PKG010",
       "name": "Outdoor Advertising",
+      "type": "all",
       "description": "Professional outdoor advertising solutions",
       "price": 599.99,
       "items": [

@@ -80,6 +80,11 @@ export default function PrintersPage() {
       type: 'text' as const
     },
     {
+      key: 'color',
+      label: 'Color',
+      type: 'text' as const,
+    },
+    {
       key: 'price',
       label: 'Price',
       type: 'currency' as const

@@ -6,10 +6,12 @@ import Link from "next/link";
 import { toast } from "react-hot-toast";
 import { PencilIcon, TrashIcon, EyeIcon, PrinterIcon, XMarkIcon } from "@heroicons/react/24/outline";
 
+type UserType = 'admin' | 'manager' | 'production' | 'store';
+
 interface User {
   userId: string;
   userName: string;
-  userType: string;
+  userType: UserType;
   avatarUrl: string;
   joiningDate: string;
   endingDate: string;
@@ -23,6 +25,13 @@ export default function UsersPage() {
   const [loading, setLoading] = useState(true);
   const [selectedUser, setSelectedUser] = useState<User | null>(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
+
+  const userTypeLabels: Record<UserType, string> = {
+    admin: 'Administrator',
+    manager: 'Manager',
+    production: 'Production',
+    store: 'Store',
+  };
 
   useEffect(() => {
     const fetchUsers = async () => {
@@ -96,7 +105,7 @@ export default function UsersPage() {
                       <span class="label">Name:</span> ${user.userName}
                     </div>
                     <div class="detail-row">
-                      <span class="label">Type:</span> ${user.userType}
+                      <span class="label">Type:</span> ${userTypeLabels[user.userType]}
                     </div>
                     <div class="detail-row">
                       <span class="label">Status:</span> ${user.status}
@@ -153,7 +162,7 @@ export default function UsersPage() {
     <div className="min-h-screen bg-gray-50 p-8">
       <div className="max-w-7xl mx-auto">
         <div className="flex justify-between items-center mb-6">
-          <h1 className="text-2xl font-bold text-gray-900">Users</h1>
+          <h1 className="text-2xl font-bold text-gray-900">User Management</h1>
           <Link
             href="/users/add"
             className="bg-black text-white px-4 py-2 rounded-md hover:bg-gray-800 transition-colors"
@@ -224,7 +233,7 @@ export default function UsersPage() {
                       </button>
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
-                      {user.userType}
+                      {userTypeLabels[user.userType]}
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap">
                       <span className={`px-2 py-1 text-xs rounded-full ${
@@ -323,7 +332,7 @@ export default function UsersPage() {
                   <div className="grid grid-cols-2 gap-4">
                     <div>
                       <p className="text-sm font-medium text-gray-500">Type</p>
-                      <p className="text-sm text-gray-900">{selectedUser.userType}</p>
+                      <p className="text-sm text-gray-900">{userTypeLabels[selectedUser.userType]}</p>
                     </div>
                     <div>
                       <p className="text-sm font-medium text-gray-500">Status</p>

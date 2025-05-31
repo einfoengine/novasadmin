@@ -1,6 +1,5 @@
 'use client';
 import { useState } from 'react';
-import CampaignTable from '@/components/campaign-table';
 import CampaignModal from '@/components/campaign-modal';
 import { useTheme } from '@/app/providers';
 import { PencilIcon, TrashIcon } from '@heroicons/react/24/outline';
@@ -139,13 +138,13 @@ export default function CampaignList({
                 {campaign.userType}
               </td>
               <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900 dark:text-white">
-                {campaign.creatingDate}
+                {new Date(campaign.creatingDate).toLocaleDateString()}
               </td>
               <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900 dark:text-white">
-                {campaign.startDate}
+                {new Date(campaign.startDate).toLocaleDateString()}
               </td>
               <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900 dark:text-white">
-                {campaign.endDate}
+                {new Date(campaign.endDate).toLocaleDateString()}
               </td>
               <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900 dark:text-white">
                 <span className={`px-2 inline-flex text-xs leading-5 font-semibold rounded-full ${
@@ -157,7 +156,7 @@ export default function CampaignList({
                 </span>
               </td>
               <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900 dark:text-white">
-                ${campaign.totalCost.toFixed(2)}
+                ${typeof campaign.totalCost === 'number' ? campaign.totalCost.toFixed(2) : '0.00'}
               </td>
               <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900 dark:text-white">
                 <span className={`px-2 inline-flex text-xs leading-5 font-semibold rounded-full ${

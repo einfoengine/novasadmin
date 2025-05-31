@@ -359,6 +359,23 @@ export default function AddCampaignPage() {
                         className="w-20 rounded-md border border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500"
                       />
                     </div>
+                    <div className="flex items-center gap-2">
+                      <label htmlFor={`quantity-${item.productId}`} className="text-sm text-gray-600">
+                        Quantity:
+                      </label>
+                      <input
+                        id={`quantity-${item.productId}`}
+                        type="number"
+                        min="1"
+                        max={999}
+                        value={item.quantity || 1}
+                        onChange={(e) => {
+                          const value = e.target.value === '' ? 1 : parseInt(e.target.value);
+                          handleProductChange(item.productId, value);
+                        }}
+                        className="w-20 rounded-md border border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500"
+                      />
+                    </div>
                     <button
                       type="button"
                       onClick={() => {

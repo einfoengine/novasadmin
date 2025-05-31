@@ -26,6 +26,7 @@ interface Product {
   description: string;
   price: number;
   items: Item[];
+  type?: string;
 }
 
 interface Material {
@@ -142,7 +143,7 @@ export default function NewProductForm() {
     fetchData();
   }, []);
 
-  const handleProductChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+  const handleProductChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
     const { name, value } = e.target;
     setProduct(prev => ({
       ...prev,
@@ -272,6 +273,28 @@ export default function NewProductForm() {
                   onChange={handleProductChange}
                   className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-primary sm:text-sm sm:leading-6"
                 />
+              </div>
+            </div>
+
+            <div className="sm:col-span-4">
+              <label htmlFor="type" className="block text-sm font-medium leading-6 text-gray-900">
+                Product Type
+              </label>
+              <div className="mt-2">
+                <select
+                  name="type"
+                  id="type"
+                  value={product.type || ''}
+                  onChange={handleProductChange}
+                  className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-primary sm:text-sm sm:leading-6"
+                  required
+                >
+                  <option value="">Select type</option>
+                  <option value="all">All</option>
+                  <option value="A">A</option>
+                  <option value="B">B</option>
+                  <option value="C">C</option>
+                </select>
               </div>
             </div>
 

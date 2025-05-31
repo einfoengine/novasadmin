@@ -107,8 +107,8 @@ const menuItems: MenuItem[] = [
     submenu: []
   },
   { 
-    name: 'Invoice', 
-    href: '/invoice', 
+    name: 'Invoices', 
+    href: '/invoices', 
     icon: PaperAirplaneIcon,
     submenu: []
   },
