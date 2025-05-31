@@ -32,6 +32,7 @@ interface Store {
 export default function CountryDetailsClient({ id }: { id: string }) {
   const [country, setCountry] = useState<Country | null>(null);
   const [stores, setStores] = useState<Store[]>([]);
+  const [countries, setCountries] = useState<Country[]>([]);
   const [loading, setLoading] = useState(true);
   const router = useRouter();
 
@@ -48,6 +49,7 @@ export default function CountryDetailsClient({ id }: { id: string }) {
           storesRes.json()
         ]);
 
+        setCountries(countriesData.countries);
         const countryStores = storesData.stores.filter((s: Store) => s.countryId === id);
         const foundCountry = countriesData.countries.find((c: Country) => c.id === id);
 
@@ -67,6 +69,13 @@ export default function CountryDetailsClient({ id }: { id: string }) {
 
   const handleEdit = (store: Store) => {
     router.push(`/stores/${store.id}/edit`);
+  };
+
+  const handleCountryChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    const selectedId = e.target.value;
+    if (selectedId && selectedId !== id) {
+      router.push(`/countries/${selectedId}`);
+    }
   };
 
   if (loading) {
@@ -103,7 +112,15 @@ export default function CountryDetailsClient({ id }: { id: string }) {
       <div className="bg-white rounded-lg shadow mb-6 p-6">
         <div className="flex items-center gap-4 mb-6">
           <GlobeAltIcon className="h-8 w-8 text-black" />
-          <h1 className="text-2xl font-bold text-black">{country.name}</h1>
+          <select
+            className="text-2xl font-bold text-black bg-transparent border-b border-gray-300 focus:outline-none focus:border-blue-500"
+            value={country?.id || ''}
+            onChange={handleCountryChange}
+          >
+            {countries.map((c) => (
+              <option key={c.id} value={c.id}>{c.name}</option>
+            ))}
+          </select>
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
