@@ -21,7 +21,8 @@ import {
   DocumentIcon,
   PrinterIcon,
   RectangleGroupIcon,
-  PuzzlePieceIcon
+  PuzzlePieceIcon,
+  MegaphoneIcon
 } from '@heroicons/react/24/outline';
 
 interface MenuItem {
@@ -89,10 +90,12 @@ const menuItems: MenuItem[] = [
     ]
   },
   { 
-    name: 'Campaign', 
-    href: '/campaigns', 
-    icon: ClipboardDocumentCheckIcon,
-    submenu: []
+    name: 'Campaigns', 
+    icon: MegaphoneIcon,
+    submenu: [
+      { name: 'All', href: '/campaigns', icon: ClipboardDocumentCheckIcon },
+      { name: 'Data Sheet', href: '/campaigns/country-data-sheet', icon: ViewColumnsIcon },
+    ]
   },
   { 
     name: 'Currencies', 

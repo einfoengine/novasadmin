@@ -64,6 +64,7 @@ export default function Campaigns() {
   const [countries, setCountries] = useState<Country[]>([]);
   const [users, setUsers] = useState<User[]>([]);
   const [loading, setLoading] = useState(true);
+  const [selectedCampaignId, setSelectedCampaignId] = useState('');
 
   useEffect(() => {
     const fetchData = async () => {
@@ -120,6 +121,10 @@ export default function Campaigns() {
       // Here you would typically make an API call to delete the campaign
       setCampaigns(prevCampaigns => prevCampaigns.filter(c => c.id !== item.id));
     }
+  };
+
+  const handleCampaignChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    setSelectedCampaignId(e.target.value);
   };
 
   const columns = [
